@@ -64,10 +64,10 @@ if (!empty($_GET['type'])) {
                 <div class="row justify-content-start">
                     <div class="col-xl-6 col-lg-9 col-md-12 col-sm-12 col-12">
                         <div class="banner_caption text-left mb-4">
-                            <h1 class="banner_title ft-bold mb-1">Get The <span class="theme-cl">Right Jobs</span><br>On
-                                Killore</h1>
-                            <p class="fs-md ft-regular">At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                                blanditiis praesentium voluptatum deleniti atque</p>
+                            <h1 class="banner_title ft-bold mb-1">Where MUN <span class="theme-cl">Talent
+                                    Meets</span> Opportunity</h1>
+                            <p class="fs-md ft-regular">Your gateway to new-grad jobs, internships, and MUN-exclusive
+                                opportunities.</p>
                         </div>
                     </div>
                     <div class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12">
@@ -615,7 +615,7 @@ if (!empty($_GET['type'])) {
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="sec_title position-relative text-center mb-5">
                             <h6 class="text-muted mb-0">Our Reviews</h6>
-                            <h2 class="ft-bold">What Our Customer <span class="theme-cl">Saying</span></h2>
+                            <h2 class="ft-bold">What MUN Alumni Are <span class="theme-cl">Saying</span></h2>
                         </div>
                     </div>
                 </div>
@@ -631,15 +631,14 @@ if (!empty($_GET['type'])) {
                                 </div>
                                 <div class="sng_rev_caption text-center">
                                     <div class="rev_desc mb-4">
-                                        <p class="fs-md">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                                            esse cillum.</p>
+                                        <p class="fs-md">MUNext made my job search after graduation so much easier. I
+                                            discovered internship openings I wouldn’t have found anywhere else, and
+                                            within weeks, I landed a full-time software engineering role right here in
+                                            Newfoundland</p>
                                     </div>
                                     <div class="rev_author">
                                         <h4 class="mb-0">Mark Jevenue</h4>
-                                        <span class="fs-sm">CEO of Addle</span>
+                                        <span class="fs-sm">B.Eng. Mechanical Engineering, Class of 2020</span>
                                     </div>
                                 </div>
                             </div>
@@ -651,15 +650,14 @@ if (!empty($_GET['type'])) {
                                 </div>
                                 <div class="sng_rev_caption text-center">
                                     <div class="rev_desc mb-4">
-                                        <p class="fs-md">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                                            esse cillum.</p>
+                                        <p class="fs-md">As an international graduate, I struggled to find employers who
+                                            valued my academic background. Through MUNext, I connected directly with
+                                            companies that recruit MUN alumni. It felt like a community invested in my
+                                            success.</p>
                                     </div>
                                     <div class="rev_author">
                                         <h4 class="mb-0">Henna Bajaj</h4>
-                                        <span class="fs-sm">Aqua Founder</span>
+                                        <span class="fs-sm">MSc Software Engineering, 2021</span>
                                     </div>
                                 </div>
                             </div>
@@ -671,15 +669,14 @@ if (!empty($_GET['type'])) {
                                 </div>
                                 <div class="sng_rev_caption text-center">
                                     <div class="rev_desc mb-4">
-                                        <p class="fs-md">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                                            esse cillum.</p>
+                                        <p class="fs-md">I used MUNext to transition from student projects to a
+                                            professional engineering career. The platform helped me find opportunities
+                                            aligned with my interests, and the interface made applying simple and
+                                            stress-free</p>
                                     </div>
                                     <div class="rev_author">
                                         <h4 class="mb-0">John Cenna</h4>
-                                        <span class="fs-sm">CEO of Plike</span>
+                                        <span class="fs-sm">B.Sc. Computer Science, Class of 2022</span>
                                     </div>
                                 </div>
                             </div>
@@ -691,15 +688,14 @@ if (!empty($_GET['type'])) {
                                 </div>
                                 <div class="sng_rev_caption text-center">
                                     <div class="rev_desc mb-4">
-                                        <p class="fs-md">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                                            esse cillum.</p>
+                                        <p class="fs-md">As an international graduate, I struggled to find employers who
+                                            valued my academic background. Through MUNext, I connected directly with
+                                            companies that recruit MUN alumni. It felt like a community invested in my
+                                            success.</p>
                                     </div>
                                     <div class="rev_author">
                                         <h4 class="mb-0">Madhu Sharma</h4>
-                                        <span class="fs-sm">Team Manager</span>
+                                        <span class="fs-sm">MBA, Class of 2021</span>
                                     </div>
                                 </div>
                             </div>

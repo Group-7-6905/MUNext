@@ -1,20 +1,21 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.14
--- http://www.phpmyadmin.net
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2022 at 03:48 PM
--- Server version: 5.6.17
--- PHP Version: 5.5.12
+-- Generation Time: Oct 30, 2025 at 12:30 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `erisdb`
@@ -26,8 +27,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `tblapplicants`
 --
 
-CREATE TABLE IF NOT EXISTS `tblapplicants` (
-  `APPLICANTID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblapplicants` (
+  `APPLICANTID` int(11) NOT NULL,
   `JOBCATEGORYID` int(11) NOT NULL,
   `JOBTITLE` varchar(100) NOT NULL,
   `EXCOMPANYNAME` varchar(200) NOT NULL,
@@ -49,20 +50,15 @@ CREATE TABLE IF NOT EXISTS `tblapplicants` (
   `SKILLS` varchar(200) NOT NULL,
   `APPLICANTPHOTO` varchar(255) NOT NULL,
   `FB_link` varchar(255) NOT NULL,
-  `LinkedIn_link` varchar(255) NOT NULL,
-  PRIMARY KEY (`APPLICANTID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+  `LinkedIn_link` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblapplicants`
 --
 
 INSERT INTO `tblapplicants` (`APPLICANTID`, `JOBCATEGORYID`, `JOBTITLE`, `EXCOMPANYNAME`, `EXJOBTITLE`, `USERID`, `FNAME`, `OTHERNAMES`, `FULLADDRESS`, `CITY`, `COUNTRY`, `SEX`, `BIRTHDATE`, `ABOUTME`, `USERNAME`, `EMAILADDRESS`, `CONTACTNO`, `DEGREE`, `SCHOOLNAME`, `SKILLS`, `APPLICANTPHOTO`, `FB_link`, `LinkedIn_link`) VALUES
-(1, 21, 'Web Developer', 'Dimconnect', 'Web Developer', 321, 'Chiemerie', 'Emeldo Cletus', 'Festec ojo rd', 'Lekki', 'Nigeria', 'Male', '1996-08-31', 'I am flexible, reliable and possess excellent time keeping skills.\r\nI am an enthusiastic, self-motivated, reliable, responsible and hard working person. I am a mature team worker and adaptable to all challenging situations. I am able to work well both in a team environment as well as using own initiative. I am able to work well under pressure and adhere to strict deadlines.', 'emeldo', 'emehchiemerie9@gmail.com', '09130216739', 'B.Sc', 'Chukwuemeka Odumegwu Ojukwu University', 'HTML, CSS, PHP, Javascript', 'profile/IMG_20210510_141429.jpg', 'https://web.facebook.com/carldom/', 'https://web.linkedin.com/carldom/'),
-(2, 21, 'Web Developer', '', '', 479, 'Chioma', 'Uba', 'uli center', 'ihiala', 'Nigeria', 'Female', '1995-01-10', 'I am an enthusiastic, self-motivated, reliable, responsible and hard working person. I am a mature team worker and adaptable to all challenging situations. I am able to work well both in a team environment as well as using own initiative. I am able to work well under pressure and adhere to strict deadlines.', 'chioma', 'Chioma@gmail.com', '09056456579', 'Master Degree', 'Chukwuemeka Odumegwu Ojukwu University', 'HTML, CSS, PHP, Javascript', 'profile/th.jpg', 'https://web.facebook.com/chioma/?_rdc=1&_rdr', 'https://web.linkedin.com/chioma/'),
-(3, 20, 'Senior Software Developer', 'Dimconnect ICT Services', 'Senior Software Developer', 2745, 'Kene', 'Okafor', 'Uli center', 'Ihiala', 'Nigeria', 'Male', '1990-07-04', 'I am outgoing, dedicated, and open-minded. I get across to people and adjust to changes with ease. I believe that a person should work on developing their professional skills and learning new things all the time. Currently, I am looking for new career opportunities my current job position cannot provide.', 'ekene', 'okafor@gmail.com', '08145648790', 'Master Degree', 'Chukwuemeka Odumegwu Ojukwu University', 'Java, SQLite, Networking, XML', 'profile/3.jpeg', 'fb.profile', 'linkedin.profile'),
-(4, 20, 'Senior Software Developer', 'Dimconnect ICT Services', 'Senior Software Developer', 2745, 'Kene', 'Okafor', 'Uli center', 'Ihiala', 'Nigeria', 'Male', '1990-07-04', 'I am outgoing, dedicated, and open-minded. I get across to people and adjust to changes with ease. I believe that a person should work on developing their professional skills and learning new things all the time. Currently, I am looking for new career opportunities my current job position cannot provide.', 'ekene', 'okafor@gmail.com', '08145648790', 'Master Degree', 'Chukwuemeka Odumegwu Ojukwu University', 'Java, SQLite, Networking, XML', 'profile/3.jpeg', 'fb.profile', 'linkedin.profile'),
-(5, 20, 'Senior Software Developer', 'Dimconnect ICT Services', 'Senior Software Developer', 2745, 'Kene', 'Okafor', 'Uli center', 'Ihiala', 'Nigeria', 'Male', '1990-07-04', 'I am outgoing, dedicated, and open-minded. I get across to people and adjust to changes with ease. I believe that a person should work on developing their professional skills and learning new things all the time. Currently, I am looking for new career opportunities my current job position cannot provide.', 'ekene', 'okafor@gmail.com', '08145648790', 'Master Degree', 'Chukwuemeka Odumegwu Ojukwu University', 'Java, SQLite, Networking, XML', 'profile/3.jpeg', 'fb.profile', 'linkedin.profile');
+(1, 21, 'Web Developer', 'Dinconnect ICT Services', 'Web Developer', 321, 'Dom', 'Carl', '25 Albert Street', 'St. John', 'Canada', 'Male', '2025-09-30', 'Back-end & Frond-end developer. I have extensive experience in web development and specialty in PHP. I am passionate about collaborating with you to create something truly unique.', 'emeldo', 'emehchiemerie9@gmail.com', '70957684677', 'Master Degree', 'Memorial University ', 'PHP, Software Development, Web Developer', 'profile/WhatsApp Image 2025-03-05 at 00.23.58_d8771480.jpg', 'htttps://fb.com/', 'https://lindin.com/');
 
 -- --------------------------------------------------------
 
@@ -70,21 +66,13 @@ INSERT INTO `tblapplicants` (`APPLICANTID`, `JOBCATEGORYID`, `JOBTITLE`, `EXCOMP
 -- Table structure for table `tblattachmentfile`
 --
 
-CREATE TABLE IF NOT EXISTS `tblattachmentfile` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblattachmentfile` (
+  `ID` int(11) NOT NULL,
   `APPLICANTID` int(11) DEFAULT NULL,
   `JOBID` int(11) NOT NULL,
   `FILE_NAME` varchar(90) NOT NULL,
-  `FILE_LOCATION` varchar(255) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `tblattachmentfile`
---
-
-INSERT INTO `tblattachmentfile` (`ID`, `APPLICANTID`, `JOBID`, `FILE_NAME`, `FILE_LOCATION`) VALUES
-(2, 2147483647, 2, 'Resume', 'photos/27052018124027PLATENO FE95483.docx');
+  `FILE_LOCATION` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -92,23 +80,22 @@ INSERT INTO `tblattachmentfile` (`ID`, `APPLICANTID`, `JOBID`, `FILE_NAME`, `FIL
 -- Table structure for table `tblautonumbers`
 --
 
-CREATE TABLE IF NOT EXISTS `tblautonumbers` (
-  `AUTOID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblautonumbers` (
+  `AUTOID` int(11) NOT NULL,
   `AUTOSTART` varchar(30) NOT NULL,
   `AUTOEND` int(11) NOT NULL,
   `AUTOINC` int(11) NOT NULL,
-  `AUTOKEY` varchar(30) NOT NULL,
-  PRIMARY KEY (`AUTOID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+  `AUTOKEY` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblautonumbers`
 --
 
 INSERT INTO `tblautonumbers` (`AUTOID`, `AUTOSTART`, `AUTOEND`, `AUTOINC`, `AUTOKEY`) VALUES
-(1, '02983', 7, 1, 'userid'),
-(2, '000', 78, 1, 'employeeid'),
-(3, '0', 16, 1, 'APPLICANT'),
+(1, '02983', 7, 1, 'Userid'),
+(2, '000', 78, 1, 'Employer'),
+(3, '011', 16, 1, 'Applicant'),
 (4, '69125', 29, 1, 'FILEID');
 
 -- --------------------------------------------------------
@@ -117,22 +104,12 @@ INSERT INTO `tblautonumbers` (`AUTOID`, `AUTOSTART`, `AUTOEND`, `AUTOINC`, `AUTO
 -- Table structure for table `tblbookmarkjob`
 --
 
-CREATE TABLE IF NOT EXISTS `tblbookmarkjob` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblbookmarkjob` (
+  `ID` int(11) NOT NULL,
   `APPLICANTID` int(11) NOT NULL,
   `JOBID` int(11) NOT NULL,
-  `DATETIME` datetime NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
-
---
--- Dumping data for table `tblbookmarkjob`
---
-
-INSERT INTO `tblbookmarkjob` (`ID`, `APPLICANTID`, `JOBID`, `DATETIME`) VALUES
-(11, 321, 4, '2022-03-07 16:32:57'),
-(13, 321, 5, '2022-03-07 16:38:37'),
-(15, 321, 7, '2022-03-07 16:40:08');
+  `DATETIME` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -140,21 +117,13 @@ INSERT INTO `tblbookmarkjob` (`ID`, `APPLICANTID`, `JOBID`, `DATETIME`) VALUES
 -- Table structure for table `tblbookmarkresume`
 --
 
-CREATE TABLE IF NOT EXISTS `tblbookmarkresume` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblbookmarkresume` (
+  `ID` int(11) NOT NULL,
   `USERID` int(11) NOT NULL,
   `JOBAPPLICATIONID` int(11) NOT NULL,
   `JOBRESUMEID` int(11) NOT NULL,
-  `DATETIME` datetime NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
-
---
--- Dumping data for table `tblbookmarkresume`
---
-
-INSERT INTO `tblbookmarkresume` (`ID`, `USERID`, `JOBAPPLICATIONID`, `JOBRESUMEID`, `DATETIME`) VALUES
-(3, 228, 15, 4, '2022-05-10 11:04:05');
+  `DATETIME` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -162,8 +131,8 @@ INSERT INTO `tblbookmarkresume` (`ID`, `USERID`, `JOBAPPLICATIONID`, `JOBRESUMEI
 -- Table structure for table `tblcompany`
 --
 
-CREATE TABLE IF NOT EXISTS `tblcompany` (
-  `COMPANYID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblcompany` (
+  `COMPANYID` int(11) NOT NULL,
   `COMPANYNAME` varchar(90) NOT NULL,
   `COMPANYADDRESS` varchar(90) NOT NULL,
   `COMPANYCONTACTNO` varchar(30) NOT NULL,
@@ -177,22 +146,18 @@ CREATE TABLE IF NOT EXISTS `tblcompany` (
   `COMPANYAWARD` varchar(20) NOT NULL,
   `COMPANYYEAR` varchar(10) NOT NULL,
   `COMPANYAWARDDESC` text NOT NULL,
-  `COMPANYLOGO` blob NOT NULL,
-  PRIMARY KEY (`COMPANYID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+  `COMPANYLOGO` blob NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblcompany`
 --
 
 INSERT INTO `tblcompany` (`COMPANYID`, `COMPANYNAME`, `COMPANYADDRESS`, `COMPANYCONTACTNO`, `COMPANYSTATUS`, `COMPANYABOUT`, `COMPANYEMAIL`, `COMPANYINDUSTRY`, `COMPANYSPECIALISM`, `COMPANYCOUNTRY`, `COMPANYCITY`, `COMPANYAWARD`, `COMPANYYEAR`, `COMPANYAWARDDESC`, `COMPANYLOGO`) VALUES
-(2, 'Chevron Corporation', 'San Ramon', '9258423232', '', 'Chevron Corporation is an American multinational energy corporation. One of the successor companies of Standard Oil, it is headquartered in San Ramon, California, and active in more than 180 countries.', 'support@Chevron.com', 'Manufacturing Industry', 'Construction', 'United States of America', 'California', 'Chevron Wins at EGYP', '2022', 'SAN RAMON, Calif., March 8, 2022 /3BL Media/ - Chevron Corporation (NYSE: CVX) announced it has been named Employer of the Year Championing Inclusion, Diversity and Equality at the Egypt Petroleum Show (EGYPS) 2022 conference in Egypt held February 14 to 16. EGYPS Global Equality in Energy Awards recognizes global oil and gas industry achievements in equality, inclusion and diversity in the industry', 0x636f6d70616e795f6c6f676f2f43686576726f6e2d4c6f676f2e706e67),
-(3, 'Shell Plc', 'Mabinays SE1 7NA', '0804776477543', '', ' Shell plc is a British publicly traded multinational oil and gas company headquartered at Shell Centre in London, United Kingdom. Shell is a public limited company with a primary listing on the London Stock Exchange', 'support@shell.com', 'Chemical Plant', 'Industrial Machinery, Gas and Chemicals', 'United States of America', 'Shell Centre London', 'Best Corporations fo', '2020', 'The National Veteran-Owned Business Association (NaVOBA) announced today the best U.S. corporations committed to working with veteran-owned businesses in 2020 using data and responses from the 2020 Best Corporations for Veterans Business Enterprises® (BCVBE) Survey. This prestigious list honors those large corporations that most successfully engage the nations certified Veterans and Service-Disabled Veterans Business Enterprises® (VBEs/SDVBEs) as suppliers.', 0x636f6d70616e795f6c6f676f2f7368656c6c2e6a7067),
-(4, 'Nigerian National Petroleum Corporation NNPC', 'Herbert Macaulay Way,  P.M.B. 190', '234946081000', '', '   The Nigerian National Petroleum Corporation (NNPC) is the state oil corporation which was ?established on April 1, 1977. In addition to its exploration activities, the Corporation was given powers and operational interests in refining, petrochemicals and products transportation as well as marketing. Between 1978 and 1989, NNPC constructed refineries in Warri, Kaduna and Port Harcourt and took over the 35,000-barrel Shell Refinery established in Port Harcourt in 1965.', 'support@nnpc.com', 'Tertiary Sector', 'Industrial Machinery, Gas and Chemicals', 'Nigeria', 'Garki, Abuja', 'Oil, Gas Reforms', '2020', 'he Nigerian National Petroleum Company (NNPC) Limited has won an award as the overall best company in oil and gas reforms at the Open Government Partnership (OGP) global awards which was held in Seoul, South Korea.\r\nNigeria picked the award at the expense of other countries in Africa and the Middle East that were implementing the OGP at the summit of member countries, for setting up a Beneficial Ownership (BO) registry to end anonymous companies in the country.', 0x636f6d70616e795f6c6f676f2f6e6e70632e6a7067),
-(6, 'Kuda MicroFinance', '151 Herbert Macaulay Way, Yaba', '0625656899', '', ' A few years ago, a small team of people determined to transform banking launched a savings app for Nigerians. That app was the first step toward Kuda.\r\n\r\nToday, we’re even more determined and we’ve built a Central Bank-licensed, microfinance bank to help you get the best out of your money without overcharging you.\r\n\r\nKuda includes tools for tracking your spending habits, saving more and making the right money moves.\r\n\r\nSo no matter who you are or where you live in Nigeria, we’re here because of you. We know the pain that comes with using a regular bank and we will make things work better for everyone.', 'support@Kuda.com', 'Bank Services', 'Banking', 'Nigeria', 'Yaba, Lagos', '2m Customer Mileston', '2022', 'Kuda Microfinance Bank has announced that it has passed the two-million customer milestone, just six months after the bank signed up its one-millionth customer.\r\nKuda has been on a consistent upward trajectory since 2020, growth that the bank credits to aggressive marketing, an improved banking app, and increased adoption of digital banking since the COVID-19 pandemic broke out.', 0x636f6d70616e795f6c6f676f2f6b7564612e6a7067),
-(7, 'NIIT', 'NIIT Limited UK Sheffield Technology Parks Cooper Buildings Suite W3 Sheffield, S12NS UK', '18884546448', 'Active', ' The idea of NIIT was born on a rainy, monsoon evening in Mumbai over endless cups of tea, way back in 1981. Two engineering graduates from the Indian Institute of Technology, New Delhi were envisioning the future of Information Technology training and founded a company that is now considered the crucible of Indias IT revolution.\r\n\r\nFrom being Indias most trusted education brand, NIIT has grown to earn the trust of many Fortune and Global 500 companies in over 30 countries over the past 40 years. NIITs instructional designers apply award-winning design methodologies and high-end media and technology across several industries every day, working with market leaders across the world including; oil and gas, pharmaceuticals, life sciences, banking and financial services, insurance, technology, telecom, and manufacturing. NIITs goal is to help leading companies run training like a business, by maximizing the effectiveness and efficiency of training. ', 'support@niit.com', 'IT & Software', 'Technology, Media & Telecommunications', 'United States of America', 'Los Angeles', '2020 Brandon Hall Go', '2020', 'The Monitoring Performance Training (MPT) program is a comprehensive, 17-week performance-linked, blended learning onboarding program for Clinical Research Associates at IQVIA which reduced time to productivity for 46% while allowing complete flexibility for a remote workforce.', 0x636f6d70616e795f6c6f676f2f646f776e6c6f6164202833292e706e67),
-(8, 'Dimconnect ICT Services', 'Lekki', '07034984833', 'Active', 'Dimconnect is an eductional IT company that seeks to impact and develop ICT skills and talents of nigerian youths while empowering them for the IT industry. Enhance business process through automation using technology and we also provide business IT solutions and advice. Website', 'support@dimconnect.com', 'IT & Software', 'Accounting', 'Select Country', 'Festac', 'Best Company ', '2021', 'DEFENSE TECHCONNECT INNOVATION AWARDS. TechConnect is proud to announce the TechConnect Defense Innovation Awards recognizing the top 15%', 0x636f6d70616e795f6c6f676f2f64696d636f6e6e6563742e6a7067),
-(9, 'Dangote Group', 'Union Marble House 1 Alfred Rewane Road, PMB 40032', '23412712231', 'Active', 'The Dangote Group is a Nigerian multinational industrial conglomerate, founded by Aliko Dangote. It is the largest conglomerate in West Africa and one of the largest on the African continent.', 'communications@dangote.com', 'Manufacturing Industry', 'Business Franchises', 'Nigeria', 'Falomo Ikoyi, Lagos', 'Best Quality Cement ', '2022', 'Dangote Cement gets award By Okwy lroegbu-Chikezie On Mar 1, 2022 The Dangote Cement has won the coveted West Africas Best Quality Cement Brand of the Decade award. The foremost cement manufacturer in Africa won the award with its novel Dangote 3X (42.5) brand.', 0x636f6d70616e795f6c6f676f2f64616e676f74652e6a7067);
+(1, 'Nasdaq', '18 Hebron Way, St. John', '8773689986', 'Active', 'Financial Crime Management Technology for Canadian Financial Institutions', 'info@verafin.com', 'Finance', 'Accounting', 'Canada', 'St. Johns', 'N/A', '2025', 'N/A', 0x636f6d70616e795f6c6f676f2f4e41534441515f4c6f676f2e7376672e706e67),
+(2, 'ScotiaBank', 'St. John', '78576337485', 'Active', 'Earn up to $700 when you bundle an eligible banking package, savings account, and registered account', 'info@scotiabank.com', 'Finance', 'Accounting', 'Canada', 'St. John', 'N/A', '2025', 'N/A', 0x636f6d70616e795f6c6f676f2f73636f74696162616e6b2d6c6f676f2d7265642d6465736b746f702d32303070782e737667),
+(3, 'RBC Royalbank', 'St. John', '7089574856', 'Active', 'Explore the personal banking services and products available from RBC Royal Bank to help you manage your finances, buy a home, invest and more.', 'info@rbcroyalbank.com', 'Finance', 'Public Sector', 'Canada', 'St. John', 'N/A', '2025', 'N/A', 0x636f6d70616e795f6c6f676f2f7262632d6c6f676f2d736869656c642e737667),
+(4, 'ColabSoftware', '484 Torbay', '758475834', 'Active', ' Deliver better products, faster.', 'info@colabsoftware', 'IT & Software', 'Accounting', 'Select Country', 'St. John', 'N/A', '2025', 'N/A', 0x636f6d70616e795f6c6f676f2f436f4c61622d4c6f676f2d5247422d7765622d66756c6c2d636f6c6f75722e77656270);
 
 -- --------------------------------------------------------
 
@@ -200,8 +165,8 @@ INSERT INTO `tblcompany` (`COMPANYID`, `COMPANYNAME`, `COMPANYADDRESS`, `COMPANY
 -- Table structure for table `tblemployees`
 --
 
-CREATE TABLE IF NOT EXISTS `tblemployees` (
-  `INCID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblemployees` (
+  `INCID` int(11) NOT NULL,
   `EMPLOYEEID` varchar(30) NOT NULL,
   `FNAME` varchar(50) NOT NULL,
   `LNAME` varchar(50) NOT NULL,
@@ -221,17 +186,8 @@ CREATE TABLE IF NOT EXISTS `tblemployees` (
   `EMPUSERNAME` varchar(90) NOT NULL,
   `EMPPASSWORD` varchar(125) NOT NULL,
   `DATEHIRED` date NOT NULL,
-  `COMPANYID` int(11) NOT NULL,
-  PRIMARY KEY (`INCID`),
-  UNIQUE KEY `EMPLOYEEID` (`EMPLOYEEID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=77 ;
-
---
--- Dumping data for table `tblemployees`
---
-
-INSERT INTO `tblemployees` (`INCID`, `EMPLOYEEID`, `FNAME`, `LNAME`, `MNAME`, `ADDRESS`, `BIRTHDATE`, `BIRTHPLACE`, `AGE`, `SEX`, `CIVILSTATUS`, `TELNO`, `EMP_EMAILADDRESS`, `CELLNO`, `POSITION`, `WORKSTATS`, `EMPPHOTO`, `EMPUSERNAME`, `EMPPASSWORD`, `DATEHIRED`, `COMPANYID`) VALUES
-(76, '2018001', 'Chambe', 'Narciso', 'Captain', 'mabinay', '1992-01-23', 'Mabinay', 26, 'Male', 'Married', '032656', 'chambe@yahoo.com', '', 'Fuel Tender', '', '', '2018001', 'f3593fd40c55c33d1788309d4137e82f5eab0dea', '2018-05-23', 2);
+  `COMPANYID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -239,26 +195,15 @@ INSERT INTO `tblemployees` (`INCID`, `EMPLOYEEID`, `FNAME`, `LNAME`, `MNAME`, `A
 -- Table structure for table `tblfeedback`
 --
 
-CREATE TABLE IF NOT EXISTS `tblfeedback` (
-  `FEEDBACKID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblfeedback` (
+  `FEEDBACKID` int(11) NOT NULL,
   `APPLICANTID` int(11) NOT NULL,
   `ADMINID` int(11) NOT NULL,
   `SENTBY` int(11) NOT NULL,
   `FEEDBACK` text NOT NULL,
   `DATETIME` datetime NOT NULL,
-  `STATUS` varchar(10) NOT NULL,
-  PRIMARY KEY (`FEEDBACKID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
-
---
--- Dumping data for table `tblfeedback`
---
-
-INSERT INTO `tblfeedback` (`FEEDBACKID`, `APPLICANTID`, `ADMINID`, `SENTBY`, `FEEDBACK`, `DATETIME`, `STATUS`) VALUES
-(2, 321, 228, 228, 'You are to come for Interview on 10th March 2022\r\n', '2022-03-08 15:46:27', 'Read'),
-(3, 321, 228, 228, 'Okay', '2022-03-08 18:06:03', 'Read'),
-(4, 321, 228, 228, 'What?', '2022-03-08 18:09:42', 'Read'),
-(5, 321, 228, 321, 'Okay Sir', '2022-03-08 18:12:08', 'Read');
+  `STATUS` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -266,8 +211,8 @@ INSERT INTO `tblfeedback` (`FEEDBACKID`, `APPLICANTID`, `ADMINID`, `SENTBY`, `FE
 -- Table structure for table `tbljob`
 --
 
-CREATE TABLE IF NOT EXISTS `tbljob` (
-  `JOBID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tbljob` (
+  `JOBID` int(11) NOT NULL,
   `COMPANYID` int(11) NOT NULL,
   `WORKPLACE_POLICY` varchar(50) NOT NULL,
   `JOBTITLE` varchar(90) NOT NULL,
@@ -281,21 +226,19 @@ CREATE TABLE IF NOT EXISTS `tbljob` (
   `WORKEXPERIENCE` varchar(50) NOT NULL,
   `DEADLINE` date NOT NULL,
   `JOBSTATUS` varchar(90) NOT NULL,
-  `DATEPOSTED` datetime NOT NULL,
-  PRIMARY KEY (`JOBID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  `DATEPOSTED` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbljob`
 --
 
 INSERT INTO `tbljob` (`JOBID`, `COMPANYID`, `WORKPLACE_POLICY`, `JOBTITLE`, `JOBCATEGORYID`, `SALARY`, `JOBTYPE`, `QUALIFICATION`, `JOBDESCRIPTION`, `PREFEREDSEX`, `CAREERLEVEL`, `WORKEXPERIENCE`, `DEADLINE`, `JOBSTATUS`, `DATEPOSTED`) VALUES
-(3, 8, 'Hybrid', 'Web Developer', 21, 0, 'Contract', 'B.Sc', 'Skill Requirements: HTML, CSS, JAVASCRIPT, PHP', 'Both', '', '3 Years', '2022-03-27', 'Vacancy', '2022-02-27 22:55:27'),
-(4, 8, 'Remote', 'Senior Software Developer', 0, 100000, 'Full Time', 'B.Sc', 'Integrity, Honesty, Leadership', 'Both', 'Team leader', '4 Years', '2022-03-12', 'Vacancy', '2022-02-27 23:58:34'),
-(5, 8, 'On-site', 'Administrator', 1, 0, 'Full Time', 'B.Sc', 'Critical thinking and problem solving, Teamwork and collaboration.', 'Both', 'Manager', '3 Years', '2022-03-11', 'Vacancy', '2022-02-28 02:01:45'),
-(6, 7, 'On-site', 'Sales Attendant', 2, 0, 'Full Time', 'B.Sc', 'Integrity, Honesty, Punctuality', 'Female', 'Not Necessary', 'No Restriction', '2022-03-24', 'Vacancy', '2022-03-04 02:09:21'),
-(7, 7, 'On-site', 'Administrative Assistant', 1, 0, 'Full Time', 'B.Sc', 'Punctuality, Hardworking', 'Both', 'Manager', '1 Years', '2022-03-30', 'Vacancy', '2022-03-04 02:38:40'),
-(8, 9, 'On-site', 'Account Manager', 1, 0, 'Full Time', 'B.Sc', 'Responsible for the management of sales and relationships with particular customers. Maintains the companys existing relationships with a client or group of clients, so that they will continue using the company for business. The account manager does not manage the daily running of the account itself. ', 'Both', 'Manager', '3 Years', '2022-03-31', 'Vacancy', '2022-03-09 11:01:14');
+(1, 2, 'On-site', 'Account Manager', 1, 0, 'Full Time', 'Master Degree', 'Account management job', 'Male', 'Team leader', '3 Years', '2025-11-01', 'Vacancy', '2025-10-23 02:35:49'),
+(2, 3, 'On-site', 'Sales Attendant', 2, 0, 'Full Time', 'B.Sc', 'Sales attendant and account keeping', 'Both', 'Manager', '4 Years', '2025-11-05', 'Vacancy', '2025-10-23 02:37:47'),
+(3, 4, 'Hybrid', 'Senior Software Developer', 21, 20, 'Part Time', 'B.Sc', 'Senior software developer for the development and management of web applications', 'Both', 'Not Necessary', '2 Years', '2025-11-08', 'Vacancy', '2025-10-23 02:39:51'),
+(4, 3, 'On-site', 'Account Executive', 3, 0, 'Full Time', 'Master Degree', 'Account executive for financial analysis & modeling', 'Both', 'Manager', '2 Years', '2025-11-15', 'Vacancy', '2025-10-23 02:42:12'),
+(5, 1, 'On-site', 'Analyst', 3, 30, 'Full Time', 'B.Sc', 'Financial Analysis and Modeling ', 'Both', 'Team leader', '4 Years', '2025-11-07', 'Vacancy', '2025-10-23 04:44:58');
 
 -- --------------------------------------------------------
 
@@ -303,24 +246,23 @@ INSERT INTO `tbljob` (`JOBID`, `COMPANYID`, `WORKPLACE_POLICY`, `JOBTITLE`, `JOB
 -- Table structure for table `tbljobapplication`
 --
 
-CREATE TABLE IF NOT EXISTS `tbljobapplication` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tbljobapplication` (
+  `ID` int(11) NOT NULL,
   `APPLICANTID` int(11) NOT NULL,
   `JOBID` int(11) NOT NULL,
   `RESUME_FILE` varchar(255) NOT NULL,
   `APPLICATIONSTATUS` varchar(20) NOT NULL,
   `APPLICATIONDATE` datetime NOT NULL,
-  `SCORE` int(11) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+  `SCORE` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbljobapplication`
 --
 
 INSERT INTO `tbljobapplication` (`ID`, `APPLICANTID`, `JOBID`, `RESUME_FILE`, `APPLICATIONSTATUS`, `APPLICATIONDATE`, `SCORE`) VALUES
-(15, 2745, 4, 'resumes_cv/Certificate_Of_Registration-converted-converted.pdf', 'Pending', '2022-05-10 01:06:21', 7),
-(16, 2745, 3, 'resumes_cv/questions for interview.docx', 'Approved', '2022-05-10 17:56:16', 3);
+(1, 321, 4, 'resumes_cv/CV-linda.pdf', 'Pending', '2025-10-23 04:36:00', 0),
+(2, 321, 1, 'resumes_cv/Resume_LINDA.pdf', 'Pending', '2025-10-23 17:20:44', 0);
 
 -- --------------------------------------------------------
 
@@ -328,11 +270,10 @@ INSERT INTO `tbljobapplication` (`ID`, `APPLICANTID`, `JOBID`, `RESUME_FILE`, `A
 -- Table structure for table `tbljobcategory`
 --
 
-CREATE TABLE IF NOT EXISTS `tbljobcategory` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `CATEGORY` varchar(200) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+CREATE TABLE `tbljobcategory` (
+  `ID` int(11) NOT NULL,
+  `CATEGORY` varchar(200) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbljobcategory`
@@ -362,8 +303,8 @@ INSERT INTO `tbljobcategory` (`ID`, `CATEGORY`) VALUES
 -- Table structure for table `tbljobregistration`
 --
 
-CREATE TABLE IF NOT EXISTS `tbljobregistration` (
-  `REGISTRATIONID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tbljobregistration` (
+  `REGISTRATIONID` int(11) NOT NULL,
   `COMPANYID` int(11) NOT NULL,
   `JOBID` int(11) NOT NULL,
   `APPLICANTID` int(11) NOT NULL,
@@ -371,19 +312,10 @@ CREATE TABLE IF NOT EXISTS `tbljobregistration` (
   `REGISTRATIONDATE` date NOT NULL,
   `REMARKS` varchar(255) NOT NULL DEFAULT 'Pending',
   `FILEID` varchar(30) DEFAULT NULL,
-  `PENDINGAPPLICATION` tinyint(1) NOT NULL DEFAULT '1',
-  `HVIEW` tinyint(1) NOT NULL DEFAULT '1',
-  `DATETIMEAPPROVED` datetime NOT NULL,
-  PRIMARY KEY (`REGISTRATIONID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
-
---
--- Dumping data for table `tbljobregistration`
---
-
-INSERT INTO `tbljobregistration` (`REGISTRATIONID`, `COMPANYID`, `JOBID`, `APPLICANTID`, `APPLICANT`, `REGISTRATIONDATE`, `REMARKS`, `FILEID`, `PENDINGAPPLICATION`, `HVIEW`, `DATETIMEAPPROVED`) VALUES
-(1, 2, 2, 2018013, 'Kim Domingo', '2018-05-27', 'Ive seen your work and its really interesting', '2147483647', 0, 1, '2018-05-26 16:13:01'),
-(2, 2, 2, 2018015, 'Janry Tan', '2018-05-26', 'aasd', '2147483647', 0, 0, '2018-05-28 14:14:45');
+  `PENDINGAPPLICATION` tinyint(1) NOT NULL DEFAULT 1,
+  `HVIEW` tinyint(1) NOT NULL DEFAULT 1,
+  `DATETIMEAPPROVED` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -391,12 +323,11 @@ INSERT INTO `tbljobregistration` (`REGISTRATIONID`, `COMPANYID`, `JOBID`, `APPLI
 -- Table structure for table `tbljobscreening_ques`
 --
 
-CREATE TABLE IF NOT EXISTS `tbljobscreening_ques` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tbljobscreening_ques` (
+  `id` int(11) NOT NULL,
   `job_id` int(11) NOT NULL,
-  `question_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=73 ;
+  `question_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbljobscreening_ques`
@@ -426,12 +357,11 @@ INSERT INTO `tbljobscreening_ques` (`id`, `job_id`, `question_id`) VALUES
 -- Table structure for table `tbljobsubcategory`
 --
 
-CREATE TABLE IF NOT EXISTS `tbljobsubcategory` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tbljobsubcategory` (
+  `ID` int(11) NOT NULL,
   `CATEGORYID` int(11) NOT NULL,
-  `SUBCATEGORY` varchar(100) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26 ;
+  `SUBCATEGORY` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbljobsubcategory`
@@ -470,44 +400,15 @@ INSERT INTO `tbljobsubcategory` (`ID`, `CATEGORYID`, `SUBCATEGORY`) VALUES
 -- Table structure for table `tblnotification`
 --
 
-CREATE TABLE IF NOT EXISTS `tblnotification` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblnotification` (
+  `ID` int(11) NOT NULL,
   `USERID` int(11) NOT NULL,
   `TYPE` varchar(50) NOT NULL,
   `TYPEID` int(11) NOT NULL,
   `STATUS` varchar(50) NOT NULL,
   `DATETIME` datetime NOT NULL,
-  `NOTE` varchar(100) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
-
---
--- Dumping data for table `tblnotification`
---
-
-INSERT INTO `tblnotification` (`ID`, `USERID`, `TYPE`, `TYPEID`, `STATUS`, `DATETIME`, `NOTE`) VALUES
-(2, 321, 'Job Application', 1, 'Unread', '2022-03-08 14:32:50', 'Job Application for (Sales Attendant) status has changed to Approved'),
-(3, 321, 'Message', 2, 'Unread', '2022-03-08 15:46:28', 'Message'),
-(5, 321, 'Job Application', 6, 'Unread', '2022-03-08 16:05:39', 'Job Application Notice for (Sales Attendant) says: CV/Resume not good enough'),
-(6, 0, 'Message', 2, 'Unread', '2022-03-08 18:01:25', 'Message'),
-(7, 321, 'Message', 2, 'Unread', '2022-03-08 18:03:59', 'Message'),
-(8, 321, 'Message', 3, 'Unread', '2022-03-08 18:06:03', 'Message'),
-(9, 321, 'Message', 3, 'Unread', '2022-03-08 18:06:34', 'Message'),
-(10, 321, 'Message', 4, 'Unread', '2022-03-08 18:09:42', 'Message'),
-(11, 321, 'Message', 5, 'Unread', '2022-03-08 18:12:08', 'Message'),
-(12, 479, 'Job Application', 3, 'Unread', '2022-03-09 00:06:54', 'Job Application for (Sales Attendant) status has changed to Pending'),
-(13, 479, 'Job Application', 3, 'Unread', '2022-03-09 00:07:02', 'Job Application for (Sales Attendant) status has changed to Pending'),
-(14, 479, 'Job Application', 3, 'Unread', '2022-03-09 00:09:02', 'Job Application for (Sales Attendant) status has changed to Pending'),
-(15, 479, 'Job Application', 3, 'Unread', '2022-03-09 00:15:24', 'Job Application for (Sales Attendant) status has changed to Pending'),
-(16, 228, 'Job Application', 3, 'Unread', '2022-03-09 00:37:45', 'Job Application for (Sales Attendant) status has changed to Pending'),
-(17, 228, 'Job Application', 1, 'Unread', '2022-03-09 00:37:52', 'Job Application for (Sales Attendant) status has changed to Approved'),
-(18, 228, 'Job Application', 3, 'Unread', '2022-03-09 00:39:52', 'Job Application for (Sales Attendant) status has changed to Pending'),
-(19, 228, 'Job Application', 1, 'Unread', '2022-03-09 00:40:06', 'Job Application for (Sales Attendant) status has changed to Approved'),
-(20, 228, 'Job Application', 3, 'Unread', '2022-03-09 00:43:30', 'Job Application for (Sales Attendant) status has changed to Pending'),
-(21, 228, 'Job Application', 4, 'Unread', '2022-05-09 14:19:25', 'Job Application for (Administrative Assistant) status has changed to Pending'),
-(22, 228, 'Job Application', 15, 'Unread', '2022-05-10 11:02:52', 'Job Application for (Senior Software Developer) status has changed to Pending'),
-(23, 228, 'Job Application', 15, 'Unread', '2022-05-10 11:04:05', 'Job Application for (Senior Software Developer) status has changed to Pending'),
-(24, 228, 'Job Application', 16, 'Unread', '2022-05-10 17:57:24', 'Job Application for (Web Developer) status has changed to Approved');
+  `NOTE` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -515,8 +416,8 @@ INSERT INTO `tblnotification` (`ID`, `USERID`, `TYPE`, `TYPEID`, `STATUS`, `DATE
 -- Table structure for table `tblscreening`
 --
 
-CREATE TABLE IF NOT EXISTS `tblscreening` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblscreening` (
+  `id` int(11) NOT NULL,
   `q_title` varchar(200) NOT NULL,
   `question` text NOT NULL,
   `opt_A` varchar(50) NOT NULL,
@@ -524,9 +425,8 @@ CREATE TABLE IF NOT EXISTS `tblscreening` (
   `opt_C` varchar(50) NOT NULL,
   `opt_D` varchar(50) NOT NULL,
   `opt_E` varchar(50) NOT NULL,
-  `status` varchar(20) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=56 ;
+  `status` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblscreening`
@@ -590,13 +490,12 @@ INSERT INTO `tblscreening` (`id`, `q_title`, `question`, `opt_A`, `opt_B`, `opt_
 -- Table structure for table `tblscreening_answer`
 --
 
-CREATE TABLE IF NOT EXISTS `tblscreening_answer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblscreening_answer` (
+  `id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
   `ideal_ans_opt` varchar(11) NOT NULL,
-  `ideal_ans` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=51 ;
+  `ideal_ans` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblscreening_answer`
@@ -660,15 +559,14 @@ INSERT INTO `tblscreening_answer` (`id`, `question_id`, `ideal_ans_opt`, `ideal_
 -- Table structure for table `tblscreening_qa`
 --
 
-CREATE TABLE IF NOT EXISTS `tblscreening_qa` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblscreening_qa` (
+  `ID` int(11) NOT NULL,
   `JOBAPPLICATION_ID` int(11) NOT NULL,
   `APPLICANTID` int(11) NOT NULL,
   `JOBID` int(11) NOT NULL,
   `QUESTION_ID` int(11) NOT NULL,
-  `APPLICANT_ANSWER` varchar(10) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+  `APPLICANT_ANSWER` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblscreening_qa`
@@ -694,7 +592,17 @@ INSERT INTO `tblscreening_qa` (`ID`, `JOBAPPLICATION_ID`, `APPLICANTID`, `JOBID`
 (17, 16, 2745, 3, 41, 'C'),
 (18, 16, 2745, 3, 21, 'B'),
 (19, 16, 2745, 3, 24, 'A'),
-(20, 16, 2745, 3, 29, 'D');
+(20, 16, 2745, 3, 29, 'D'),
+(21, 17, 321, 6, 21, 'C'),
+(22, 17, 321, 6, 29, 'B'),
+(23, 17, 321, 6, 38, 'E'),
+(24, 17, 321, 6, 22, 'C'),
+(25, 17, 321, 6, 36, 'D'),
+(26, 17, 321, 6, 45, 'D'),
+(27, 17, 321, 6, 52, 'D'),
+(28, 17, 321, 6, 33, 'C'),
+(29, 17, 321, 6, 11, 'C'),
+(30, 17, 321, 6, 30, 'C');
 
 -- --------------------------------------------------------
 
@@ -702,13 +610,12 @@ INSERT INTO `tblscreening_qa` (`ID`, `JOBAPPLICATION_ID`, `APPLICANTID`, `JOBID`
 -- Table structure for table `tblscreening_score`
 --
 
-CREATE TABLE IF NOT EXISTS `tblscreening_score` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `tblscreening_score` (
+  `id` int(11) NOT NULL,
   `jobapp_id` int(11) NOT NULL,
   `score` varchar(10) NOT NULL,
-  `total_ques` varchar(10) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+  `total_ques` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblscreening_score`
@@ -716,7 +623,8 @@ CREATE TABLE IF NOT EXISTS `tblscreening_score` (
 
 INSERT INTO `tblscreening_score` (`id`, `jobapp_id`, `score`, `total_ques`) VALUES
 (1, 15, '7', '10'),
-(2, 16, '3', '10');
+(2, 16, '3', '10'),
+(3, 17, '3', '10');
 
 -- --------------------------------------------------------
 
@@ -724,26 +632,276 @@ INSERT INTO `tblscreening_score` (`id`, `jobapp_id`, `score`, `total_ques`) VALU
 -- Table structure for table `tblusers`
 --
 
-CREATE TABLE IF NOT EXISTS `tblusers` (
-  `USERID` varchar(30) NOT NULL,
+CREATE TABLE `tblusers` (
+  `USERID` int(30) NOT NULL,
+  `IDN` varchar(30) NOT NULL,
   `FNAME` varchar(40) NOT NULL,
   `ONAME` varchar(200) NOT NULL,
   `EMAIL` varchar(50) NOT NULL,
   `USERNAME` varchar(90) NOT NULL,
   `PASS` varchar(90) NOT NULL,
-  `ROLE` varchar(30) NOT NULL,
-  PRIMARY KEY (`USERID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `ROLE` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblusers`
 --
 
-INSERT INTO `tblusers` (`USERID`, `FNAME`, `ONAME`, `EMAIL`, `USERNAME`, `PASS`, `ROLE`) VALUES
-('228', 'Admin', 'Carl', 'admin@gmail.com', 'admin', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Administrator'),
-('2745', 'Kene', 'Okafor', 'okafor@gmail.com', 'ekene', '$2y$10$XiRW./ReW.kzSWmVJ2wQyuBvKbaSGxOvuNNaGB6mWjcmDul0Vj85G', 'User'),
-('321', 'Dom', 'Carl', 'emehchiemerie9@gmail.com', 'emeldo', '$2y$10$6u.ZUBDOBuQZ4K2GzFjD3.Z8e.StDKKCpeuoodzOFeyXX74A.NJ92', 'User'),
-('479', 'Chioma', 'Uba', 'Chioma@gmail.com', 'chioma', '$2y$10$UjZgWmcMZbFflPVF/3.XNeqTUNUUayM.XOydi5nQqa1h12VwrwOW6', 'User');
+INSERT INTO `tblusers` (`USERID`, `IDN`, `FNAME`, `ONAME`, `EMAIL`, `USERNAME`, `PASS`, `ROLE`) VALUES
+(228, '', 'Admin', 'Manager', 'admin@gmail.com', 'admin', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Administrator'),
+(321, '', 'Dom', 'Carl', 'emehchiemerie9@gmail.com', 'emeldo', '$2y$10$6u.ZUBDOBuQZ4K2GzFjD3.Z8e.StDKKCpeuoodzOFeyXX74A.NJ92', 'Applicant'),
+(2749, '11', 'James', 'Cletus', 'emelcarl2023@gmail.com', 'emelcarl2023', '$2y$10$4r2eYwzVBwTSnGM4B8MJ5u/.Wrjxqk2oYpCn30cmWIMM/r5cRpUnC', 'Applicant'),
+(2757, '16', 'demo', 'testing', 'demo@gmail.com', 'demo', '$2y$10$QFbUsQ//d3vKO2SFFR3LGeUAmj99MAYS6x2w73NeUDPL3ISMN.Gg6', 'Applicant');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `tblapplicants`
+--
+ALTER TABLE `tblapplicants`
+  ADD PRIMARY KEY (`APPLICANTID`);
+
+--
+-- Indexes for table `tblattachmentfile`
+--
+ALTER TABLE `tblattachmentfile`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tblautonumbers`
+--
+ALTER TABLE `tblautonumbers`
+  ADD PRIMARY KEY (`AUTOID`);
+
+--
+-- Indexes for table `tblbookmarkjob`
+--
+ALTER TABLE `tblbookmarkjob`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tblbookmarkresume`
+--
+ALTER TABLE `tblbookmarkresume`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tblcompany`
+--
+ALTER TABLE `tblcompany`
+  ADD PRIMARY KEY (`COMPANYID`);
+
+--
+-- Indexes for table `tblemployees`
+--
+ALTER TABLE `tblemployees`
+  ADD PRIMARY KEY (`INCID`),
+  ADD UNIQUE KEY `EMPLOYEEID` (`EMPLOYEEID`);
+
+--
+-- Indexes for table `tblfeedback`
+--
+ALTER TABLE `tblfeedback`
+  ADD PRIMARY KEY (`FEEDBACKID`);
+
+--
+-- Indexes for table `tbljob`
+--
+ALTER TABLE `tbljob`
+  ADD PRIMARY KEY (`JOBID`);
+
+--
+-- Indexes for table `tbljobapplication`
+--
+ALTER TABLE `tbljobapplication`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tbljobcategory`
+--
+ALTER TABLE `tbljobcategory`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tbljobregistration`
+--
+ALTER TABLE `tbljobregistration`
+  ADD PRIMARY KEY (`REGISTRATIONID`);
+
+--
+-- Indexes for table `tbljobscreening_ques`
+--
+ALTER TABLE `tbljobscreening_ques`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbljobsubcategory`
+--
+ALTER TABLE `tbljobsubcategory`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tblnotification`
+--
+ALTER TABLE `tblnotification`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tblscreening`
+--
+ALTER TABLE `tblscreening`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblscreening_answer`
+--
+ALTER TABLE `tblscreening_answer`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblscreening_qa`
+--
+ALTER TABLE `tblscreening_qa`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tblscreening_score`
+--
+ALTER TABLE `tblscreening_score`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tblusers`
+--
+ALTER TABLE `tblusers`
+  ADD PRIMARY KEY (`USERID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `tblapplicants`
+--
+ALTER TABLE `tblapplicants`
+  MODIFY `APPLICANTID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tblattachmentfile`
+--
+ALTER TABLE `tblattachmentfile`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblautonumbers`
+--
+ALTER TABLE `tblautonumbers`
+  MODIFY `AUTOID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tblbookmarkjob`
+--
+ALTER TABLE `tblbookmarkjob`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblbookmarkresume`
+--
+ALTER TABLE `tblbookmarkresume`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblcompany`
+--
+ALTER TABLE `tblcompany`
+  MODIFY `COMPANYID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `tblemployees`
+--
+ALTER TABLE `tblemployees`
+  MODIFY `INCID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblfeedback`
+--
+ALTER TABLE `tblfeedback`
+  MODIFY `FEEDBACKID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbljob`
+--
+ALTER TABLE `tbljob`
+  MODIFY `JOBID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tbljobapplication`
+--
+ALTER TABLE `tbljobapplication`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tbljobcategory`
+--
+ALTER TABLE `tbljobcategory`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `tbljobregistration`
+--
+ALTER TABLE `tbljobregistration`
+  MODIFY `REGISTRATIONID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbljobscreening_ques`
+--
+ALTER TABLE `tbljobscreening_ques`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+
+--
+-- AUTO_INCREMENT for table `tbljobsubcategory`
+--
+ALTER TABLE `tbljobsubcategory`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `tblnotification`
+--
+ALTER TABLE `tblnotification`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tblscreening`
+--
+ALTER TABLE `tblscreening`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+
+--
+-- AUTO_INCREMENT for table `tblscreening_answer`
+--
+ALTER TABLE `tblscreening_answer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+
+--
+-- AUTO_INCREMENT for table `tblscreening_qa`
+--
+ALTER TABLE `tblscreening_qa`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `tblscreening_score`
+--
+ALTER TABLE `tblscreening_score`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tblusers`
+--
+ALTER TABLE `tblusers`
+  MODIFY `USERID` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2758;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

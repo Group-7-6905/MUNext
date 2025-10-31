@@ -552,6 +552,7 @@ setTimeout(function() {
 
                             <!-- Large modal -->
 
+                            <?php // include 'question-modal.php'; ?>
                             <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
                                 aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
@@ -582,13 +583,15 @@ setTimeout(function() {
                                                         <div class="dash_caption mb-3">
                                                             <h4 class="fs-lg ft-medium mb-0 lh-1">
                                                                 <?php echo $FULLNAME ?></h4>
-                                                            <p class="m-0 p-0"><?php echo $JOBTITLE ?></p>
+                                                            <p class="m-0 p-0">Position Applying to:
+                                                                <?php echo $JOBTITLE ?></p>
+                                                            <!-- <hr>
                                                             <span class="text-muted smalls"><i
-                                                                    class="lni lni-map-marker mr-1"></i><?php echo $CITY ?>,<?php echo $COUNTRY ?></span>
+                                                                    class="lni lni-map-marker mr-1"></i><?php echo $CITY ?>,<?php echo $COUNTRY ?></span> -->
                                                         </div>
                                                         <div class="jb-list-01-title px-2">
-                                                            <span
-                                                                class="px-2 mb-2 d-inline-flex py-1 rounded text-purple bg-light-purple">0<?php echo $APPLICANTID ?></span>
+                                                            <!-- <span
+                                                                class="px-2 mb-2 d-inline-flex py-1 rounded text-purple bg-light-purple">0<?php echo $APPLICANTID ?></span> -->
                                                             <span
                                                                 class="mr-2 mb-2 d-inline-flex px-2 py-1 rounded theme-cl theme-bg-light">Active</span>
                                                             <span
@@ -607,136 +610,218 @@ setTimeout(function() {
 
 
 
-                                            <!-- <form method="post"> -->
-                                            <?php
-												// $sql = "SELECT * from tbljobscreening_ques where job_id ='$JOBID'  ORDER BY id DESC";
-												// $runjob = mysqli_query($con, $sql);
-												// $c = mysqli_num_rows($runjob);
-												// if ($c > 0) {
-												?>
-                                            <div class="jbd-details mb-3">
-                                                <h5>Screening Questions:</h5>
+                                            <div class="jbd-details mb-3 d-block border rounded mfliud-bot mb-4">
                                                 <div class="position-relative row">
                                                     <div class="col-lg-12 col-md-12 col-12">
 
-                                                        <?php
-															// $sql = "SELECT * from tbljobscreening_ques where job_id ='$JOBID'  ORDER BY id DESC";
-															// $runjob = mysqli_query($con, $sql);
-															// while ($rowjob = mysqli_fetch_array($runjob)) {
-															// 	$question_id = $rowjob['question_id'];
-
-															$query = "SELECT * from tblscreening ORDER BY RAND() LIMIT 10" or die(mysqli_error($con));
-															$run = mysqli_query($con, $query);
-															$count = 0;
-															while ($row = mysqli_fetch_array($run)) {
-																$count++;
-																// $jobque_id[] = $row['id'];
-															?> <br>
                                                         <div class="form-group">
-                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                                                <div class="d-flex align-items-center">
-                                                                    <div
-                                                                        class="rounded-circle bg-light-danger theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                                                        <i
-                                                                            class="fas fa-question small text-danger"></i>
-                                                                    </div>
-                                                                    <h6 class="mb-0 ml-3 text-muted fs-sm">
-                                                                        <?php echo $count ?>.<i> Question
-                                                                            <strong>(<?php echo $row['q_title'] ?>)</strong></i>
-                                                                    </h6>
+                                                            <!-- row -->
+                                                            <div class="row align-items-start">
+
+                                                                <!-- About -->
+                                                                <div class="abt-cdt d-block full-width mb-4">
+                                                                    <h4 class="ft-medium mb-1 fs-md">About
+                                                                        <?php echo $FULLNAME ?></h4>
+                                                                    <p><?php echo $ABOUTME ?></p>
                                                                 </div>
 
+                                                                <!-- Hobbies -->
+                                                                <div class="abt-cdt d-block full-width mb-4">
+                                                                    <h4 class="ft-medium mb-1 fs-md">
+                                                                        <?php echo $FULLNAME ?> Contact</h4>
+                                                                    <div class="position-relative row">
+                                                                        <div class="col-lg-12 col-md-12 col-12">
+                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <div
+                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
+                                                                                        <i
+                                                                                            class="fas fa-check small"></i>
+                                                                                    </div>
+                                                                                    <h6
+                                                                                        class="mb-0 ml-3 text-muted fs-sm">
+                                                                                        Country: <?php echo $COUNTRY ?>
+                                                                                    </h6>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <div
+                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
+                                                                                        <i
+                                                                                            class="fas fa-check small"></i>
+                                                                                    </div>
+                                                                                    <h6
+                                                                                        class="mb-0 ml-3 text-muted fs-sm">
+                                                                                        City: <?php echo $CITY ?></h6>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <div
+                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
+                                                                                        <i
+                                                                                            class="fas fa-check small"></i>
+                                                                                    </div>
+                                                                                    <h6
+                                                                                        class="mb-0 ml-3 text-muted fs-sm">
+                                                                                        Address: <?php echo $ADDRESS ?>
+                                                                                    </h6>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <div
+                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
+                                                                                        <i
+                                                                                            class="fas fa-check small"></i>
+                                                                                    </div>
+                                                                                    <h6
+                                                                                        class="mb-0 ml-3 text-muted fs-sm">
+                                                                                        Phone: <?php echo $CONTACTNO ?>
+                                                                                    </h6>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <div
+                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
+                                                                                        <i
+                                                                                            class="fas fa-check small"></i>
+                                                                                    </div>
+                                                                                    <h6
+                                                                                        class="mb-0 ml-3 text-muted fs-sm">
+                                                                                        Email: <?php echo $EMAIL ?></h6>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <div
+                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
+                                                                                        <i
+                                                                                            class="fas fa-check small"></i>
+                                                                                    </div>
+                                                                                    <h6
+                                                                                        class="mb-0 ml-3 text-muted fs-sm">
+                                                                                        Facebook: <?php echo $FB_link ?>
+                                                                                    </h6>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
+                                                                                <div class="d-flex align-items-center">
+                                                                                    <div
+                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
+                                                                                        <i
+                                                                                            class="fas fa-check small"></i>
+                                                                                    </div>
+                                                                                    <h6
+                                                                                        class="mb-0 ml-3 text-muted fs-sm">
+                                                                                        LinkedIn:
+                                                                                        <?php echo $LinkedIn_link ?>
+                                                                                    </h6>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
 
-                                                                <label
-                                                                    class="checkbox-custom-label text-dark ft-medium"><b><?php echo $row['question'] ?></b><span>?</span></label>
-
-                                                                <!-- <div class="col-xl-12 col-lg-12 col-md-12">
-																			<label class="muted-text ft-medium" for="<?php echo $row['id'] ?>">Choose Correct Option </label><br>
-																		</div> -->
-
-                                                                <input type="hidden" name="id[]"
-                                                                    value="<?php echo $row['id'] ?>">
-
-
-                                                                <input type="radio" id="A<?php echo $row['id'] ?>"
-                                                                    class="checkbox-custom"
-                                                                    name="ans[<?php echo $row['id'] ?>]" value="A"
-                                                                    required>
-                                                                <label for="A<?php echo $row['id'] ?>"
-                                                                    class="checkbox-custom-label">A.
-                                                                    <?php echo $row['opt_A'] ?></label>
-
-
-
-                                                                <input type="radio" id="B<?php echo $row['id'] ?>"
-                                                                    class="checkbox-custom"
-                                                                    name="ans[<?php echo $row['id'] ?>]" value="B"
-                                                                    required>
-
-                                                                <label for="B<?php echo $row['id'] ?>"
-                                                                    class="checkbox-custom-label">B.
-                                                                    <?php echo $row['opt_B'] ?></label>
+                                                                <!-- Qualification -->
+                                                                <div class="abt-cdt d-block full-width mb-4">
+                                                                    <h4 class="ft-medium mb-1 fs-md">Qualification</h4>
+                                                                    <div class="exslio-list mt-3">
+                                                                        <ul>
+                                                                            <li>
+                                                                                <div
+                                                                                    class="esclio-110 bg-light rounded px-3 py-3">
+                                                                                    <h4 class="mb-0 ft-medium fs-md">
+                                                                                        <?php echo $DEGREE ?></h4>
+                                                                                    <div
+                                                                                        class="esclio-110-info full-width mb-2">
+                                                                                        <span class="text-muted mr-2"><i
+                                                                                                class="lni lni-graduation mr-1"></i><?php echo $SCHOOLNAME ?></span>
+                                                                                        <!-- <span class="text-muted mr-2"><i class="lni lni-calendar mr-1"></i>2010</span> -->
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="esclio-110-decs full-width">
+                                                                                        <p><i>Download Resume/CV to view
+                                                                                                more <a
+                                                                                                    href="javascript:void(0);"
+                                                                                                    class="theme-cl">...</a></i>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
 
 
-                                                                <input type="radio" id="C<?php echo $row['id'] ?>"
-                                                                    class="checkbox-custom"
-                                                                    name="ans[<?php echo $row['id'] ?>]" value="C"
-                                                                    required>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
 
-                                                                <label for="C<?php echo $row['id'] ?>"
-                                                                    class="checkbox-custom-label">C.
-                                                                    <?php echo $row['opt_C'] ?></label>
+                                                                <!-- Experience -->
+                                                                <div class="abt-cdt d-block full-width mb-4">
+                                                                    <h4 class="ft-medium mb-1 fs-md">Experience</h4>
+                                                                    <div class="exslio-list mt-3">
+                                                                        <ul>
+                                                                            <li>
+                                                                                <div
+                                                                                    class="esclio-110 bg-light rounded px-3 py-3">
+                                                                                    <h4 class="mb-0 ft-medium fs-md">
+                                                                                        <?php echo $EXCOMPANYNAME ?>
+                                                                                    </h4>
+                                                                                    <div
+                                                                                        class="esclio-110-info full-width mb-2">
 
-
-                                                                <input type="radio" id="D<?php echo $row['id'] ?>"
-                                                                    class="checkbox-custom"
-                                                                    name="ans[<?php echo $row['id'] ?>]" value="D"
-                                                                    required>
-
-                                                                <label for="D<?php echo $row['id'] ?>"
-                                                                    class="checkbox-custom-label">D.
-                                                                    <?php echo $row['opt_D'] ?></label>
-
-
-                                                                <input type="radio" id="E<?php echo $row['id'] ?>"
-                                                                    class="checkbox-custom"
-                                                                    name="ans[<?php echo $row['id'] ?>]" value="E"
-                                                                    required>
-
-                                                                <label for="E<?php echo $row['id'] ?>"
-                                                                    class="checkbox-custom-label">E.
-                                                                    <?php echo $row['opt_E'] ?></label>
+                                                                                        <span class="text-muted mr-2"><i
+                                                                                                class="lni lni-laptop-phone mr-1"></i><?php echo $EXJOBTITLE ?></span>
 
 
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="esclio-110-decs full-width">
+                                                                                        <p><i>Download Resume/CV to view
+                                                                                                more <a
+                                                                                                    href="javascript:void(0);"
+                                                                                                    class="theme-cl">...</a></i>
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </li>
 
 
-                                                                <hr>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Skills -->
+                                                                <div class="abt-cdt d-block full-width">
+                                                                    <h4 class="ft-medium mb-1 fs-md">Skills</h4>
+                                                                    <ul class="p-0 skills_tag text-left">
+                                                                        <li><span
+                                                                                class="px-2 py-1 medium skill-bg rounded text-dark"><?php echo $SKILLS ?></span>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </div>
+
                                                             </div>
+                                                            <!-- row -->
+
                                                         </div>
-
-
-
-
-                                                        <?php //}
-															} ?>
-
-
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <?php //} 
+                                                <?php //} 
 												?>
 
 
-                                            <!-- <button type="submit" name="job" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm full-width">Submit</button> -->
+                                                <!-- <button type="submit" name="job" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm full-width">Submit</button> -->
 
-                                            <button type="submit" name="apply_job"
-                                                class="btn btn-md rounded theme-bg text-light ft-medium fs-sm full-width">Submit
-                                                Now</button>
+                                                <button type="submit" name="apply_job"
+                                                    class="btn btn-md rounded theme-bg text-light ft-medium fs-sm full-width">Submit
+                                                    Now</button>
 
-                                            <!-- </form> -->
+                                                <!-- </form> -->
 
-                                            <?php
+                                                <?php
 												if (isset($_POST['job'])) {
 
 													$ques = $_POST['id'];
@@ -755,10 +840,10 @@ setTimeout(function() {
 													}
 												}
 												?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </form>
                     </div>
                     <!---Sidebar--->
