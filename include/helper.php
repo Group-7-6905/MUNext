@@ -135,7 +135,7 @@ if (isset($_POST['login_btn'])) {
                               echo "<script>
                           setTimeout(function() {
                             window.location.href = './admin/';
-                          }, 4000);
+                          }, 2000);
                         </script>";
              
                         exit();
@@ -147,15 +147,17 @@ if (isset($_POST['login_btn'])) {
                         echo "<script>
                         setTimeout(function() {
                           window.location.href = './$url';
-                        }, 3000);
+                        }, 2000);
                       </script>";
                     } else {
+
+                      if ($row['ROLE'] == "Applicant") {
                                 // header("location: ./dashboard/");
-                                echo "<script>
-                        setTimeout(function() {
-                          window.location.href = './dashboard/';
-                        }, 3000);
-                      </script>";
+                               echo "<script> window.location.href = './dashboard/'; </script>";
+                      } else {
+                                // header("location: ./employer/");
+                                echo "<script> window.location.href = './dashboard/'; </script>";
+                      }
                     }
 
                     exit();
@@ -220,7 +222,7 @@ if (isset($_POST['register_btn'])) {
 
     $firstName = validate_input_text($_POST['Fname']);
     if (empty($firstName)) {
-        $error = "You forgot to enter your first Name";
+        $alertText = "You forgot to enter your first Name";
         $ferror = "You forgot to enter your first Name";
          echo "<script>
       window.onload = function() {
@@ -234,7 +236,7 @@ if (isset($_POST['register_btn'])) {
 
     $lastName = validate_input_text($_POST['Lname']);
     if (empty($lastName)) {
-        $error = "You forgot to enter your last Name";
+        $alertText = "You forgot to enter your last Name";
         $lerror = "You forgot to enter your last Name";
          echo "<script>
       window.onload = function() {
@@ -248,7 +250,7 @@ if (isset($_POST['register_btn'])) {
 
     $username = validate_input_text($_POST['username']);
     if (empty($username)) {
-        $error = "You forgot to enter your Username";
+        $alertText = "You forgot to enter your Username";
         $lerror = "You forgot to enter your Username";
          echo "<script>
       window.onload = function() {
@@ -262,7 +264,7 @@ if (isset($_POST['register_btn'])) {
 
     $email = validate_input_email($_POST['email']);
     if (empty($email)) {
-        $error = "You forgot to enter your Email";
+        $alertText = "You forgot to enter your Email";
         $eerror = "You forgot to enter your Email";
          echo "<script>
       window.onload = function() {
@@ -277,7 +279,7 @@ if (isset($_POST['register_btn'])) {
 
     $password = validate_input_text($_POST['password']);
     if (empty($password)) {
-        $error = "You forgot to enter your password";
+        $alertText = "You forgot to enter your password";
         $perror = "You forgot to enter your password";
         echo "<script>
       window.onload = function() {
@@ -291,7 +293,7 @@ if (isset($_POST['register_btn'])) {
 
     $confirm_pwd = validate_input_text($_POST['cpassword']);
     if (empty($confirm_pwd)) {
-        $error = "You forgot to enter your Confirm Password";
+        $alertText = "You forgot to enter your Confirm Password";
         echo "<script>
       window.onload = function() {
         const toast = document.getElementById('toast');
@@ -302,7 +304,7 @@ if (isset($_POST['register_btn'])) {
     </script>";
     }
     if ($password != $confirm_pwd) {
-        $error = "Retype Confirm Password";
+        $alertText = "Retype Confirm Password";
         echo "<script>
       window.onload = function() {
         const toast = document.getElementById('toast');
@@ -332,7 +334,7 @@ if (isset($_POST['register_btn'])) {
                 // echo '<script>alert("E-mail Already existing")</script>';
                 
                 $message = "E-mail provided is already existing";
-                $error = "<div style='color:red'>E-mail provided is already existing</div>";
+                $alertText = "<div style='color:red'>E-mail provided is already existing</div>";
             
                 echo "<script>
       window.onload = function() {
@@ -351,7 +353,7 @@ if (isset($_POST['register_btn'])) {
                 // echo '<script>alert("Username Already existing")</script>';
 
                 $message = "Username provided is already existing";
-                $error = "<div style='color:red'>Username provided is already existing</div>";
+                $alertText = "<div style='color:red'>Username provided is already existing</div>";
 
                       echo "<script>
       window.onload = function() {
@@ -402,22 +404,25 @@ if (isset($_POST['register_btn'])) {
             // header('location: ./login.php?chk=successful');
             if ($ROLE == "Applicant") {
                               // header("location: ./admin/");
-                              echo "<script>
-                          setTimeout(function() {
-                            window.location.href = './dashboard/';
-                          }, 3000);
-                        </script>";
+                        //       echo "<script>
+                        //   setTimeout(function() {
+                        //     window.location.href = './dashboard/';
+                        //   }, 3000);
+                        // </script>";
              
                         // exit();
             } else {
                                 // header("location: ./dashboard/");
-                                echo "<script>
-                        setTimeout(function() {
-                          window.location.href = './dashboard/create-profile.php';
-                        }, 3000);
-                      </script>";
+                                //window.location.href = './dashboard/create-profile.php';
+                      //           echo "<script>
+                      //   setTimeout(function() {
+                      //     window.location.href = './employer/';
+                      //   }, 3000);
+                      // </script>";
             }
             
+           $alertText='<div class="alert alert-success alert-dismissible fade show" role="alert">Your account has been created successfully! <i class="fa fa-check-circle"></i> <br>You can now log in to access your account</div>';
+           
             $message = "Account Created Successfully!";
                       // echo "<script>alert('Incorrect Username or Password!')</script>";
                       echo "<script>
@@ -431,9 +436,8 @@ if (isset($_POST['register_btn'])) {
 
           // exit();
 
-
         } else {
-            $error = "<div style='color:red'>Error while registration...!</div>";
+            $alertText = "<div style='color:red'>Error while registration...!</div>";
             $message = "Error while registration...!";
 
                  echo "<script>
@@ -462,6 +466,13 @@ if (isset($_POST['register_btn'])) {
 
 
 
+
+
+
+
+
+
+
 ////////////////////Apply Job//////////////////////////////
 
 if (isset($_POST['apply_job'])) {
@@ -483,9 +494,6 @@ if (isset($_POST['apply_job'])) {
 
         $status = 'Pending';
 
-        $ques = $_POST['id'];
-        $ans = $_POST['ans'];
-
 
         $query = "INSERT into tbljobapplication (APPLICANTID, JOBID, RESUME_FILE, APPLICATIONSTATUS, APPLICATIONDATE) values ('$APPLICANTID', '$JOBID', '$fileToUpload_url', '$status', now())" or die(mysqli_error($con));
         $result = mysqli_query($con, $query);
@@ -497,87 +505,13 @@ if (isset($_POST['apply_job'])) {
 
 
         if ((move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $target)) && ($result)) {
-
-            $score = 0;
-            $overall = 0;
-
-            for ($i = 0; $i < sizeof($ques); $i++) {
-               
-
-                // if ($ans[$ques[$i]] == 1) {
-                //     $ANSWER = 'A';
-                // } elseif ($ans[$ques[$i]] == 2) {
-                //     $ANSWER = 'B';
-                // } elseif ($ans[$ques[$i]] == 3) {
-                //     $ANSWER = 'C';
-                // } elseif ($ans[$ques[$i]] == 4) {
-                //     $ANSWER = 'D';
-                // } else {
-                //     $ANSWER = 'E';
-                // }
-                $ANSWER = $ans[$ques[$i]];
-
-                // echo $ques[$i] . '. ' . $ANSWER . ' ' . $ans[$ques[$i]] . '<br>';
-                
-
-                $QUESTION_ID = $ques[$i];
-
-                $queryques = "SELECT * from tblscreening WHERE id = '$QUESTION_ID'";
-                $resultques = mysqli_query($con, $queryques);
-                $rowques = mysqli_fetch_array($resultques);
-
-                // $QUESTION = $rowques['question'];
-                // $IDEAL_ANSWER = $rowques['ideal_ans'];
-
-                $query = "INSERT into tblscreening_qa (JOBAPPLICATION_ID, APPLICANTID, JOBID, QUESTION_ID, APPLICANT_ANSWER) values ('$jobapp_id', '$APPLICANTID', '$JOBID', '$QUESTION_ID', '$ANSWER')" or die(mysqli_error($con));
-                $results = mysqli_query($con, $query);
-
-
-                ///Calculating Score//////
-                $query_answer = "SELECT * from tblscreening_answer WHERE question_id = '$QUESTION_ID'";
-                $result_answer = mysqli_query($con, $query_answer);
-                $row_answer = mysqli_fetch_array($result_answer);
-                $ideal_ans_opt = $row_answer['ideal_ans_opt'];
-
-
-                if ($ANSWER == $ideal_ans_opt) {
-                    $score++;
-                }
-                $overall++;
-            }
-            if ($results) {
-
-                $query = "INSERT into tblscreening_score (jobapp_id, score, total_ques) values ('$jobapp_id', '$score', '$overall')" or die(mysqli_error($con));
-                $resultss = mysqli_query($con, $query);
-
-                $query = "UPDATE tbljobapplication SET SCORE = '$score' WHERE ID = '$jobapp_id'";
-                $result = mysqli_query($con, $query);
-
-                if ($resultss) {
-?>
+            ?>
 <script>
 alert('Job Applied!');
 location.href = "./dashboard/dashboard-applied-jobs.php";
 </script>
 
 <?php
-                } else {
-                ?>
-<script>
-alert('Error occured at Score insertion...!');
-</script>
-
-<?php
-                    echo mysqli_error($con);
-                }
-            } else {
-                ?>
-<script>
-alert('Error occured at Screening insertion...!');
-</script>
-
-<?php
-            }
         } else {
             $msg = "<div style='color:red'>Error occured...!</div>";
             echo mysqli_error($con);
@@ -653,8 +587,9 @@ function validate_input_text($textValue)
 {
     if (!empty($textValue)) {
         $trim_text = trim($textValue);
-        // remove illegal character
-        $sanitize_str = filter_var($trim_text, FILTER_SANITIZE_STRING);
+        // remove HTML tags and encode special characters to prevent XSS
+        $no_tags = strip_tags($trim_text);
+        $sanitize_str = htmlspecialchars($no_tags, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         return $sanitize_str;
     }
     return '';

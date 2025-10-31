@@ -290,7 +290,7 @@ if (!empty($_GET['type'])) {
                             <div class="job_grid_footer pb-4 px-3 d-flex align-items-center justify-content-between">
                                 <div class="df-1 text-muted">
                                     <?php if ($SALARY > 0) { ?><i class="lni lni-wallet mr-1"></i>:
-                                    N<?php echo number_format($SALARY, 2) ?> <?php } ?><br>
+                                    $<?php echo number_format($SALARY, 2)?>/hr <?php } ?><br>
                                     <i class="lni lni-timer mr-1"></i><b>Posted:</b>
                                     <?php echo timeago($DATEPOSTED); ?><br>
                                     <i class="lni lni-calendar mr-1"></i><b>Deadline:</b> <?php echo date($DEADLINE) ?>

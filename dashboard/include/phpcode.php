@@ -4,49 +4,52 @@ require 'session.php';
 $query = mysqli_query($con, "SELECT * FROM tblusers WHERE USERID = '$session_id'") or die(mysqli_error($con));
 $row = mysqli_fetch_array($query);
 
-$USERID = $row['USERID'];
-$FNAME = $row['FNAME'];
-$ONAME = $row['ONAME'];
-$EMAIL = $row['EMAIL'];
-$USERNAME = $row['USERNAME'];
-$PASS = $row['PASS'];
-$ROLE = $row['ROLE'];
+$USERID   = $row['USERID']  ?? '';
+$FNAME    = $row['FNAME']   ?? '';
+$ONAME    = $row['ONAME']   ?? '';
+$EMAIL    = $row['EMAIL']   ?? '';
+$USERNAME = $row['USERNAME'] ?? '';
+$PASS     = $row['PASS']    ?? '';
+$ROLE     = $row['ROLE']    ?? '';
+
 // $PICLOCATION = $row['PICLOCATION'];
 
 
+// fetch applicant row safely
 $queryuser = "SELECT * from tblapplicants WHERE USERID = '$USERID'";
 $resultuser = mysqli_query($con, $queryuser);
-$rowuser = mysqli_fetch_array($resultuser);
+$rowuser = mysqli_fetch_assoc($resultuser);
 
-$APPLICANTID = $rowuser['APPLICANTID'];
-$FNAME = $rowuser['FNAME'];
-$ONAME = $rowuser['OTHERNAMES'];
-$APPLICANTPHOTO = $rowuser['APPLICANTPHOTO'];
-$JOBCATEGORYID = $rowuser['JOBCATEGORYID'];
-$JOBTITLE = $rowuser['JOBTITLE'];
-$EXCOMPANYNAME = $rowuser['EXCOMPANYNAME'];
-$EXJOBTITLE = $rowuser['EXJOBTITLE'];
-$ABOUTME = $rowuser['ABOUTME'];
-$ADDRESS = $rowuser['FULLADDRESS'];
-$COUNTRY = $rowuser['COUNTRY'];
-$CITY = $rowuser['CITY'];
-$SEX = $rowuser['SEX'];
-$BIRTHDATE = $rowuser['BIRTHDATE'];
-$CONTACTNO = $rowuser['CONTACTNO'];
-$DEGREE = $rowuser['DEGREE'];
-$SCHOOLNAME = $rowuser['SCHOOLNAME'];
-$SKILLS = $rowuser['SKILLS'];
-$FB_link = $rowuser['FB_link'];
-$LinkedIn_link = $rowuser['LinkedIn_link'];
-// $CONTACTNO = $rowuser['CONTACTNO'];
-$FULLNAME = $FNAME . ' ' . $ONAME;
+$APPLICANTID     = $rowuser['APPLICANTID']     ?? '';
+// prefer applicant FNAME/ONAME if present, otherwise keep user values
+$FNAME           = $rowuser['FNAME']           ?? $FNAME;
+$ONAME           = $rowuser['OTHERNAMES']     ?? $ONAME;
+$APPLICANTPHOTO  = $rowuser['APPLICANTPHOTO'] ?? '';
+$JOBCATEGORYID   = $rowuser['JOBCATEGORYID']  ?? '';
+$JOBTITLE        = $rowuser['JOBTITLE']       ?? '';
+$EXCOMPANYNAME   = $rowuser['EXCOMPANYNAME']  ?? '';
+$EXJOBTITLE      = $rowuser['EXJOBTITLE']     ?? '';
+$ABOUTME         = $rowuser['ABOUTME']        ?? '';
+$ADDRESS         = $rowuser['FULLADDRESS']    ?? '';
+$COUNTRY         = $rowuser['COUNTRY']        ?? '';
+$CITY            = $rowuser['CITY']           ?? '';
+$SEX             = $rowuser['SEX']            ?? '';
+$BIRTHDATE       = $rowuser['BIRTHDATE']      ?? '';
+$CONTACTNO       = $rowuser['CONTACTNO']      ?? '';
+$DEGREE          = $rowuser['DEGREE']         ?? '';
+$SCHOOLNAME      = $rowuser['SCHOOLNAME']     ?? '';
+$SKILLS          = $rowuser['SKILLS']         ?? '';
+$FB_link         = $rowuser['FB_link']        ?? '';
+$LinkedIn_link   = $rowuser['LinkedIn_link']  ?? '';
+$FULLNAME        = trim($FNAME . ' ' . $ONAME);
 
+
+// fetch job subcategory safely
 $queryuser = "SELECT * from tbljobsubcategory WHERE ID = '$JOBCATEGORYID'";
 $resultuser = mysqli_query($con, $queryuser);
-$rowuser = mysqli_fetch_array($resultuser);
+$rowuser = mysqli_fetch_assoc($resultuser);
 
-$SUBCATEGORY = $rowuser['SUBCATEGORY'];
-
+$SUBCATEGORY = $rowuser['SUBCATEGORY'] ?? '';
 
 
 
