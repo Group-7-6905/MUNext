@@ -1,0 +1,69 @@
+{
+    "name": "group-7/munext",
+    "description": "Memorial University Job Board Platform",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Group 7 - MUNext Team",
+            "email": "vcmuojeke@mun.ca"
+        }
+    ],
+    "require": {
+        "php": ">=7.4.0",
+        "ext-mysqli": "*",
+        "ext-mbstring": "*",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "squizlabs/php_codesniffer": "^3.7",
+        "phpstan/phpstan": "^1.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "MUNext\\": "src/"
+        },
+        "files": [
+            "mysqli_connect.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MUNext\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:unit": "phpunit --testsuite 'Unit Tests'",
+        "test:integration": "phpunit --testsuite 'Integration Tests'",
+        "test:coverage": "phpunit --coverage-html coverage/",
+        "lint": "phpcs --standard=.phpcs.xml",
+        "lint:fix": "phpcbf --standard=.phpcs.xml",
+        "analyse": "phpstan analyse",
+        "check": [
+            "@lint",
+            "@analyse",
+            "@test"
+        ]
+    },
+    "scripts-descriptions": {
+        "test": "Run all PHPUnit tests",
+        "test:unit": "Run unit tests only",
+        "test:integration": "Run integration tests only",
+        "test:coverage": "Run tests with code coverage report",
+        "lint": "Check code against coding standards",
+        "lint:fix": "Automatically fix coding standard violations",
+        "analyse": "Run static analysis with PHPStan",
+        "check": "Run all quality checks (lint, analyse, test)"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

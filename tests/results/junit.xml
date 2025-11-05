@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="" tests="2" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.194308">
+    <testsuite name="Unit Tests" tests="2" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.194308">
+      <testsuite name="BasicTest" file="C:\xampp8\htdocs\MUNext-TEST\MUNext\tests\Unit\BasicTest.php" tests="2" assertions="4" errors="0" warnings="0" failures="0" skipped="0" time="0.194308">
+        <testcase name="testPasswordHashing" class="BasicTest" classname="BasicTest" file="C:\xampp8\htdocs\MUNext-TEST\MUNext\tests\Unit\BasicTest.php" line="7" assertions="2" time="0.190031"/>
+        <testcase name="testEmailValidation" class="BasicTest" classname="BasicTest" file="C:\xampp8\htdocs\MUNext-TEST\MUNext\tests\Unit\BasicTest.php" line="16" assertions="2" time="0.004277"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>

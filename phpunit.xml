@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         verbose="true"
+         failOnRisky="true"
+         failOnWarning="true">
+    
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration Tests">
+            <directory>tests/Integration</directory>
+        </testsuite>
+    </testsuites>
+    
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">./</directory>
+        </include>
+        <exclude>
+            <directory>./vendor</directory>
+            <directory>./tests</directory>
+            <directory>./assets</directory>
+            <directory>./resumes_cv</directory>
+            <directory>./avater</directory>
+            <directory>./company_logo</directory>
+            <directory>./node_modules</directory>
+        </exclude>
+        <report>
+            <html outputDirectory="coverage/html"/>
+            <clover outputFile="coverage/clover.xml"/>
+            <text outputFile="php://stdout" showUncoveredFiles="false"/>
+        </report>
+    </coverage>
+    
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="DB_HOST" value="localhost"/>
+        <env name="DB_NAME" value="test_munext"/>
+        <env name="DB_USER" value="test_user"/>
+        <env name="DB_PASS" value="test_pass"/>
+    </php>
+    
+    <logging>
+        <junit outputFile="tests/results/junit.xml"/>
+    </logging>
+</phpunit>
