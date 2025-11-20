@@ -36,7 +36,6 @@ if (!empty($_GET['type'])) {
 	}
 }
 ?>
-<!-- Mirrored from themezhub.net/live-workplex/workplex/home-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Feb 2022 12:04:19 GMT -->
 
 <?php include 'include/head.php' ?>
 
@@ -72,19 +71,19 @@ if (!empty($_GET['type'])) {
                     </div>
                     <div class="col-xl-8 col-lg-10 col-md-12 col-sm-12 col-12">
 
-                        <form method="post" action="browse-jobs.php" class="bg-white rounded p-1">
+                        <form method="GET" action="browse-jobs.php" class="bg-white rounded p-1">
                             <div class="row no-gutters">
                                 <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12">
                                     <div class="form-group mb-0 position-relative">
                                         <input type="text" name="search" class="form-control lg left-ico"
-                                            placeholder="Job Title, Company or Location" />
+                                            placeholder="Job Title, Company or Location" required />
                                         <i class="bnc-ico lni lni-search-alt"></i>
                                     </div>
                                 </div>
                                 <div class="col-xl-5 col-lg-4 col-md-4 col-sm-12 col-12">
                                     <div class="form-group mb-0 position-relative">
                                         <select class="custom-select lg b-0" name="search_by">
-                                            <option value="" selected="" hidden>Search By</option>
+                                            <option value="">All Fields</option>
                                             <option value="name">Job Title</option>
                                             <option value="company">Company Name</option>
                                             <option value="location">Location</option>
@@ -94,7 +93,9 @@ if (!empty($_GET['type'])) {
                                 <div class="col-xl-2 col-lg-3 col-md-3 col-sm-12 col-12">
                                     <div class="form-group mb-0 position-relative">
                                         <button class="btn full-width custom-height-lg theme-bg text-white fs-md"
-                                            name="search_btn" type="submit">Find Job</button>
+                                            type="submit">
+                                            <i class="lni lni-search-alt mr-1"></i>Find Job
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +166,7 @@ if (!empty($_GET['type'])) {
 						$SUBCATEGORY = $row['SUBCATEGORY'];
 						$SUBCATEGORYID = $row['ID'];
 
-						$queryjbs = "SELECT * from tbljob where JOBCATEGORYID = '$SUBCATEGORYID' ORDER BY JOBID DESC" or die(mysqli_error($con));
+						$queryjbs = "SELECT * from tbljob where JOBCATEGORYID = '$SUBCATEGORYID' AND JOBSTATUS = 'Active' ORDER BY JOBID DESC" or die(mysqli_error($con));
 
 						$resultjbs = mysqli_query($con, $queryjbs);
 						$rowjbs = mysqli_fetch_array($resultjbs);
@@ -178,7 +179,7 @@ if (!empty($_GET['type'])) {
 					?>
                     <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
                         <div class="cats-wrap text-center">
-                            <a href="job-search-v1.php?jobcategoryid=<?php echo $SUBCATEGORYID ?>"
+                            <a href="browse-jobs.php?jobcategoryid=<?php echo $SUBCATEGORYID ?>"
                                 class="cats-box d-block rounded bg-white shadow px-2 py-4">
                                 <div
                                     class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle">
@@ -194,137 +195,6 @@ if (!empty($_GET['type'])) {
                     <?php }
 					} ?>
 
-                    <!-- <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
-							<div class="cats-wrap text-center">
-								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white shadow px-2 py-4">
-									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><i class="lni lni-cloud fs-lg theme-cl"></i></div>
-									<div class="cats-box-caption">
-										<h4 class="fs-md mb-0 ft-medium m-catrio">Cloud Computing</h4>
-										<span class="text-muted">960 Jobs</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
-							<div class="cats-wrap text-center">
-								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white shadow px-2 py-4">
-									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><i class="lni lni-shopify fs-lg theme-cl"></i></div>
-									<div class="cats-box-caption">
-										<h4 class="fs-md mb-0 ft-medium m-catrio">Logistics/Shipping</h4>
-										<span class="text-muted">438 Jobs</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
-							<div class="cats-wrap text-center">
-								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white shadow px-2 py-4">
-									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><i class="lni lni-construction fs-lg theme-cl"></i></div>
-									<div class="cats-box-caption">
-										<h4 class="fs-md mb-0 ft-medium m-catrio">Engineering Services</h4>
-										<span class="text-muted">644 Jobs</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
-							<div class="cats-wrap text-center">
-								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white shadow px-2 py-4">
-									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><i class="lni lni-phone-set fs-lg theme-cl"></i></div>
-									<div class="cats-box-caption">
-										<h4 class="fs-md mb-0 ft-medium m-catrio">Telecom/ Internet</h4>
-										<span class="text-muted">380 Jobs</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
-							<div class="cats-wrap text-center">
-								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white shadow px-2 py-4">
-									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><i class="lni lni-sthethoscope fs-lg theme-cl"></i></div>
-									<div class="cats-box-caption">
-										<h4 class="fs-md mb-0 ft-medium m-catrio">Healthcare/Pharma</h4>
-										<span class="text-muted">472 Jobs</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
-							<div class="cats-wrap text-center">
-								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white shadow px-2 py-4">
-									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><i class="lni lni-money-protection fs-lg theme-cl"></i></div>
-									<div class="cats-box-caption">
-										<h4 class="fs-md mb-0 ft-medium m-catrio">Finance/Insurance</h4>
-										<span class="text-muted">654 Jobs</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
-							<div class="cats-wrap text-center">
-								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white shadow px-2 py-4">
-									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><i class="lni lni-diamond fs-lg theme-cl"></i></div>
-									<div class="cats-box-caption">
-										<h4 class="fs-md mb-0 ft-medium m-catrio">Product Software</h4>
-										<span class="text-muted">732 Jobs</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
-							<div class="cats-wrap text-center">
-								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white shadow px-2 py-4">
-									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><i class="lni lni-briefcase fs-lg theme-cl"></i></div>
-									<div class="cats-box-caption">
-										<h4 class="fs-md mb-0 ft-medium m-catrio">Diversified/Retail</h4>
-										<span class="text-muted">610 Jobs</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
-							<div class="cats-wrap text-center">
-								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white shadow px-2 py-4">
-									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><i class="lni lni-graduation fs-lg theme-cl"></i></div>
-									<div class="cats-box-caption">
-										<h4 class="fs-md mb-0 ft-medium m-catrio">Education</h4>
-										<span class="text-muted">960 Jobs</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
-							<div class="cats-wrap text-center">
-								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white shadow px-2 py-4">
-									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><i class="lni lni-mastercard fs-lg theme-cl"></i></div>
-									<div class="cats-box-caption">
-										<h4 class="fs-md mb-0 ft-medium m-catrio">Banking/BPO</h4>
-										<span class="text-muted">740 Jobs</span>
-									</div>
-								</a>
-							</div>
-						</div>
-						
-						<div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-6">
-							<div class="cats-wrap text-center">
-								<a href="job-search-v1.html" class="cats-box d-block rounded bg-white shadow px-2 py-4">
-									<div class="text-center mb-2 mx-auto position-relative d-inline-flex align-items-center justify-content-center p-3 theme-bg-light circle"><i class="lni lni-gallery fs-lg theme-cl"></i></div>
-									<div class="cats-box-caption">
-										<h4 class="fs-md mb-0 ft-medium m-catrio">Printing & Packaging</h4>
-										<span class="text-muted">425 Jobs</span>
-									</div>
-								</a>
-							</div>
-						</div> -->
 
                 </div>
                 <!-- /row -->
@@ -361,7 +231,8 @@ if (!empty($_GET['type'])) {
 
                     <?php
 					$count = 0;
-					$query = "SELECT * from tbljob ORDER BY JOBID DESC LIMIT 12" or die(mysqli_error($con));
+					$query = "SELECT * from tbljob WHERE JOBSTATUS = 
+                    'Active' ORDER BY JOBID DESC LIMIT 12" or die(mysqli_error($con));
 
 					$run = mysqli_query($con, $query);
 					while ($row = mysqli_fetch_array($run)) {
@@ -370,6 +241,9 @@ if (!empty($_GET['type'])) {
 						$JOBSTATUS = $row['JOBSTATUS'];
 						$DATEPOSTED = $row['DATEPOSTED'];
 						$SALARY = $row['SALARY'];
+
+                        $isActive = ($row['JOBSTATUS'] == 'Active');
+	                    $isFilled = ($row['JOBSTATUS'] == 'Filled');
 
 						$querycomp = "SELECT * from tblcompany WHERE COMPANYID = '$COMPANYID'";
 						$resultcomp = mysqli_query($con, $querycomp);
@@ -425,9 +299,18 @@ if (!empty($_GET['type'])) {
 
 
                             <div class="position-absolute ab-right"><span
-                                    class="medium theme-cl theme-bg-light px-2 py-1 rounded text-info"><?php echo $row['JOBTYPE']; ?></span>
+                                    class="medium ft-medium text-warning mr-2 "><?php echo $row['JOBTYPE']; ?></span>
+                                <!-- <span
+                                    class="medium text-success theme-cl theme-bg-light px-2 py-1 rounded"><?php echo $JOBSTATUS ?></span> -->
+
+                                <?php if ($isFilled): ?>
                                 <span
-                                    class="medium theme-cl theme-bg-light px-2 py-1 rounded"><?php echo $JOBSTATUS ?></span>
+                                    class="px-2 py-1 ft-medium text-danger medium rounded theme-cl bg-light-danger mr-2">Position
+                                    Filled</span>
+                                <?php elseif ($isActive): ?>
+                                <span class="px-2 py-1 ft-medium medium rounded text-success theme-bg-light mr-2">Hiring
+                                </span>
+                                <?php endif ?>
                             </div>
                             <div class="job_grid_thumb mb-3 pt-5 px-3">
                                 <a href="job-detail.php?jobid=<?php echo $JOBID ?>"
@@ -446,7 +329,7 @@ if (!empty($_GET['type'])) {
                             </div>
                             <div class="job_grid_footer pb-4 px-3 d-flex align-items-center justify-content-between">
                                 <?php if ($SALARY > 0) { ?><div class="df-1 text-muted"><i
-                                        class="lni lni-wallet mr-1"></i>: N<?php echo number_format($SALARY, 2) ?>
+                                        class="lni lni-wallet mr-1"></i>: $<?php echo number_format($SALARY, 2) ?>
                                 </div> <?php } ?>
                                 <div class="df-1 text-muted"><i
                                         class="lni lni-timer mr-1"></i><?php echo timeago($DATEPOSTED); ?></div>
@@ -462,9 +345,8 @@ if (!empty($_GET['type'])) {
                 <div class="row justify-content-center">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="position-relative text-center">
-                            <a href="job-search-v1.php"
-                                class="btn btn-md theme-bg rounded text-light hover-theme">Explore More Jobs<i
-                                    class="lni lni-arrow-right-circle ml-2"></i></a>
+                            <a href="browse-jobs.php" class="btn btn-md theme-bg rounded text-light hover-theme">Explore
+                                More Jobs<i class="lni lni-arrow-right-circle ml-2"></i></a>
                         </div>
                     </div>
                 </div>
@@ -503,7 +385,7 @@ if (!empty($_GET['type'])) {
 								$COMPANYCOUNTRY = $row['COMPANYCOUNTRY'];
 								$COMPANYCITY = $row['COMPANYCITY'];
 
-								$queryjbs = "SELECT * from tbljob where COMPANYID = '$COMPANYID' ORDER BY JOBID DESC" or die(mysqli_error($con));
+								$queryjbs = "SELECT * from tbljob WHERE COMPANYID = '$COMPANYID' AND JOBSTATUS ='Active' ORDER BY JOBID DESC" or die(mysqli_error($con));
 
 								$resultjbs = mysqli_query($con, $queryjbs);
 								$rowjbs = mysqli_fetch_array($resultjbs);
@@ -516,7 +398,7 @@ if (!empty($_GET['type'])) {
 							?>
                             <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
                                 <div class="cats-wrap text-left">
-                                    <a href="job-search-v1.php?companyid=<?php echo $COMPANYID ?>"
+                                    <a href="job-list-v1.php?companyid=<?php echo $COMPANYID ?>"
                                         class="cats-box rounded bg-white d-flex align-items-center px-2 py-3">
                                         <div class="text-center"><img src="<?php echo $COMPANYLOGO ?>" class="img-fluid"
                                                 width="55" alt=""></div>
@@ -531,73 +413,6 @@ if (!empty($_GET['type'])) {
                             <?php }
 							} ?>
 
-
-                            <!-- <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
-								<div class="cats-wrap text-left">
-									<a href="job-search-v1.html" class="cats-box rounded bg-white d-flex align-items-center px-2 py-3">
-										<div class="text-center"><img src="assets/img/c-4.png" class="img-fluid" width="55" alt=""></div>
-										<div class="cats-box-caption px-2">
-											<h4 class="fs-md mb-0 ft-medium">Web Designing</h4>
-											<span class="text-muted">302 Jobs</span>
-										</div>
-									</a>
-								</div>
-							</div>
-							<div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
-								<div class="cats-wrap text-left">
-									<a href="job-search-v1.html" class="cats-box rounded bg-white d-flex align-items-center px-2 py-3">
-										<div class="text-center"><img src="assets/img/c-2.png" class="img-fluid" width="55" alt=""></div>
-										<div class="cats-box-caption px-2">
-											<h4 class="fs-md mb-0 ft-medium">Web Designing</h4>
-											<span class="text-muted">302 Jobs</span>
-										</div>
-									</a>
-								</div>
-							</div>
-							<div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
-								<div class="cats-wrap text-left">
-									<a href="job-search-v1.html" class="cats-box rounded bg-white d-flex align-items-center px-2 py-3">
-										<div class="text-center"><img src="assets/img/c-5.png" class="img-fluid" width="55" alt=""></div>
-										<div class="cats-box-caption px-2">
-											<h4 class="fs-md mb-0 ft-medium">Web Designing</h4>
-											<span class="text-muted">302 Jobs</span>
-										</div>
-									</a>
-								</div>
-							</div>
-							<div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
-								<div class="cats-wrap text-left">
-									<a href="job-search-v1.html" class="cats-box rounded bg-white d-flex align-items-center px-2 py-3">
-										<div class="text-center"><img src="assets/img/c-10.png" class="img-fluid" width="55" alt=""></div>
-										<div class="cats-box-caption px-2">
-											<h4 class="fs-md mb-0 ft-medium">Web Designing</h4>
-											<span class="text-muted">302 Jobs</span>
-										</div>
-									</a>
-								</div>
-							</div>
-							<div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
-								<div class="cats-wrap text-left">
-									<a href="job-search-v1.html" class="cats-box rounded bg-white d-flex align-items-center px-2 py-3">
-										<div class="text-center"><img src="assets/img/c-12.png" class="img-fluid" width="55" alt=""></div>
-										<div class="cats-box-caption px-2">
-											<h4 class="fs-md mb-0 ft-medium">Web Designing</h4>
-											<span class="text-muted">302 Jobs</span>
-										</div>
-									</a>
-								</div>
-							</div>
-							<div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
-								<div class="cats-wrap text-left">
-									<a href="job-search-v1.html" class="cats-box rounded bg-white d-flex align-items-center px-2 py-3">
-										<div class="text-center"><img src="assets/img/c-17.png" class="img-fluid" width="55" alt=""></div>
-										<div class="cats-box-caption px-2">
-											<h4 class="fs-md mb-0 ft-medium">Web Designing</h4>
-											<span class="text-muted">302 Jobs</span>
-										</div>
-									</a>
-								</div>
-							</div> -->
                         </div>
                     </div>
                 </div>
@@ -734,6 +549,5 @@ if (!empty($_GET['type'])) {
 
 </body>
 
-<!-- Mirrored from themezhub.net/live-workplex/workplex/home-4.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Feb 2022 12:04:20 GMT -->
 
 </html>

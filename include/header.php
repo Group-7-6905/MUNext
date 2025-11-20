@@ -1,39 +1,4 @@
-<style>
-#toast {
-    visibility: hidden;
-    max-width: 220px;
-    background-color: #333;
-    color: #fff;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    opacity: 0;
-    transform: translateY(-20px);
-}
-
-#toast.show {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-#toast.success {
-    background-color: #28a745;
-}
-
-#toast.error {
-    background-color: #dc3545;
-}
-</style>
-
 <div id="toast"></div>
-
 
 
 <div class="header header-light dark-text">
@@ -105,11 +70,11 @@
                     </li>
 
                     <li>
-                        <a href="about-us.php">About Us</a>
+                        <a href="about-us.php">About MUNext</a>
                     </li>
 
                     <li>
-                        <a href="contact.php">Contact</a>
+                        <a href="javascript:void(0);">Contact</a>
                     </li>
 
                 </ul>
