@@ -33,6 +33,10 @@ if (!empty($_GET['jobid'])) {
 	$WORKEXPERIENCE = $row['WORKEXPERIENCE'];
 	$DEADLINE = $row['DEADLINE'];
 	$JOBSTATUS = $row['JOBSTATUS'];
+
+	$isActive = ($row['JOBSTATUS'] == 'Active');
+	$isFilled = ($row['JOBSTATUS'] == 'Filled');
+
 	$DATEPOSTED = $row['DATEPOSTED'];
 
 
@@ -78,7 +82,6 @@ setTimeout(function() {
 	}
 }
 ?>
-<!-- Mirrored from themezhub.net/live-workplex/workplex/job-detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Feb 2022 12:07:20 GMT -->
 
 <?php include 'include/head.php' ?>
 
@@ -140,7 +143,10 @@ setTimeout(function() {
                                     </div>
                                     <div class="jbd-01-caption pl-3">
                                         <div class="tbd-title">
-                                            <h4 class="mb-0 ft-medium fs-md"><?php echo $JOBTITLE ?></h4>
+                                            <h4 class="mb-0 ft-medium fs-md">
+                                                <a href="employer-detail.php?companyid=<?php echo $COMPANYID ?> ">
+                                                    <?php echo $JOBTITLE ?></a>
+                                            </h4>
                                         </div>
                                         <div class="jbl_location mb-3">
                                             <span><i class="lni lni-map-marker mr-1"></i><?php echo $COMPANYCITY ?>,
@@ -151,33 +157,28 @@ setTimeout(function() {
                                                 class="medium ft-medium text-warning ml-3"><?php echo $JOBTYPE ?></span>
                                         </div>
                                         <div class="jbl_info01">
+                                            <?php if ($isFilled): ?>
                                             <span
-                                                class="px-2 py-1 ft-medium medium rounded theme-cl theme-bg-light mr-2"><?php echo $JOBSTATUS ?>
+                                                class="px-2 py-1 ft-medium text-danger medium rounded theme-cl bg-light-danger mr-2">Position
+                                                Filled</span>
+                                            <?php elseif ($isActive): ?>
+                                            <span
+                                                class="px-2 py-1 ft-medium medium rounded text-success theme-bg-light mr-2">Hiring
                                             </span>
+                                            <?php endif ?>
                                             <span
-                                                class="px-2 py-1 ft-medium medium rounded text-danger bg-light-danger mr-2"><?php echo $COMPANYINDUSTRY ?></span>
+                                                class="px-2 py-1 ft-medium medium rounded text-warning bg-light-danger mr-2"><?php echo $COMPANYINDUSTRY ?></span>
                                             <span
                                                 class="px-2 py-1 ft-medium medium rounded text-purple bg-light-purple"><?php echo $COMPANYSPECIALISM ?></span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="jbd-01-right text-right hide-1023">
-                                    <div class="jbl_button mb-2">
 
-                                        <?php if (empty($session_id)) { ?>
-                                        <a href="#" data-toggle="modal" data-target="#login"
-                                            class="btn rounded theme-bg-light theme-cl fs-sm ft-medium">Apply This
-                                            Job</a>
-                                        <?php } else { ?>
-                                        <a href="#apply"
-                                            class="btn rounded theme-bg-light theme-cl fs-sm ft-medium">Apply This
-                                            Job</a>
-                                        <?php } ?>
-
-                                    </div>
                                     <div class="jbl_button"><a
                                             href="employer-detail.php?companyid=<?php echo $COMPANYID ?> "
-                                            class="btn rounded bg-white border fs-sm ft-medium">View Company</a></div>
+                                            class="btn rounded bg-white border fs-sm ft-medium"> <i
+                                                class="fa fa-eye"></i> View Company</a></div>
                                 </div>
                             </div>
                         </div>
@@ -303,6 +304,9 @@ setTimeout(function() {
                         </div>
 
                     </div>
+
+
+
                     <?php if (empty($session_id)) { ?>
                     <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="loginmodal"
                         aria-hidden="false">
@@ -376,7 +380,7 @@ setTimeout(function() {
                                         </div>
 
                                         <div class="form-group text-center mb-0">
-                                            <p class="extra">Not a member?<a href="#et-register-wrap" class="text-dark">
+                                            <p class="extra">Not a member?<a href="login.php" class="text-dark">
                                                     Register</a></p>
                                         </div>
                                     </form>
@@ -446,7 +450,7 @@ setTimeout(function() {
                                 </div>
 
                                 <div class="form-group text-center mb-0">
-                                    <p class="extra">Not a member?<a href="#et-register-wrap" class="text-dark">
+                                    <p class="extra">Not a member?<a href="login.php" class="text-dark">
                                             Register</a></p>
                                 </div>
                             </form>
@@ -454,16 +458,36 @@ setTimeout(function() {
                     </div>
                     <!---Sidebar--->
                     <?php } elseif (((empty($APPLICANTPHOTO)) || (empty($DEGREE)) || (empty($CITY)) || (empty($ADDRESS)) || (empty($SKILLS)) || (empty($LinkedIn_link)))) {
+
+                        if ($_SESSION['role'] == 'Applicant') {
 					?>
+
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                         <div class="jb-apply-form bg-white rounded py-3 px-4 box-static" id="apply">
                             <h4 class="ft-medium fs-md mb-3">Interested in this job?</h4>
-                            <a href="./dashboard/dashboard-add-profile.php"
+                            <a href="./dashboard/applicant/dashboard-add-profile.php"
                                 class="btn btn-md rounded theme-bg  text-light ft-medium fs-sm full-width">Complete
                                 Profile</a>
                         </div>
                     </div>
-                    <?php } else { ?>
+                    <?php } else{?>
+                    <!-- // For other roles, do not show anything -->
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+                        <div class="jb-apply-form bg-white rounded py-3 px-4 box-static" id="apply">
+                            <h4 class="ft-medium fs-md mb-3">Interested in this job?</h4>
+                            <p class="text-muted mb-3">You are signed in with a non‑applicant account. To apply for
+                                jobs, please switch to an Applicant account or register as an Applicant.</p>
+                            <!-- <a href="./dashboard/applicant/dashboard-add-profile.php"
+                                class="btn btn-md rounded theme-bg text-light ft-medium fs-sm full-width mb-2">Switch to
+                                Applicant / Complete Profile</a> -->
+                            <a href="login.php" class="btn btn-md rounded gray ft-medium fs-sm full-width">Register
+                                as an Applicant</a>
+                        </div>
+                    </div>
+                    <?php }
+                
+                } else { ?>
+
                     <!-- Sidebar -->
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                         <form method="post" enctype="multipart/form-data">
@@ -472,77 +496,34 @@ setTimeout(function() {
 
                                 <div class="_apply_form_form">
 
-                                    <div class="form-group">
-                                        <label class="text-dark mb-1 ft-medium medium">Upload Resume:<font>pdf, doc,
-                                                docx</font></label>
-                                        <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="customFile"
-                                                name="fileToUpload" required onchange="set_btn()"
-                                                accept=".doc, .docx,.pdf">
-                                            <label class="custom-file-label" for="customFile">Choose file</label>
-                                        </div>
-                                    </div>
 
-                                    <style>
-                                    #enabled_btn {
-                                        display: none;
-                                    }
-                                    </style>
-                                    <script>
-                                    function set_btn() {
-                                        // alert('worked');
-                                        var customFile = $('#customFile')
-                                            .val(); //document.getElementById("title_select").innerHTML
+                                    <?php if (isset($session_id)): ?>
+                                    <?php
+                                                    // Check if already applied
+                                                    $checkQuery = "SELECT APPLICANTID FROM tbljobapplication WHERE JOBID = ? AND APPLICANTID = ?";
+                                                    $stmtCheck = mysqli_prepare($con, $checkQuery);
+                                                    mysqli_stmt_bind_param($stmtCheck, "ii", $JOBID, $session_id);
+                                                    mysqli_stmt_execute($stmtCheck);
+                                                    $hasApplied = mysqli_num_rows(mysqli_stmt_get_result($stmtCheck)) > 0;
+                                                    ?>
 
-                                        if (customFile != "") {
-                                            document.getElementById("enabled_btn").style.display = "block";
-                                            document.getElementById("disabled_btn").style.display = "none";
-                                        } else {
-                                            document.getElementById("disabled_btn").style.display = "none";
-                                            document.getElementById("enabled_btn").style.display = "block";
-                                        }
-                                        // document.getElementById("set_wallet").innerHTML = set_wallet;
-                                    }
-                                    </script>
-
-                                    <input type="hidden" name="JOBID" value="<?php echo $JOBID ?>">
-                                    <input type="hidden" name="APPLICANTID" value="<?php echo $session_id ?>">
-
-                                    <div class="form-group">
-                                        <div class="terms_con">
-                                            <input id="aa3" class="checkbox-custom" name="Coffee" type="checkbox"
-                                                required checked>
-                                            <label for="aa3" class="checkbox-custom-label">I agree to pirvacy
-                                                policy</label>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <?php
-											$queryapply = "SELECT * from tbljobapplication where APPLICANTID = '$session_id' and JOBID = '$JOBID'";
-											$resultapply = mysqli_query($con, $queryapply);
-											$countapply = mysqli_num_rows($resultapply);
-
-											if ($countapply < 1) {
-											?>
-                                        <button type="button" disabled id="disabled_btn"
-                                            class="btn btn-md rounded theme-bg  text-light ft-medium fs-sm full-width">Apply
-                                            For This Job</button>
-
-                                        <button type="button" data-toggle="modal" data-target=".bd-example-modal-lg"
-                                            name="apply_job" id="enabled_btn"
-                                            class="btn btn-md rounded theme-bg text-light ft-medium fs-sm full-width">Apply
-                                            For This Job</button>
-                                        <?php } else { ?>
-                                        <button type="button" disabled
-                                            class="btn btn-md rounded theme-bg  text-light ft-medium fs-sm full-width">Job
-                                            Already Applied!</button>
-                                        <?php } ?>
-                                    </div>
-
-
-
+                                    <?php if ($hasApplied): ?>
+                                    <button class="btn btn-md rounded theme-bg  text-light ft-medium fs-sm full-width"
+                                        disabled>
+                                        <i class="lni lni-checkmark-circle"></i> Already Applied
+                                    </button>
+                                    <?php else: ?>
+                                    <a href="apply-job.php?jobid=<?php echo $JOBID; ?>"
+                                        class="btn btn-md rounded theme-bg text-light ft-medium fs-sm full-width">
+                                        <i class="lni lni-briefcase"></i> Apply Now
+                                    </a>
+                                    <?php endif; ?>
+                                    <?php else: ?>
+                                    <a href="login.php?redirect=apply-job.php?jobid=<?php echo $JOBID; ?>"
+                                        class="btn btn-md rounded theme-bg  text-light ft-medium fs-sm">
+                                        <i class="lni lni-user"></i> Login to Apply
+                                    </a>
+                                    <?php endif; ?>
 
 
 
@@ -550,300 +531,7 @@ setTimeout(function() {
                             </div>
 
 
-                            <!-- Large modal -->
 
-                            <?php // include 'question-modal.php'; ?>
-                            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
-                                aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-headers">
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span class="ti-close"></span>
-                                            </button>
-                                        </div>
-
-                                        <div class="modal-body p-5">
-                                            <div class="text-center mb-4">
-                                                <!-- <h4 class="ft-medium fs-md mb-3">Appy to <?php echo $JOBTITLE ?> </h4> -->
-                                            </div>
-
-                                            <div class="col-12 col-md-12 col-12 text-center miliods">
-
-                                                <div class="d-block border rounded mfliud-bot mb-4">
-                                                    <h4
-                                                        class="ft-medium fs-md mt-2 mb-0 mr-2 mb-2 d-inline-flex px-2 py-1 rounded theme-cl theme-bg-light">
-                                                        Application Review </h4>
-                                                    <div class="cdt_author px-2 pt-5 pb-4">
-                                                        <div
-                                                            class="dash_auth_thumb circle p-1 border d-inline-flex mx-auto mb-2">
-                                                            <img src="./<?php echo $APPLICANTPHOTO ?>"
-                                                                class="img-fluid circle" width="100" alt="" />
-                                                        </div>
-                                                        <div class="dash_caption mb-3">
-                                                            <h4 class="fs-lg ft-medium mb-0 lh-1">
-                                                                <?php echo $FULLNAME ?></h4>
-                                                            <p class="m-0 p-0">Position Applying to:
-                                                                <?php echo $JOBTITLE ?></p>
-                                                            <!-- <hr>
-                                                            <span class="text-muted smalls"><i
-                                                                    class="lni lni-map-marker mr-1"></i><?php echo $CITY ?>,<?php echo $COUNTRY ?></span> -->
-                                                        </div>
-                                                        <div class="jb-list-01-title px-2">
-                                                            <!-- <span
-                                                                class="px-2 mb-2 d-inline-flex py-1 rounded text-purple bg-light-purple">0<?php echo $APPLICANTID ?></span> -->
-                                                            <span
-                                                                class="mr-2 mb-2 d-inline-flex px-2 py-1 rounded theme-cl theme-bg-light">Active</span>
-                                                            <span
-                                                                class="mr-2 mb-2 d-inline-flex px-2 py-1 rounded text-warning bg-light-warning"><?php echo $SUBCATEGORY ?></span>
-                                                            <!-- <span class="mr-2 mb-2 d-inline-flex px-2 py-1 rounded text-danger bg-light-danger">Magento</span> -->
-                                                            <br>
-                                                            <span
-                                                                class="mr-2 mb-2 d-inline-flex px-2 py-1 rounded text-info bg-light-info"><?php echo $SKILLS ?></span>
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-
-
-
-                                            <div class="jbd-details mb-3 d-block border rounded mfliud-bot mb-4">
-                                                <div class="position-relative row">
-                                                    <div class="col-lg-12 col-md-12 col-12">
-
-                                                        <div class="form-group">
-                                                            <!-- row -->
-                                                            <div class="row align-items-start">
-
-                                                                <!-- About -->
-                                                                <div class="abt-cdt d-block full-width mb-4">
-                                                                    <h4 class="ft-medium mb-1 fs-md">About
-                                                                        <?php echo $FULLNAME ?></h4>
-                                                                    <p><?php echo $ABOUTME ?></p>
-                                                                </div>
-
-                                                                <!-- Hobbies -->
-                                                                <div class="abt-cdt d-block full-width mb-4">
-                                                                    <h4 class="ft-medium mb-1 fs-md">
-                                                                        <?php echo $FULLNAME ?> Contact</h4>
-                                                                    <div class="position-relative row">
-                                                                        <div class="col-lg-12 col-md-12 col-12">
-                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                                                                <div class="d-flex align-items-center">
-                                                                                    <div
-                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                                                                        <i
-                                                                                            class="fas fa-check small"></i>
-                                                                                    </div>
-                                                                                    <h6
-                                                                                        class="mb-0 ml-3 text-muted fs-sm">
-                                                                                        Country: <?php echo $COUNTRY ?>
-                                                                                    </h6>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                                                                <div class="d-flex align-items-center">
-                                                                                    <div
-                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                                                                        <i
-                                                                                            class="fas fa-check small"></i>
-                                                                                    </div>
-                                                                                    <h6
-                                                                                        class="mb-0 ml-3 text-muted fs-sm">
-                                                                                        City: <?php echo $CITY ?></h6>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                                                                <div class="d-flex align-items-center">
-                                                                                    <div
-                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                                                                        <i
-                                                                                            class="fas fa-check small"></i>
-                                                                                    </div>
-                                                                                    <h6
-                                                                                        class="mb-0 ml-3 text-muted fs-sm">
-                                                                                        Address: <?php echo $ADDRESS ?>
-                                                                                    </h6>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                                                                <div class="d-flex align-items-center">
-                                                                                    <div
-                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                                                                        <i
-                                                                                            class="fas fa-check small"></i>
-                                                                                    </div>
-                                                                                    <h6
-                                                                                        class="mb-0 ml-3 text-muted fs-sm">
-                                                                                        Phone: <?php echo $CONTACTNO ?>
-                                                                                    </h6>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                                                                <div class="d-flex align-items-center">
-                                                                                    <div
-                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                                                                        <i
-                                                                                            class="fas fa-check small"></i>
-                                                                                    </div>
-                                                                                    <h6
-                                                                                        class="mb-0 ml-3 text-muted fs-sm">
-                                                                                        Email: <?php echo $EMAIL ?></h6>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                                                                <div class="d-flex align-items-center">
-                                                                                    <div
-                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                                                                        <i
-                                                                                            class="fas fa-check small"></i>
-                                                                                    </div>
-                                                                                    <h6
-                                                                                        class="mb-0 ml-3 text-muted fs-sm">
-                                                                                        Facebook: <?php echo $FB_link ?>
-                                                                                    </h6>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                                                                <div class="d-flex align-items-center">
-                                                                                    <div
-                                                                                        class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                                                                        <i
-                                                                                            class="fas fa-check small"></i>
-                                                                                    </div>
-                                                                                    <h6
-                                                                                        class="mb-0 ml-3 text-muted fs-sm">
-                                                                                        LinkedIn:
-                                                                                        <?php echo $LinkedIn_link ?>
-                                                                                    </h6>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <!-- Qualification -->
-                                                                <div class="abt-cdt d-block full-width mb-4">
-                                                                    <h4 class="ft-medium mb-1 fs-md">Qualification</h4>
-                                                                    <div class="exslio-list mt-3">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <div
-                                                                                    class="esclio-110 bg-light rounded px-3 py-3">
-                                                                                    <h4 class="mb-0 ft-medium fs-md">
-                                                                                        <?php echo $DEGREE ?></h4>
-                                                                                    <div
-                                                                                        class="esclio-110-info full-width mb-2">
-                                                                                        <span class="text-muted mr-2"><i
-                                                                                                class="lni lni-graduation mr-1"></i><?php echo $SCHOOLNAME ?></span>
-                                                                                        <!-- <span class="text-muted mr-2"><i class="lni lni-calendar mr-1"></i>2010</span> -->
-                                                                                    </div>
-                                                                                    <div
-                                                                                        class="esclio-110-decs full-width">
-                                                                                        <p><i>Download Resume/CV to view
-                                                                                                more <a
-                                                                                                    href="javascript:void(0);"
-                                                                                                    class="theme-cl">...</a></i>
-                                                                                        </p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </li>
-
-
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-
-                                                                <!-- Experience -->
-                                                                <div class="abt-cdt d-block full-width mb-4">
-                                                                    <h4 class="ft-medium mb-1 fs-md">Experience</h4>
-                                                                    <div class="exslio-list mt-3">
-                                                                        <ul>
-                                                                            <li>
-                                                                                <div
-                                                                                    class="esclio-110 bg-light rounded px-3 py-3">
-                                                                                    <h4 class="mb-0 ft-medium fs-md">
-                                                                                        <?php echo $EXCOMPANYNAME ?>
-                                                                                    </h4>
-                                                                                    <div
-                                                                                        class="esclio-110-info full-width mb-2">
-
-                                                                                        <span class="text-muted mr-2"><i
-                                                                                                class="lni lni-laptop-phone mr-1"></i><?php echo $EXJOBTITLE ?></span>
-
-
-                                                                                    </div>
-                                                                                    <div
-                                                                                        class="esclio-110-decs full-width">
-                                                                                        <p><i>Download Resume/CV to view
-                                                                                                more <a
-                                                                                                    href="javascript:void(0);"
-                                                                                                    class="theme-cl">...</a></i>
-                                                                                        </p>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </li>
-
-
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
-
-                                                                <!-- Skills -->
-                                                                <div class="abt-cdt d-block full-width">
-                                                                    <h4 class="ft-medium mb-1 fs-md">Skills</h4>
-                                                                    <ul class="p-0 skills_tag text-left">
-                                                                        <li><span
-                                                                                class="px-2 py-1 medium skill-bg rounded text-dark"><?php echo $SKILLS ?></span>
-                                                                        </li>
-
-                                                                    </ul>
-                                                                </div>
-
-                                                            </div>
-                                                            <!-- row -->
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <?php //} 
-												?>
-
-
-                                                <!-- <button type="submit" name="job" class="btn btn-md rounded theme-bg text-light ft-medium fs-sm full-width">Submit</button> -->
-
-                                                <button type="submit" name="apply_job"
-                                                    class="btn btn-md rounded theme-bg text-light ft-medium fs-sm full-width">Submit
-                                                    Now</button>
-
-                                                <!-- </form> -->
-
-                                                <?php
-												if (isset($_POST['job'])) {
-
-													$ques = $_POST['id'];
-													$ans = $_POST['ans'];
-
-
-													for ($i = 0; $i < sizeof($ques); $i++) {
-														// '" . $ques[$i] . "'
-														if ($ans[$ques[$i]] == 1) {
-															$say = 'Yes';
-														} else {
-															$say = 'No';
-														}
-
-														echo $ques[$i] . '. ' . $say . ' ' . $ans[$ques[$i]] . '<br>';
-													}
-												}
-												?>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                         </form>
                     </div>
                     <!---Sidebar--->
@@ -873,15 +561,16 @@ setTimeout(function() {
                 <div class="row align-items-center">
 
                     <?php
-					$query = "SELECT * from tbljob where JOBTITLE LIKE '%$JOBTITLE%' or JOBTYPE LIKE '%$JOBTYPE%'  ORDER BY JOBID DESC" or die(mysqli_error($con));
+					$query = "SELECT * from tbljob where JOBTITLE LIKE '%$JOBTITLE%' AND JOBTYPE LIKE '%$JOBTYPE%'  ORDER BY JOBID DESC" or die(mysqli_error($con));
 
 					$run = mysqli_query($con, $query);
 					while ($row = mysqli_fetch_array($run)) {
 						$COMPANYID = $row['COMPANYID'];
-						$JOBID = $row['JOBID'];
+						$JOBID_NEW = $row['JOBID'];
 						$JOBSTATUS = $row['JOBSTATUS'];
 						$DATEPOSTED = $row['DATEPOSTED'];
 						$SALARY = $row['SALARY'];
+                        $count =0;
 
 						$querycomp = "SELECT * from tblcompany WHERE COMPANYID = '$COMPANYID'";
 						$resultcomp = mysqli_query($con, $querycomp);
@@ -892,7 +581,8 @@ setTimeout(function() {
 						$COMPANYADDRESS = $rowcomp['COMPANYADDRESS'];
 						$COMPANYCOUNTRY = $rowcomp['COMPANYCOUNTRY'];
 						$COMPANYCITY = $rowcomp['COMPANYCITY'];
-
+                        if ($JOBID != $JOBID_NEW){
+                            $count++;
 					?>
 
                     <!-- Single -->
@@ -904,8 +594,6 @@ setTimeout(function() {
                                     <button type="button"
                                         class="p-3 border circle d-flex align-items-center justify-content-center bg-white text-gray"><i
                                             class="lni lni-heart-filled position-absolute snackbar-wishlist"></i></button>
-
-
                                 </form>
                             </div>
                             <div class="position-absolute ab-right"><span
@@ -914,7 +602,7 @@ setTimeout(function() {
                                     class="medium theme-cl theme-bg-light px-2 py-1 rounded"><?php echo $JOBSTATUS ?></span>
                             </div>
                             <div class="job_grid_thumb mb-3 pt-5 px-3">
-                                <a href="job-detail.php?jobid=<?php echo $JOBID ?>"
+                                <a href="job-detail.php?jobid=<?php echo $JOBID_NEW ?>"
                                     class="d-block text-center m-auto"><img src="./<?php echo $COMPANYLOGO ?>"
                                         class="img-fluid" width="70" alt="" /></a>
                             </div>
@@ -922,7 +610,8 @@ setTimeout(function() {
                                 <h6 class="mb-0 lh-1 ft-medium medium"><a
                                         href="employer-detail.php?companyid=<?php echo $COMPANYID ?>"
                                         class="text-muted medium"><?php echo $COMPANYNAME; ?></a></h6>
-                                <h4 class="mb-0 ft-medium medium"><a href="job-detail.php?jobid=<?php echo $JOBID ?>"
+                                <h4 class="mb-0 ft-medium medium"><a
+                                        href="job-detail.php?jobid=<?php echo $JOBID_NEW ?>"
                                         class="text-dark fs-md"><?php echo $row['JOBTITLE']; ?></a></h4>
                                 <div class="jbl_location"><i
                                         class="lni lni-map-marker mr-1"></i><span><?php echo $COMPANYCITY ?>,
@@ -930,7 +619,7 @@ setTimeout(function() {
                             </div>
                             <div class="job_grid_footer pb-4 px-3 d-flex align-items-center justify-content-between">
                                 <?php if ($SALARY > 0) { ?><div class="df-1 text-muted"><i
-                                        class="lni lni-wallet mr-1"></i>: N<?php echo number_format($SALARY, 2) ?>
+                                        class="lni lni-wallet mr-1"></i>: $<?php echo number_format($SALARY, 2) ?>
                                 </div> <?php } ?>
                                 <div class="df-1 text-muted"><i
                                         class="lni lni-timer mr-1"></i><?php echo timeago($DATEPOSTED); ?></div>
@@ -938,6 +627,13 @@ setTimeout(function() {
                         </div>
                     </div>
 
+                    <?php } } if ($count<1){ ?>
+
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="job_grid border rounded">
+                            <div class="position-absolute ab-left">No Data Yet!</div>
+                        </div>
+                    </div>
                     <?php } ?>
 
 
@@ -978,7 +674,5 @@ setTimeout(function() {
     <!-- ============================================================== -->
 
 </body>
-
-<!-- Mirrored from themezhub.net/live-workplex/workplex/job-detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Feb 2022 12:07:20 GMT -->
 
 </html>
