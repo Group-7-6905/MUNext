@@ -1,288 +1,444 @@
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="en">
 
 <?php
 require('./mysqli_connect.php');
-		// header.php
-		include 'session_check.php';
-
-		include "include/helper.php";
+include 'session_check.php';
+include "include/helper.php";
 
 
-//////////////////////Get Company Details////////////////////////
-if (!empty($_GET['companyid'])) {
+// ==================== VALIDATION & DATA RETRIEVAL ====================
+// Get and validate company ID from URL
+$companyid = isset($_GET['companyid']) ? (int)$_GET['companyid'] : 0;
 
-	$companyid = $_GET['companyid'];
 
-	$query = "SELECT * from tblcompany WHERE COMPANYID = '$companyid'";
-	$result = mysqli_query($con, $query);
-	$row = mysqli_fetch_array($result);
-
-	$COMPANYID = $row['COMPANYID'];
-	$COMPANYNAME = $row['COMPANYNAME'];
-	$COMPANYADDRESS = $row['COMPANYADDRESS'];
-	$COMPANYCONTACTNO = $row['COMPANYCONTACTNO'];
-	$COMPANYSTATUS = $row['COMPANYSTATUS'];
-	$COMPANYABOUT = $row['COMPANYABOUT'];
-	$COMPANYEMAIL = $row['COMPANYEMAIL'];
-	$COMPANYINDUSTRY = $row['COMPANYINDUSTRY'];
-	$COMPANYSPECIALISM = $row['COMPANYSPECIALISM'];
-	$COMPANYCOUNTRY = $row['COMPANYCOUNTRY'];
-	$COMPANYCITY = $row['COMPANYCITY'];
-	$COMPANYAWARD = $row['COMPANYAWARD'];
-	$COMPANYYEAR = $row['COMPANYYEAR'];
-	$COMPANYAWARDDESC  = $row['COMPANYAWARDDESC'];
-	$COMPANYLOGO = $row['COMPANYLOGO'];
-} else {
-	header('location: job-search-v1.php');
+// Redirect if no company ID provided
+if (empty($companyid)) {
+    header('location: browse-employers.php');
+    exit();
 }
-//////////////////////Get Company Details Ends//////////////////////
 
+// ==================== FETCH COMPANY DATA ====================
+// Fetch company details with prepared statement for security
+$query = "SELECT * FROM tblcompany WHERE COMPANYID = ?";
+$stmt = mysqli_prepare($con, $query);
+mysqli_stmt_bind_param($stmt, "i", $companyid);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
+// Redirect if company not found
+if (mysqli_num_rows($result) == 0) {
+    header('location: browse-employers.php');
+    exit();
+}
+
+$row = mysqli_fetch_assoc($result);
+
+// ==================== EXTRACT COMPANY INFORMATION ====================
+// Basic Information
+$COMPANYID = $row['COMPANYID'];
+$COMPANYNAME = $row['COMPANYNAME'];
+$COMPANYLOGO = $row['COMPANYLOGO'] ?? '';
+
+// Contact Information
+$COMPANYEMAIL = $row['COMPANYEMAIL'] ?? '';
+$COMPANYCONTACTNO = $row['COMPANYCONTACTNO'] ?? '';
+$COMPANYADDRESS = $row['COMPANYADDRESS'] ?? '';
+$COMPANYCITY = $row['COMPANYCITY'] ?? '';
+$COMPANYCOUNTRY = $row['COMPANYCOUNTRY'] ?? '';
+$COMPANYWEBSITE = $row['COMPANYWEBSITE'] ?? '';
+
+// Company Details
+$COMPANYABOUT = $row['COMPANYABOUT'] ?? '';
+$COMPANYINDUSTRY = $row['COMPANYINDUSTRY'] ?? '';
+$COMPANYSPECIALISM = $row['COMPANYSPECIALISM'] ?? '';
+$COMPANYSTATUS = $row['COMPANYSTATUS'] ?? 'Active';
+$COMPANYYEARFOUNDED = $row['COMPANYYEARFOUNDED'] ?? '';
+$COMPANYSIZE = $row['COMPANYSIZE'] ?? '';
+
+// Awards & Recognition
+$COMPANYAWARD = $row['COMPANYAWARD'] ?? '';
+$COMPANYYEAR = $row['COMPANYYEAR'] ?? '';
+$COMPANYAWARDDESC = $row['COMPANYAWARDDESC'] ?? '';
+
+// Social Media Links
+$COMPANYLINKEDIN = $row['COMPANYLINKEDIN'] ?? '';
+$COMPANYFACEBOOK = $row['COMPANYFACEBOOK'] ?? '';
+$COMPANYTWITTER = $row['COMPANYTWITTER'] ?? '';
+
+// ==================== GET JOB STATISTICS ====================
+// Count active jobs for this company
+$jobQuery = "SELECT COUNT(*) as job_count FROM tbljob WHERE COMPANYID = ? AND JOBSTATUS = 'Active'";
+$jobStmt = mysqli_prepare($con, $jobQuery);
+mysqli_stmt_bind_param($jobStmt, "i", $companyid);
+mysqli_stmt_execute($jobStmt);
+$jobResult = mysqli_stmt_get_result($jobStmt);
+$jobRow = mysqli_fetch_assoc($jobResult);
+$activeJobs = $jobRow['job_count'];
+
+// ==================== FETCH RECENT JOBS ====================
+// Get latest 5 jobs from this company
+$recentJobsQuery = "SELECT * FROM tbljob WHERE COMPANYID = ? AND JOBSTATUS = 'Active' ORDER BY JOBID DESC LIMIT 5";
+$recentStmt = mysqli_prepare($con, $recentJobsQuery);
+mysqli_stmt_bind_param($recentStmt, "i", $companyid);
+mysqli_stmt_execute($recentStmt);
+$recentJobsResult = mysqli_stmt_get_result($recentStmt);
 ?>
-<!-- Mirrored from themezhub.net/live-workplex/workplex/job-detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Feb 2022 12:07:20 GMT -->
 
 <?php include 'include/head.php' ?>
 
+
 <body>
-
-
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
     <div id="main-wrapper">
-
-        <!-- ============================================================== -->
-        <!-- Top header  -->
-        <!-- ============================================================== -->
-        <!-- Start Navigation -->
+        <!-- ==================== HEADER ==================== -->
         <?php include 'include/header.php' ?>
-        <!-- End Navigation -->
         <div class="clearfix"></div>
-        <!-- ============================================================== -->
-        <!-- Top header  -->
-        <!-- ============================================================== -->
 
-        <!-- ======================= Top Breadcrubms ======================== -->
-        <div class="bg-light py-5">
-            <div class="ht-30"></div>
+        <!-- ==================== PAGE HEADER ==================== -->
+        <div class="company-header">
+            <div class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.php">Home</a></li>
+                        <li class="breadcrumb-item"><a href="browse-employers.php">Employers</a></li>
+                        <li class="breadcrumb-item active">Company Profile</li>
+                    </ol>
+                </nav>
+                <h1><?php echo htmlspecialchars($COMPANYNAME); ?></h1>
+            </div>
+        </div>
+
+        <!-- ==================== MAIN CONTENT SECTION ==================== -->
+        <section class="py-5 bg-light">
             <div class="container">
                 <div class="row">
-                    <div class="colxl-12 col-lg-12 col-md-12">
-                        <h1 class="ft-medium">Employer Detail</h1>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Employer</a></li>
-                                <li class="breadcrumb-item active theme-cl" aria-current="page">Employer Detail</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            <div class="ht-30"></div>
-        </div>
-        <!-- ======================= Top Breadcrubms ======================== -->
-
-        <!-- ======================= Dashboard Detail ======================== -->
-        <section class="middle">
-            <div class="container">
-                <div class="row align-items-start justify-content-between">
-
-                    <div class="col-12 col-md-12 col-lg-4 col-xl-4 text-center miliods">
-                        <div class="d-block border rounded mfliud-bot mb-4">
-                            <div class="cdt_author px-2 pt-5 pb-4">
-                                <div class="dash_auth_thumb rounded p-1 border d-inline-flex mx-auto mb-3">
-                                    <img src="./<?php echo $COMPANYLOGO ?>" class="img-fluid" width="100" alt="" />
+                    <!-- ==================== SIDEBAR COLUMN ==================== -->
+                    <div class="col-lg-4 col-md-12 mb-4">
+                        <div class="company-sidebar">
+                            <!-- Profile Header -->
+                            <div class="company-profile-header theme-bg">
+                                <div class="company-logo-wrapper">
+                                    <img src="<?php echo !empty($COMPANYLOGO) ? './' . htmlspecialchars($COMPANYLOGO) : 'assets/img/company-default.png'; ?>"
+                                        alt="<?php echo htmlspecialchars($COMPANYNAME); ?>">
                                 </div>
-                                <div class="dash_caption mb-4">
-                                    <h4 class="fs-lg ft-medium mb-0 lh-1"><?php echo $COMPANYNAME ?></h4>
-                                    <span
-                                        class="text-muted smalls mr-2 mb-2 d-inline-flex px-2 py-1 rounded theme-cl theme-bg-light"><i
-                                            class="lni lni-key mr-1"></i><?php echo $COMPANYID ?></span>
-                                    <span class="text-muted smalls"><i
-                                            class="lni lni-map-marker mr-1"></i><?php echo $COMPANYCITY ?>,
-                                        <?php echo $COMPANYCOUNTRY ?></span>
+                                <h4 class="company-name text-white"><?php echo htmlspecialchars($COMPANYNAME); ?></h4>
+                                <p class="company-location text-white">
+                                    <i class="lni lni-map-marker mr-1"></i>
+                                    <?php echo htmlspecialchars($COMPANYCITY . ', ' . $COMPANYCOUNTRY); ?>
+                                </p>
 
-                                </div>
-                                <div class="jb-list-01-title px-2">
-                                    <span
-                                        class="mr-2 mb-2 d-inline-flex px-2 py-1 rounded theme-cl theme-bg-light"><?php echo $COMPANYSTATUS ?></span>
-                                    <span
-                                        class="mr-2 mb-2 d-inline-flex px-2 py-1 rounded text-warning bg-light-warning"><?php echo $COMPANYSPECIALISM ?></span>
+                                <!-- Company Badges -->
+                                <div class="company-badges">
+                                    <span class="badge-custom badge-active">
+                                        <i class="lni lni-checkmark-circle"></i>
+                                        <?php echo htmlspecialchars($COMPANYSTATUS); ?>
+                                    </span>
+                                    <?php if ($activeJobs > 0): ?>
+                                    <span class="badge-custom badge-jobs">
+                                        <?php echo $activeJobs; ?> Job<?php echo $activeJobs > 1 ? 's' : ''; ?>
+                                    </span>
+                                    <?php endif; ?>
+                                    <?php if (!empty($COMPANYINDUSTRY)): ?>
+                                    <span class="badge-custom badge-industry">
+                                        <?php echo htmlspecialchars($COMPANYINDUSTRY); ?>
+                                    </span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
 
-                            <div class="cdt_caps">
-                                <div
-                                    class="job_grid_footer pb-3 px-3 d-flex align-items-center justify-content-between">
-                                    <div class="df-1 text-muted"><i
-                                            class="lni lni-briefcase mr-1"></i><?php echo $COMPANYADDRESS ?></div>
-                                    <div class="df-1 text-muted"><i
-                                            class="lni lni-laptop-phone mr-1"></i><?php echo $COMPANYINDUSTRY ?></div>
-                                </div>
-                                <div class="job_grid_footer pb-3 px-3 align-items-center justify-content-between">
-                                    <div class="df-1 text-muted"><i
-                                            class="lni lni-envelope mr-1"></i><?php echo $COMPANYEMAIL ?></div>
-                                    <div class="df-1 text-muted"><i
-                                            class="lni lni-phone mr-1"></i><?php echo $COMPANYCONTACTNO ?></div>
-                                </div>
-                            </div>
-
-                            <div class="cdt_caps py-5 px-3">
-                                <a href="mailto:<?php echo $COMPANYEMAIL ?>"
-                                    class="btn btn-md theme-bg text-light rounded full-width">Contact Company</a>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <div class="col-12 col-md-12 col-lg-8 col-xl-8">
-
-                        <!-- row -->
-                        <div class="row align-items-start">
-
-                            <!-- About -->
-                            <div class="abt-cdt d-block full-width mb-4">
-                                <h4 class="ft-medium mb-1 fs-md">About <?php echo $COMPANYNAME ?></h4>
-                                <p><?php echo $COMPANYABOUT ?></p>
-                            </div>
-
-                            <!-- Hobbies -->
-                            <div class="abt-cdt d-block full-width mb-4">
-                                <h4 class="ft-medium mb-1 fs-md">Specialisms</h4>
-                                <div class="position-relative row">
-                                    <div class="col-lg-12 col-md-12 col-12">
-                                        <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                            <div class="d-flex align-items-center">
-                                                <div
-                                                    class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                                    <i class="fas fa-check small"></i>
-                                                </div>
-                                                <h6 class="mb-0 ml-3 text-muted fs-sm"><?php echo $COMPANYSPECIALISM ?>
-                                                </h6>
-                                            </div>
+                            <!-- Contact Information -->
+                            <div class="contact-info-section">
+                                <?php if (!empty($COMPANYADDRESS)): ?>
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="lni lni-home"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <span class="contact-label">Address</span>
+                                        <div class="contact-value"><?php echo htmlspecialchars($COMPANYADDRESS); ?>
                                         </div>
-                                        <!-- <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                       <div class="d-flex align-items-center">
-                                          <div class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                             <i class="fas fa-check small"></i>
-                                          </div>
-                                          <h6 class="mb-0 ml-3 text-muted fs-sm">Strong Expertise in CodeIgniter Framework .</h6>
-                                       </div>
-                                    </div>
-                                    <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                       <div class="d-flex align-items-center">
-                                          <div class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                             <i class="fas fa-check small"></i>
-                                          </div>
-                                          <h6 class="mb-0 ml-3 text-muted fs-sm">Understanding of MVC design pattern.</h6>
-                                       </div>
-                                    </div>
-                                    <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                       <div class="d-flex align-items-center">
-                                          <div class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                             <i class="fas fa-check small"></i>
-                                          </div>
-                                          <h6 class="mb-0 ml-3 text-muted fs-sm">Expertise in PHP, MVC Frameworks and good technology exposure of Codeigniter .</h6>
-                                       </div>
-                                    </div>
-                                    <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                       <div class="d-flex align-items-center">
-                                          <div class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                             <i class="fas fa-check small"></i>
-                                          </div>
-                                          <h6 class="mb-0 ml-3 text-muted fs-sm">Basic understanding of front-end technologies, such as JavaScript, HTML5, and CSS3</h6>
-                                       </div>
-                                    </div>
-                                    <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                       <div class="d-flex align-items-center">
-                                          <div class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                             <i class="fas fa-check small"></i>
-                                          </div>
-                                          <h6 class="mb-0 ml-3 text-muted fs-sm">Good knowledge of relational databases, version control tools and of developing web services.</h6>
-                                       </div>
-                                    </div>
-                                    <div class="mb-2 mr-4 ml-lg-0 mr-lg-4">
-                                       <div class="d-flex align-items-center">
-                                          <div class="rounded-circle bg-light-success theme-cl p-1 small d-flex align-items-center justify-content-center">
-                                             <i class="fas fa-check small"></i>
-                                          </div>
-                                          <h6 class="mb-0 ml-3 text-muted fs-sm">Proficient understanding of code versioning tools, such as Git.</h6>
-                                       </div>
-                                    </div> -->
                                     </div>
                                 </div>
+                                <?php endif; ?>
+
+                                <?php if (!empty($COMPANYEMAIL)): ?>
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="lni lni-envelope"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <span class="contact-label">Email</span>
+                                        <div class="contact-value">
+                                            <a href="mailto:<?php echo htmlspecialchars($COMPANYEMAIL); ?>">
+                                                <?php echo htmlspecialchars($COMPANYEMAIL); ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
+                                <?php if (!empty($COMPANYWEBSITE)): ?>
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="lni lni-world"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <span class="contact-label">Website</span>
+                                        <div class="contact-value">
+                                            <a href="<?php echo htmlspecialchars($COMPANYWEBSITE); ?>" target="_blank"
+                                                rel="noopener">
+                                                <?php echo htmlspecialchars($COMPANYWEBSITE); ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
+                                <?php if (!empty($COMPANYCONTACTNO)): ?>
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="lni lni-phone"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <span class="contact-label">Phone</span>
+                                        <div class="contact-value">
+                                            <a href="tel:<?php echo htmlspecialchars($COMPANYCONTACTNO); ?>">
+                                                <?php echo htmlspecialchars($COMPANYCONTACTNO); ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
+                                <?php if (!empty($COMPANYSIZE)): ?>
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="lni lni-users"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <span class="contact-label">Company Size</span>
+                                        <div class="contact-value"><?php echo htmlspecialchars($COMPANYSIZE); ?>
+                                            employees</div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+
+                                <?php if (!empty($COMPANYYEARFOUNDED)): ?>
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="lni lni-calendar"></i>
+                                    </div>
+                                    <div class="contact-details">
+                                        <span class="contact-label">Year Founded</span>
+                                        <div class="contact-value"><?php echo htmlspecialchars($COMPANYYEARFOUNDED); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
                             </div>
 
-                            <!-- Award -->
-                            <div class="abt-cdt d-block full-width mb-4">
-                                <h4 class="ft-medium mb-1 fs-md">Award</h4>
-                                <div class="exslio-list mt-3">
-                                    <ul>
-                                        <li>
-                                            <div class="esclio-110 bg-light rounded px-3 py-3">
-                                                <h4 class="mb-0 ft-medium fs-md"><?php echo $COMPANYAWARD ?></h4>
-                                                <div class="esclio-110-info full-width mb-2">
-                                                    <span class="text-muted mr-2"><i
-                                                            class="lni lni-calendar mr-1"></i><?php echo $COMPANYYEAR ?></span>
-                                                </div>
-                                                <div class="esclio-110-decs full-width">
-                                                    <p><?php echo $COMPANYAWARDDESC ?>
-                                                        <!-- <a href="javascript:void(0);" class="theme-cl">Read More..</a> -->
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- <li>
-                                       <div class="esclio-110 bg-light rounded px-3 py-3">
-                                          <h4 class="mb-0 ft-medium fs-md">CIMPLA Award</h4>
-                                          <div class="esclio-110-info full-width mb-2">
-                                             <span class="text-muted mr-2"><i class="lni lni-calendar mr-1"></i>2012</span>
-                                          </div>
-                                          <div class="esclio-110-decs full-width">
-                                             <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam <a href="javascript:void(0);" class="theme-cl">Read More..</a></p>
-                                          </div>
-                                       </div>
-                                    </li>
-
-                                    <li>
-                                       <div class="esclio-110 bg-light rounded px-3 py-3">
-                                          <h4 class="mb-0 ft-medium fs-md">Lisa Award</h4>
-                                          <div class="esclio-110-info full-width mb-2">
-                                             <span class="text-muted mr-2"><i class="lni lni-calendar mr-1"></i>2015</span>
-                                          </div>
-                                          <div class="esclio-110-decs full-width">
-                                             <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam <a href="javascript:void(0);" class="theme-cl">Read More..</a></p>
-                                          </div>
-                                       </div>
-                                    </li> -->
-                                    </ul>
+                            <!-- Social Media Links -->
+                            <?php if (!empty($COMPANYLINKEDIN) || !empty($COMPANYFACEBOOK) || !empty($COMPANYTWITTER)): ?>
+                            <div class="social-section">
+                                <h6 class="social-title">Connect With Us</h6>
+                                <div class="social-links">
+                                    <?php if (!empty($COMPANYLINKEDIN)): ?>
+                                    <a href="<?php echo htmlspecialchars($COMPANYLINKEDIN); ?>" target="_blank"
+                                        rel="noopener" class="social-btn" title="LinkedIn">
+                                        <i class="lni lni-linkedin-original"></i>
+                                    </a>
+                                    <?php endif; ?>
+                                    <?php if (!empty($COMPANYFACEBOOK)): ?>
+                                    <a href="<?php echo htmlspecialchars($COMPANYFACEBOOK); ?>" target="_blank"
+                                        rel="noopener" class="social-btn" title="Facebook">
+                                        <i class="lni lni-facebook-filled"></i>
+                                    </a>
+                                    <?php endif; ?>
+                                    <?php if (!empty($COMPANYTWITTER)): ?>
+                                    <a href="<?php echo htmlspecialchars($COMPANYTWITTER); ?>" target="_blank"
+                                        rel="noopener" class="social-btn" title="Twitter">
+                                        <i class="lni lni-twitter-original"></i>
+                                    </a>
+                                    <?php endif; ?>
                                 </div>
                             </div>
+                            <?php endif; ?>
 
+                            <!-- Action Buttons -->
+                            <div class="action-section">
+                                <?php if (!empty($COMPANYEMAIL)): ?>
+                                <a href="mailto:<?php echo htmlspecialchars($COMPANYEMAIL); ?>" class="btn-contact">
+                                    <i class="lni lni-envelope"></i>
+                                    <span>Contact Company</span>
+                                </a>
+                                <?php endif; ?>
+                                <?php if ($activeJobs > 0): ?>
+                                <a href="job-list-v1.php?search=<?php echo urlencode($COMPANYNAME); ?>&search_by=company"
+                                    class="btn-view-jobs">
+                                    <i class="lni lni-briefcase"></i>
+                                    <span>View All Jobs (<?php echo $activeJobs; ?>)</span>
+                                </a>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                        <!-- row -->
-
                     </div>
 
+                    <!-- ==================== MAIN CONTENT COLUMN ==================== -->
+                    <div class="col-lg-8 col-md-12">
+                        <!-- Statistics Cards -->
+                        <?php if ($activeJobs > 0): ?>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <span class="stat-number"><?php echo $activeJobs; ?></span>
+                                <span class="stat-label">Active Job Openings</span>
+                            </div>
+                            <div class="stat-card">
+                                <span class="stat-number">
+                                    <i class="lni lni-checkmark-circle"></i>
+                                </span>
+                                <span class="stat-label">Verified Company</span>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <!-- About Company Section -->
+                        <?php if (!empty($COMPANYABOUT)): ?>
+                        <div class="content-card">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="lni lni-information"></i>
+                                </div>
+                                <h5 class="section-title">About <?php echo htmlspecialchars($COMPANYNAME); ?></h5>
+                            </div>
+                            <p class="about-text"><?php echo nl2br(htmlspecialchars($COMPANYABOUT)); ?></p>
+                        </div>
+                        <?php endif; ?>
+
+                        <!-- Company Specialisms Section -->
+                        <?php if (!empty($COMPANYSPECIALISM)): ?>
+                        <div class="content-card">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="lni lni-cog"></i>
+                                </div>
+                                <h5 class="section-title">Company Specialisms</h5>
+                            </div>
+                            <div class="specialisms-grid">
+                                <?php 
+                                $specialisms = explode(',', $COMPANYSPECIALISM);
+                                foreach ($specialisms as $specialism): 
+                                    $specialism = trim($specialism);
+                                    if (!empty($specialism)):
+                                ?>
+                                <div class="specialism-item">
+                                    <div class="check-icon">
+                                        <i class="lni lni-checkmark"></i>
+                                    </div>
+                                    <div class="specialism-text"><?php echo htmlspecialchars($specialism); ?></div>
+                                </div>
+                                <?php 
+                                    endif;
+                                endforeach; 
+                                ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <!-- Awards & Recognition Section -->
+                        <?php if (!empty($COMPANYAWARD)): ?>
+                        <div class="content-card">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="lni lni-star"></i>
+                                </div>
+                                <h5 class="section-title">Awards & Recognition</h5>
+                            </div>
+                            <div class="award-card">
+                                <h6 class="award-title"><?php echo htmlspecialchars($COMPANYAWARD); ?></h6>
+                                <?php if (!empty($COMPANYYEAR)): ?>
+                                <div class="award-year">
+                                    <i class="lni lni-calendar"></i>
+                                    <span><?php echo htmlspecialchars($COMPANYYEAR); ?></span>
+                                </div>
+                                <?php endif; ?>
+                                <?php if (!empty($COMPANYAWARDDESC)): ?>
+                                <p class="award-description"><?php echo htmlspecialchars($COMPANYAWARDDESC); ?></p>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <!-- Recent Job Openings Section -->
+                        <?php if (mysqli_num_rows($recentJobsResult) > 0): ?>
+                        <div class="content-card">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="lni lni-briefcase"></i>
+                                </div>
+                                <h5 class="section-title">Recent Job Openings</h5>
+                            </div>
+                            <?php while ($job = mysqli_fetch_assoc($recentJobsResult)): ?>
+                            <div class="job-item">
+                                <h6 class="job-item-title">
+                                    <a href="job-detail.php?jobid=<?php echo $job['JOBID']; ?>">
+                                        <?php echo htmlspecialchars($job['JOBTITLE']); ?>
+                                    </a>
+                                </h6>
+                                <div class="job-item-meta">
+                                    <span>
+                                        <i class="lni lni-briefcase"></i>
+                                        <?php echo htmlspecialchars($job['JOBTYPE']); ?>
+                                    </span>
+                                    <?php if (isset($job['SALARY']) && $job['SALARY'] > 0): ?>
+                                    <span>
+                                        <i class="lni lni-wallet"></i>
+                                        $<?php echo number_format($job['SALARY'], 0); ?>/hr
+                                    </span>
+                                    <?php endif; ?>
+                                    <span>
+                                        <i class="lni lni-calendar"></i>
+                                        <?php echo date('M d, Y', strtotime($job['DATEPOSTED'])); ?>
+                                    </span>
+                                </div>
+                            </div>
+                            <?php endwhile; ?>
+
+                            <?php if ($activeJobs > 5): ?>
+                            <div class="text-center mt-4">
+                                <a href="job-list-v1.php?search=<?php echo urlencode($COMPANYNAME); ?>&search_by=company"
+                                    class="btn btn-contact d-inline-flex">
+                                    View All <?php echo $activeJobs; ?> Jobs
+                                </a>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php elseif ($activeJobs == 0): ?>
+                        <div class="content-card">
+                            <div class="section-header">
+                                <div class="section-icon">
+                                    <i class="lni lni-briefcase"></i>
+                                </div>
+                                <h5 class="section-title">Job Openings</h5>
+                            </div>
+                            <div class="empty-state">
+                                <i class="lni lni-briefcase"></i>
+                                <p class="empty-state-text">No active job openings at this time. Check back later!</p>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </section>
-        <!-- ======================= Dashboard Detail End ======================== -->
 
+        <!-- ==================== FOOTER ==================== -->
         <?php include 'include/footer.php' ?>
+
+        <!-- Back to Top Button -->
         <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
-
-
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
 
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
+    <!-- ==================== SCRIPTS ==================== -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
@@ -292,12 +448,6 @@ if (!empty($_GET['companyid'])) {
     <script src="assets/js/snackbar.min.js"></script>
     <script src="assets/js/jQuery.style.switcher.js"></script>
     <script src="assets/js/custom.js"></script>
-    <!-- ============================================================== -->
-    <!-- This page plugins -->
-    <!-- ============================================================== -->
-
 </body>
-
-<!-- Mirrored from themezhub.net/live-workplex/workplex/employer-detail.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Feb 2022 12:07:10 GMT -->
 
 </html>
