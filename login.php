@@ -124,6 +124,12 @@ require('./mysqli_connect.php');
 
                             <h5>Create Account!</h5>
                             <span class="t">Signup Account</span>
+
+                            <?php if (!empty($alertText)){ echo '<div class="pt-2">'.$alertText .' </div>';}?>
+
+
+
+
                         </div>
                         <form class="border p-3 rounded" method="post">
 
