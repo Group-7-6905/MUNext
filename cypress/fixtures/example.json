@@ -1,0 +1,13 @@
+{
+  "testUser": {
+    "username": "testuser",
+    "email": "test@example.com",
+    "password": "Test123!@#"
+  },
+  "testJob": {
+    "title": "Software Developer",
+    "company": "Tech Corp",
+    "location": "St. John's, NL",
+    "salary": "$60,000 - $80,000"
+  }
+}

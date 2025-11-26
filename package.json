@@ -1,0 +1,69 @@
+{
+  "name": "munext",
+  "version": "1.0.0",
+  "description": "Memorial University Job Board Platform",
+  "main": "index.php",
+  "scripts": {
+    "lint:php": "php vendor/bin/phpcs --standard=.phpcs.xml",
+    "lint:php:fix": "php vendor/bin/phpcbf --standard=.phpcs.xml",
+    "lint:php:report": "php vendor/bin/phpcs --standard=.phpcs.xml --report=summary",
+    "lint:js": "eslint assets/js/**/*.js",
+    "lint:js:fix": "eslint assets/js/**/*.js --fix",
+    "lint:css": "stylelint \"assets/css/**/*.css\"",
+    "lint:css:fix": "stylelint \"assets/css/**/*.css\" --fix",
+    "lint:all": "npm run lint:php && npm run lint:js && npm run lint:css",
+    "test:unit": "php vendor/bin/phpunit --testsuite \"Unit Tests\"",
+    "test:integration": "php vendor/bin/phpunit --testsuite \"Integration Tests\"",
+    "test:php": "php vendor/bin/phpunit",
+    "test:php:coverage": "php vendor/bin/phpunit --coverage-html coverage/",
+    "test:e2e": "cypress run",
+    "test:e2e:open": "cypress open",
+    "test:e2e:chrome": "cypress run --browser chrome",
+    "test:e2e:firefox": "cypress run --browser firefox",
+    "test:all": "npm run test:php && npm run test:e2e",
+    "test": "npm run test:php",
+    "prepare": "husky install",
+    "format": "npm run lint:php:fix && npm run lint:js:fix && npm run lint:css:fix",
+    "ci": "npm run lint:all && npm run test:all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Group-7-6905/MUNext.git"
+  },
+  "keywords": [
+    "job-board",
+    "recruitment",
+    "php",
+    "mysql",
+    "memorial-university"
+  ],
+  "author": "Group 7 - MUNext Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Group-7-6905/MUNext/issues"
+  },
+  "homepage": "https://munext.ca",
+  "devDependencies": {
+    "cypress": "^13.6.0",
+    "eslint": "^8.54.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0",
+    "stylelint": "^16.0.0",
+    "stylelint-config-standard": "^35.0.0"
+  },
+  "lint-staged": {
+    "*.php": [
+      "php vendor/bin/phpcs --standard=.phpcs.xml"
+    ],
+    "*.js": [
+      "eslint --fix"
+    ],
+    "*.css": [
+      "stylelint --fix"
+    ]
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}
