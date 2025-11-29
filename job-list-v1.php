@@ -369,8 +369,15 @@ $base_params = [
                                 <div class="job-card">
                                     <div class="job-card-header">
                                         <div class="company-logo">
-                                            <img src="<?php echo !empty($COMPANYLOGO) ? './' . $COMPANYLOGO : 'assets/img/company-default.png'; ?>"
-                                                alt="<?php echo htmlspecialchars($COMPANYNAME); ?>">
+                                            <?php if (!empty($COMPANYLOGO)): ?>
+                                            <img src="<?php echo htmlspecialchars($COMPANYLOGO); ?>" alt="Company Logo"
+                                                class="company-logo"
+                                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <?php endif; ?>
+                                            <div class="company-logo-placeholder"
+                                                style="<?php echo !empty($COMPANYLOGO) ? 'display:none;' : ''; ?>">
+                                                <?php echo strtoupper(substr($COMPANYNAME, 0, 1)); ?>
+                                            </div>
                                         </div>
                                         <div class="job-card-info">
                                             <h5 class="job-title">
@@ -398,7 +405,7 @@ $base_params = [
                                         <?php if ($SALARY > 0): ?>
                                         <div class="job-meta-item">
                                             <i class="lni lni-wallet"></i>
-                                            <span>$<?php echo number_format($SALARY, 0); ?>/hr</span>
+                                            <span>$<?php echo number_format($SALARY, 0); ?></span>
                                         </div>
                                         <?php endif; ?>
                                         <div class="job-meta-item">
