@@ -256,18 +256,17 @@ include "include/helper.php";
                 <div class="row justify-content-center">
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="team-card">
-                            <div class="team-photo mx-auto"
-                                style="background: linear-gradient(135deg, #862633 0%, #6b1e28 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: 700;">
+                            <div class="team-photo mx-auto team-role">
                                 VM
                             </div>
                             <h5 class="ft-bold mb-2">Victor Muojeke</h5>
                             <p class="text-muted mb-0">Team Leader & Full Stack Developer</p>
                         </div>
                     </div>
+
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="team-card">
-                            <div class="team-photo mx-auto"
-                                style="background: linear-gradient(135deg, #862633 0%, #6b1e28 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: 700;">
+                            <div class="team-photo mx-auto team-role">
                                 CO
                             </div>
                             <h5 class="ft-bold mb-2">Chiemerie Obijiaku</h5>
@@ -276,8 +275,7 @@ include "include/helper.php";
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="team-card">
-                            <div class="team-photo mx-auto"
-                                style="background: linear-gradient(135deg, #862633 0%, #6b1e28 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: 700;">
+                            <div class="team-photo mx-auto team-role">
                                 AO
                             </div>
                             <h5 class="ft-bold mb-2">Akinfenwa Oluwaseun</h5>
@@ -286,8 +284,7 @@ include "include/helper.php";
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="team-card">
-                            <div class="team-photo mx-auto"
-                                style="background: linear-gradient(135deg, #862633 0%, #6b1e28 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: 700;">
+                            <div class="team-photo mx-auto team-role">
                                 KE
                             </div>
                             <h5 class="ft-bold mb-2">Kelechukwu Ede</h5>
@@ -296,8 +293,7 @@ include "include/helper.php";
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="team-card">
-                            <div class="team-photo mx-auto"
-                                style="background: linear-gradient(135deg, #862633 0%, #6b1e28 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: 700;">
+                            <div class="team-photo mx-auto team-role">
                                 AI
                             </div>
                             <h5 class="ft-bold mb-2">Akefar Islam</h5>
@@ -306,8 +302,7 @@ include "include/helper.php";
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="team-card">
-                            <div class="team-photo mx-auto"
-                                style="background: linear-gradient(135deg, #862633 0%, #6b1e28 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: 700;">
+                            <div class="team-photo mx-auto team-role">
                                 AE
                             </div>
                             <h5 class="ft-bold mb-2">Adiba Ekpunobi</h5>
@@ -316,8 +311,7 @@ include "include/helper.php";
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="team-card">
-                            <div class="team-photo mx-auto"
-                                style="background: linear-gradient(135deg, #862633 0%, #6b1e28 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: 700;">
+                            <div class="team-photo mx-auto team-role">
                                 JO
                             </div>
                             <h5 class="ft-bold mb-2">Joshua Oseimobor</h5>
@@ -326,8 +320,7 @@ include "include/helper.php";
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="team-card">
-                            <div class="team-photo mx-auto"
-                                style="background: linear-gradient(135deg, #862633 0%, #6b1e28 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 2.5rem; font-weight: 700;">
+                            <div class="team-photo mx-auto team-role">
                                 VO
                             </div>
                             <h5 class="ft-bold mb-2">Victor Onwosi</h5>

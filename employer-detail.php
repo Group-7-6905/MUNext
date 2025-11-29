@@ -118,8 +118,15 @@ $recentJobsResult = mysqli_stmt_get_result($recentStmt);
                             <!-- Profile Header -->
                             <div class="company-profile-header theme-bg">
                                 <div class="company-logo-wrapper">
-                                    <img src="<?php echo !empty($COMPANYLOGO) ? './' . htmlspecialchars($COMPANYLOGO) : 'assets/img/company-default.png'; ?>"
-                                        alt="<?php echo htmlspecialchars($COMPANYNAME); ?>">
+                                    <?php if (!empty($COMPANYLOGO)): ?>
+                                    <img src="<?php echo htmlspecialchars($COMPANYLOGO); ?>" alt="Company Logo"
+                                        class="company-logo"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <?php endif; ?>
+                                    <div class="company-logo-placeholder"
+                                        style="<?php echo !empty($COMPANYLOGO) ? 'display:none;' : ''; ?>">
+                                        <?php echo strtoupper(substr($COMPANYNAME, 0, 1)); ?>
+                                    </div>
                                 </div>
                                 <h4 class="company-name text-white"><?php echo htmlspecialchars($COMPANYNAME); ?></h4>
                                 <p class="company-location text-white">

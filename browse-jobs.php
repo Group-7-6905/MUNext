@@ -244,7 +244,7 @@ $base_params = [
                                                                             FROM tbljobsubcategory jsc
                                                                             INNER JOIN tbljob j ON (
                                                                                 j.JOBTITLE LIKE CONCAT('%', jsc.SUBCATEGORY, '%')
-                                                                                OR j.JOBCATEGORYID LIKE CONCAT('%', jsc.ID, '%')
+                                                                                OR j.JOBCATEGORYID = jsc.ID
                                                                             )
                                                                             WHERE j.JOBSTATUS = 'Active'
                                                                             GROUP BY jsc.ID, jsc.SUBCATEGORY
@@ -443,9 +443,15 @@ $base_params = [
                                 <div class="jb-list01-flex d-flex align-items-start justify-content-start">
                                     <div class="jb-list01-thumb">
                                         <a href="employer-detail.php?companyid=<?php echo $COMPANYID; ?>">
-                                            <img src="<?php echo !empty($COMPANYLOGO) ? './' . $COMPANYLOGO : 'assets/img/company-default.png'; ?>"
-                                                class="img-fluid" width="90"
-                                                alt="<?php echo htmlspecialchars($COMPANYNAME); ?>">
+                                            <?php if (!empty($COMPANYLOGO)): ?>
+                                            <img src="<?php echo htmlspecialchars($COMPANYLOGO); ?>" alt="Company Logo"
+                                                class="company-logo"
+                                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <?php endif; ?>
+                                            <div class="company-logo-placeholder"
+                                                style="<?php echo !empty($COMPANYLOGO) ? 'display:none;' : ''; ?>">
+                                                <?php echo strtoupper(substr($COMPANYNAME, 0, 1)); ?>
+                                            </div>
                                         </a>
                                     </div>
 
