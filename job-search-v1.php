@@ -14,27 +14,27 @@ include "include/helper.php";
 
 
 if (!empty($_GET['type'])) {
-	$type = $_GET['type'];
+    $type = $_GET['type'];
 
-	// $companyid = $_GET['companyid'];
+    // $companyid = $_GET['companyid'];
 
-	if (($type == "delete")) {
-		$bookmarkedid = $_GET['bookmarkedid'];
-		$delete_sql = "DELETE from tblbookmarkjob where ID='$bookmarkedid'";
-		mysqli_query($con, $delete_sql);
+    if (($type == "delete")) {
+        $bookmarkedid = $_GET['bookmarkedid'];
+        $delete_sql = "DELETE from tblbookmarkjob where ID='$bookmarkedid'";
+        mysqli_query($con, $delete_sql);
 
-		// $delete_sql = "DELETE from tblscreening_qa where ID='$bookmarkedid'";
-		// mysqli_query($con, $delete_sql); 
-?>
+        // $delete_sql = "DELETE from tblscreening_qa where ID='$bookmarkedid'";
+        // mysqli_query($con, $delete_sql);
+        ?>
 
 <script>
 // alert("Bookmarked Job Removed");
 // setTimeout(function() {
-// 	window.location.href = 'job-search.php?companyid=<?php echo $jobid ?>';
+//  window.location.href = 'job-search.php?companyid=<?php echo $jobid ?>';
 // }, 3000);
 </script>
-<?php
-	}
+        <?php
+    }
 }
 
 ?>
@@ -63,66 +63,66 @@ if (!empty($_GET['type'])) {
 
         <!-- ======================= Searchbar Banner ======================== -->
         <!-- <div class="py-3 theme-bg searchingBar">
-			<div class="container">
-				<div class="row justify-content-between align-items-center">
-					<div class="col-xl-7 col-lg-9 col-md-9 col-sm-12 col-12">
-						<form class="bg-white rounded p-1 border">
-							<div class="row no-gutters">
-								<div class="col-xl-6 col-lg-5 col-md-5 col-sm-12 col-12">
-									<div class="form-group mb-0 position-relative">
-										<input type="text" class="form-control sm left-ico" placeholder="Job Title, Keyword or Company" />
-										<i class="bnc-ico lni lni-search-alt"></i>
-									</div>
-								</div>
-								<div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12">
-									<div class="form-group mb-0 position-relative">
-										<input type="text" class="form-control sm left-ico" placeholder="Location or Zip Code" />
-										<i class="bnc-ico lni lni-target"></i>
-									</div>
-								</div>
-								<div class="col-xl-1 col-lg-2 col-md-2 col-sm-12 col-12">
-									<div class="form-group mb-0 position-relative">
-										<button class="btn full-width custom-height sm rounded bg-dark text-white fs-md" type="button">Go</button>
-									</div>
-								</div>
-							</div>
-						</form>
-					</div>
+            <div class="container">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-xl-7 col-lg-9 col-md-9 col-sm-12 col-12">
+                        <form class="bg-white rounded p-1 border">
+                            <div class="row no-gutters">
+                                <div class="col-xl-6 col-lg-5 col-md-5 col-sm-12 col-12">
+                                    <div class="form-group mb-0 position-relative">
+                                        <input type="text" class="form-control sm left-ico" placeholder="Job Title, Keyword or Company" />
+                                        <i class="bnc-ico lni lni-search-alt"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12">
+                                    <div class="form-group mb-0 position-relative">
+                                        <input type="text" class="form-control sm left-ico" placeholder="Location or Zip Code" />
+                                        <i class="bnc-ico lni lni-target"></i>
+                                    </div>
+                                </div>
+                                <div class="col-xl-1 col-lg-2 col-md-2 col-sm-12 col-12">
+                                    <div class="form-group mb-0 position-relative">
+                                        <button class="btn full-width custom-height sm rounded bg-dark text-white fs-md" type="button">Go</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 
-					<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
-						<div class="d-block position-relative text-right">
-							<a href="#" onclick="openSearch()" class="mlb-btn btn ft-medium rounded text-dark bg-light"><i class="ti-bell mr-1"></i>Job Alert</a>
-						</div>
-					</div>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                        <div class="d-block position-relative text-right">
+                            <a href="#" onclick="openSearch()" class="mlb-btn btn ft-medium rounded text-dark bg-light"><i class="ti-bell mr-1"></i>Job Alert</a>
+                        </div>
+                    </div>
 
-				</div>
-			</div>
-		</div> -->
+                </div>
+            </div>
+        </div> -->
         <!-- ======================= Searchbar Banner ======================== -->
         <?php
 
-		function timeago($date)
-		{
-			$timestamp = strtotime($date);
+        function timeago($date)
+        {
+            $timestamp = strtotime($date);
 
-			$strTime = array("second", "minute", "hour", "day", "month", "year");
-			$length = array("60", "60", "24", "30", "12", "10");
+            $strTime = ["second", "minute", "hour", "day", "month", "year"];
+            $length = ["60", "60", "24", "30", "12", "10"];
 
-			$currentTime = time();
-			if ($currentTime >= $timestamp) {
-				$diff     = time() - $timestamp;
-				for ($i = 0; $diff >= $length[$i] && $i < count($length) - 1; $i++) {
-					$diff = $diff / $length[$i];
-				}
+            $currentTime = time();
+            if ($currentTime >= $timestamp) {
+                $diff     = time() - $timestamp;
+                for ($i = 0; $diff >= $length[$i] && $i < count($length) - 1; $i++) {
+                    $diff = $diff / $length[$i];
+                }
 
-				$diff = round($diff);
-				return $diff . " " . $strTime[$i] . "(s) ago ";
-			}
-		}
+                $diff = round($diff);
+                return $diff . " " . $strTime[$i] . "(s) ago ";
+            }
+        }
 
-		// $strTimeAgo = timeago($row["trans_date"]);
+        // $strTimeAgo = timeago($row["trans_date"]);
 
-		?>
+        ?>
 
         <!-- ======================= All Product List ======================== -->
         <section class="bg-light middle">
@@ -140,15 +140,15 @@ if (!empty($_GET['type'])) {
                                     <div class="single_fitres mr-2 br-right">
                                         <form method="post">
                                             <?php
-											$sort = '';
-											if (isset($_POST['sort'])) {
-												$sort = $_POST['sort'];
-											}
+                                            $sort = '';
+                                            if (isset($_POST['sort'])) {
+                                                $sort = $_POST['sort'];
+                                            }
 
-											?>
+                                            ?>
                                             <select class="custom-select simple" onchange="submit()" name="sort">
                                                 <?php
-												if ($sort == "DESC") { ?>
+                                                if ($sort == "DESC") { ?>
                                                 <option value="">Default Sorting</option>
                                                 <option value="DESC" selected="">Sort By Recent</option>
                                                 <option value="ASC">Sort By Older</option>
@@ -184,56 +184,56 @@ if (!empty($_GET['type'])) {
                     <?php
 
 
-					if (!empty($_GET['jobcategoryid'])) {
-						$jobcategoryid = $_GET['jobcategoryid'];
-						$sql = "SELECT * from tbljob where JOBCATEGORYID = '$jobcategoryid'  ORDER BY JOBID DESC" or die(mysqli_error($con));
-					}
+                    if (!empty($_GET['jobcategoryid'])) {
+                        $jobcategoryid = $_GET['jobcategoryid'];
+                        $sql = "SELECT * from tbljob where JOBCATEGORYID = '$jobcategoryid'  ORDER BY JOBID DESC" or die(mysqli_error($con));
+                    }
 
 
 
-					if (empty($sort)) {
-						$query = "SELECT * from tbljob ORDER BY JOBID DESC" or die(mysqli_error($con));
-						if (!empty($_GET['jobcategoryid'])) {
-							$jobcategoryid = $_GET['jobcategoryid'];
-							$query = "SELECT * from tbljob where JOBCATEGORYID = '$jobcategoryid'  ORDER BY JOBID DESC" or die(mysqli_error($con));
-						}
-						if (!empty($_GET['companyid'])) {
-							$companyid = $_GET['companyid'];
-							$query = "SELECT * from tbljob where COMPANYID = '$companyid'  ORDER BY JOBID DESC" or die(mysqli_error($con));
-						}
-					} else {
-						$query = "SELECT * from tbljob ORDER BY JOBID $sort" or die(mysqli_error($con));
-						if (!empty($_GET['jobcategoryid'])) {
-							$jobcategoryid = $_GET['jobcategoryid'];
-							$query = "SELECT * from tbljob where JOBCATEGORYID = '$jobcategoryid'  ORDER BY JOBID $sort" or die(mysqli_error($con));
-						}
-						if (!empty($_GET['companyid'])) {
-							$companyid = $_GET['companyid'];
-							$query = "SELECT * from tbljob where COMPANYID = '$companyid'  ORDER BY JOBID $sort" or die(mysqli_error($con));
-						}
-					}
+                    if (empty($sort)) {
+                        $query = "SELECT * from tbljob ORDER BY JOBID DESC" or die(mysqli_error($con));
+                        if (!empty($_GET['jobcategoryid'])) {
+                            $jobcategoryid = $_GET['jobcategoryid'];
+                            $query = "SELECT * from tbljob where JOBCATEGORYID = '$jobcategoryid'  ORDER BY JOBID DESC" or die(mysqli_error($con));
+                        }
+                        if (!empty($_GET['companyid'])) {
+                            $companyid = $_GET['companyid'];
+                            $query = "SELECT * from tbljob where COMPANYID = '$companyid'  ORDER BY JOBID DESC" or die(mysqli_error($con));
+                        }
+                    } else {
+                        $query = "SELECT * from tbljob ORDER BY JOBID $sort" or die(mysqli_error($con));
+                        if (!empty($_GET['jobcategoryid'])) {
+                            $jobcategoryid = $_GET['jobcategoryid'];
+                            $query = "SELECT * from tbljob where JOBCATEGORYID = '$jobcategoryid'  ORDER BY JOBID $sort" or die(mysqli_error($con));
+                        }
+                        if (!empty($_GET['companyid'])) {
+                            $companyid = $_GET['companyid'];
+                            $query = "SELECT * from tbljob where COMPANYID = '$companyid'  ORDER BY JOBID $sort" or die(mysqli_error($con));
+                        }
+                    }
 
-					$run = mysqli_query($con, $query);
-					while ($row = mysqli_fetch_array($run)) {
-						$COMPANYID = $row['COMPANYID'];
-						$JOBID = $row['JOBID'];
-						$JOBSTATUS = $row['JOBSTATUS'];
-						$DATEPOSTED = $row['DATEPOSTED'];
-						$SALARY = $row['SALARY'];
-						$DEADLINE = $row['DEADLINE'];
+                    $run = mysqli_query($con, $query);
+                    while ($row = mysqli_fetch_array($run)) {
+                        $COMPANYID = $row['COMPANYID'];
+                        $JOBID = $row['JOBID'];
+                        $JOBSTATUS = $row['JOBSTATUS'];
+                        $DATEPOSTED = $row['DATEPOSTED'];
+                        $SALARY = $row['SALARY'];
+                        $DEADLINE = $row['DEADLINE'];
 
 
-						$querycomp = "SELECT * from tblcompany WHERE COMPANYID = '$COMPANYID'";
-						$resultcomp = mysqli_query($con, $querycomp);
-						$rowcomp = mysqli_fetch_array($resultcomp);
+                        $querycomp = "SELECT * from tblcompany WHERE COMPANYID = '$COMPANYID'";
+                        $resultcomp = mysqli_query($con, $querycomp);
+                        $rowcomp = mysqli_fetch_array($resultcomp);
 
-						$COMPANYNAME = $rowcomp['COMPANYNAME'];
-						$COMPANYLOGO = $rowcomp['COMPANYLOGO'];
-						$COMPANYADDRESS = $rowcomp['COMPANYADDRESS'];
-						$COMPANYCOUNTRY = $rowcomp['COMPANYCOUNTRY'];
-						$COMPANYCITY = $rowcomp['COMPANYCITY'];
+                        $COMPANYNAME = $rowcomp['COMPANYNAME'];
+                        $COMPANYLOGO = $rowcomp['COMPANYLOGO'];
+                        $COMPANYADDRESS = $rowcomp['COMPANYADDRESS'];
+                        $COMPANYCOUNTRY = $rowcomp['COMPANYCOUNTRY'];
+                        $COMPANYCITY = $rowcomp['COMPANYCITY'];
 
-					?>
+                        ?>
 
                     <!-- Single -->
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
@@ -243,13 +243,12 @@ if (!empty($_GET['type'])) {
                                     <input type="hidden" name="jobID" value="<?php echo $JOBID ?>">
                                     <input type="hidden" name="userID" value="<?php echo $session_id ?>">
                                     <?php
-										$query_apply = "SELECT * from tblbookmarkjob where APPLICANTID = '$session_id' and JOBID = '$JOBID' ORDER BY ID DESC" or die(mysqli_error($con));
-										$run_apply = mysqli_query($con, $query_apply);
-										$row_apply = mysqli_fetch_array($run_apply);
-										$cn_save = mysqli_num_rows($run_apply);
+                                        $query_apply = "SELECT * from tblbookmarkjob where APPLICANTID = '$session_id' and JOBID = '$JOBID' ORDER BY ID DESC" or die(mysqli_error($con));
+                                        $run_apply = mysqli_query($con, $query_apply);
+                                        $row_apply = mysqli_fetch_array($run_apply);
+                                        $cn_save = mysqli_num_rows($run_apply);
 
-										if ($cn_save > 0) { ?>
-
+                                    if ($cn_save > 0) { ?>
                                     <a href="?type=delete&bookmarkedid=<?php echo $row_apply['ID'] ?>"
                                         class="p-3 border circle d-flex align-items-center justify-content-center bg-warning text-white">
                                         <i class="lni lni-heart-filled position-absolute"></i></a>
@@ -289,8 +288,10 @@ if (!empty($_GET['type'])) {
                             </div>
                             <div class="job_grid_footer pb-4 px-3 d-flex align-items-center justify-content-between">
                                 <div class="df-1 text-muted">
-                                    <?php if ($SALARY > 0) { ?><i class="lni lni-wallet mr-1"></i>:
-                                    $<?php echo number_format($SALARY, 2)?>/hr <?php } ?><br>
+                                    <?php if ($SALARY > 0) {
+                                        ?><i class="lni lni-wallet mr-1"></i>:
+                                    $<?php echo number_format($SALARY, 2)?>/hr <?php
+                                    } ?><br>
                                     <i class="lni lni-timer mr-1"></i><b>Posted:</b>
                                     <?php echo timeago($DATEPOSTED); ?><br>
                                     <i class="lni lni-calendar mr-1"></i><b>Deadline:</b> <?php echo date($DEADLINE) ?>
@@ -306,28 +307,28 @@ if (!empty($_GET['type'])) {
                 <!-- row -->
 
                 <!-- <div class="row">
-					<div class="col-lg-12 col-md-12 col-sm-12">
-						<ul class="pagination">
-							<li class="page-item">
-								<a class="page-link" href="#" aria-label="Previous">
-									<span class="fas fa-arrow-circle-right"></span>
-									<span class="sr-only">Previous</span>
-								</a>
-							</li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item active"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#">...</a></li>
-							<li class="page-item"><a class="page-link" href="#">18</a></li>
-							<li class="page-item">
-								<a class="page-link" href="#" aria-label="Next">
-									<span class="fas fa-arrow-circle-right"></span>
-									<span class="sr-only">Next</span>
-								</a>
-							</li>
-						</ul>
-					</div> 
-				</div>-->
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <span class="fas fa-arrow-circle-right"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item active"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">...</a></li>
+                            <li class="page-item"><a class="page-link" href="#">18</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <span class="fas fa-arrow-circle-right"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div> 
+                </div>-->
 
             </div>
         </section>
