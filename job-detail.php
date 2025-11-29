@@ -37,6 +37,10 @@ if (!empty($_GET['jobid'])) {
 	$isActive = ($row['JOBSTATUS'] == 'Active');
 	$isFilled = ($row['JOBSTATUS'] == 'Filled');
 
+    $isExpired = strtotime($row['DEADLINE']) < time();
+    $daysUntilDeadline = ceil((strtotime($row['DEADLINE']) - time()) / 86400);
+    
+
 	$DATEPOSTED = $row['DATEPOSTED'];
 
 
@@ -56,6 +60,8 @@ if (!empty($_GET['jobid'])) {
 } else {
 	header('location: job-search-v1.php');
 }
+
+
 //////////////////////Get Company Details Ends//////////////////////
 
 if (!empty($_GET['type'])) {
@@ -139,7 +145,15 @@ setTimeout(function() {
                             <div class="jbd-01 d-flex align-items-center justify-content-between">
                                 <div class="jbd-flex d-flex align-items-center justify-content-start">
                                     <div class="jbd-01-thumb">
-                                        <img src="./<?php echo $COMPANYLOGO ?>" class="img-fluid" width="90" alt="" />
+                                        <?php if (!empty($COMPANYLOGO)): ?>
+                                        <img src="<?php echo htmlspecialchars($COMPANYLOGO); ?>" alt="Company Logo"
+                                            class="company-logo"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        <?php endif; ?>
+                                        <div class="company-logo-placeholder"
+                                            style="<?php echo !empty($COMPANYLOGO) ? 'display:none;' : ''; ?>">
+                                            <?php echo strtoupper(substr($COMPANYNAME, 0, 1)); ?>
+                                        </div>
                                     </div>
                                     <div class="jbd-01-caption pl-3">
                                         <div class="tbd-title">
@@ -499,25 +513,41 @@ setTimeout(function() {
 
                                     <?php if (isset($session_id)): ?>
                                     <?php
-                                                    // Check if already applied
-                                                    $checkQuery = "SELECT APPLICANTID FROM tbljobapplication WHERE JOBID = ? AND APPLICANTID = ?";
-                                                    $stmtCheck = mysqli_prepare($con, $checkQuery);
-                                                    mysqli_stmt_bind_param($stmtCheck, "ii", $JOBID, $session_id);
-                                                    mysqli_stmt_execute($stmtCheck);
-                                                    $hasApplied = mysqli_num_rows(mysqli_stmt_get_result($stmtCheck)) > 0;
-                                                    ?>
+                                        // Check if already applied
+                                          $checkQuery = "SELECT APPLICANTID FROM tbljobapplication WHERE JOBID = ? AND APPLICANTID = ?";
+                                          $stmtCheck = mysqli_prepare($con, $checkQuery);
+                                          mysqli_stmt_bind_param($stmtCheck, "ii", $JOBID, $session_id);
+                                          mysqli_stmt_execute($stmtCheck);
+                                          $hasApplied = mysqli_num_rows(mysqli_stmt_get_result($stmtCheck)) > 0;
+                                          ?>
 
                                     <?php if ($hasApplied): ?>
                                     <button class="btn btn-md rounded theme-bg  text-light ft-medium fs-sm full-width"
                                         disabled>
                                         <i class="lni lni-checkmark-circle"></i> Already Applied
                                     </button>
+                                    <?php elseif ($isExpired): ?>
+                                    <button class="btn btn-outline-secondary btn-block" disabled>
+                                        Deadline Passed
+                                    </button>
                                     <?php else: ?>
                                     <a href="apply-job.php?jobid=<?php echo $JOBID; ?>"
                                         class="btn btn-md rounded theme-bg text-light ft-medium fs-sm full-width">
                                         <i class="lni lni-briefcase"></i> Apply Now
                                     </a>
+                                    <!-- Deadline Warning -->
+                                    <?php if (!$isExpired && $daysUntilDeadline <= 7): ?>
+                                    <div class="mt-4 text-center">
+                                        <span
+                                            class="deadline-alert <?php echo $daysUntilDeadline <= 3 ? 'urgent' : ''; ?>">
+                                            <i class="lni lni-alarm"></i>
+                                            Deadline in <?php echo $daysUntilDeadline;?>
+                                            day<?php echo $daysUntilDeadline != 1 ? 's' : ''; ?>
+                                        </span>
+                                    </div>
                                     <?php endif; ?>
+                                    <?php endif; ?>
+
                                     <?php else: ?>
                                     <a href="login.php?redirect=apply-job.php?jobid=<?php echo $JOBID; ?>"
                                         class="btn btn-md rounded theme-bg  text-light ft-medium fs-sm">
