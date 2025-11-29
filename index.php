@@ -313,9 +313,20 @@ if (!empty($_GET['type'])) {
                                 <?php endif ?>
                             </div>
                             <div class="job_grid_thumb mb-3 pt-5 px-3">
-                                <a href="job-detail.php?jobid=<?php echo $JOBID ?>"
-                                    class="d-block text-center m-auto"><img src="./<?php echo $COMPANYLOGO ?>"
-                                        class="img-fluid" width="70" alt="" /></a>
+                                <a href="job-detail.php?jobid=<?php echo $JOBID ?>" class="d-block text-center m-auto">
+                                    <!-- <img src="./<?php echo $COMPANYLOGO ?>"
+                                        class="img-fluid" width="70" alt="" /> -->
+                                    <?php if (!empty($COMPANYLOGO)): ?>
+                                    <img src="<?php echo htmlspecialchars($COMPANYLOGO); ?>" alt="Company Logo"
+                                        class="company-logo-col"
+                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                    <?php endif; ?>
+                                    <div class="company-logo-placeholder-col"
+                                        style="<?php echo !empty($COMPANYLOGO) ? 'display:none;' : ''; ?>">
+                                        <span><?php echo strtoupper(substr($COMPANYNAME, 0, 1)); ?></span>
+
+                                    </div>
+                                </a>
                             </div>
                             <div class="job_grid_caption text-center pb-5 px-3">
                                 <h6 class="mb-0 lh-1 ft-medium medium"><a
@@ -400,8 +411,17 @@ if (!empty($_GET['type'])) {
                                 <div class="cats-wrap text-left">
                                     <a href="job-list-v1.php?companyid=<?php echo $COMPANYID ?>"
                                         class="cats-box rounded bg-white d-flex align-items-center px-2 py-3">
-                                        <div class="text-center"><img src="<?php echo $COMPANYLOGO ?>" class="img-fluid"
-                                                width="55" alt=""></div>
+                                        <div class="text-center">
+                                            <?php if (!empty($COMPANYLOGO)): ?>
+                                            <img src="<?php echo htmlspecialchars($COMPANYLOGO); ?>" alt="Company Logo"
+                                                class="company-logo"
+                                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                            <?php endif; ?>
+                                            <div class="company-logo-placeholder"
+                                                style="<?php echo !empty($COMPANYLOGO) ? 'display:none;' : ''; ?>">
+                                                <?php echo strtoupper(substr($COMPANYNAME, 0, 1)); ?>
+                                            </div>
+                                        </div>
                                         <div class="cats-box-caption px-2">
                                             <h4 class="fs-md mb-0 ft-medium"><?php echo $COMPANYNAME ?></h4>
                                             <span class="text-muted"><?php echo $count ?> Jobs</span>
