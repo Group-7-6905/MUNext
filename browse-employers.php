@@ -42,6 +42,9 @@ if (isset($_POST['search_btn']) || isset($_GET['search'])) {
 // Build the query
 $where_conditions = [];
 
+// ALWAYS filter by active company status
+$where_conditions[] = "COMPANYSTATUS = 'Active'";
+
 // Search conditions
 if (!empty($search)) {
     if ($search_by == 'name') {
@@ -187,7 +190,7 @@ $base_params = [
                                                                     <?php
                                                                     $query_ind = "SELECT COMPANYINDUSTRY, COUNT(*) as count 
                                                                                   FROM tblcompany 
-                                                                                  WHERE COMPANYINDUSTRY IS NOT NULL AND COMPANYINDUSTRY != ''
+                                                                                  WHERE COMPANYINDUSTRY IS NOT NULL AND COMPANYINDUSTRY != '' AND COMPANYSTATUS = 'Active'
                                                                                   GROUP BY COMPANYINDUSTRY 
                                                                                   ORDER BY count DESC 
                                                                                   LIMIT 10";
@@ -239,7 +242,7 @@ $base_params = [
                                             <h5 class="ft-medium fs-md mb-3">Popular Industries</h5>
                                             <div class="d-flex flex-wrap">
                                                 <?php
-                                                $popular_ind = mysqli_query($con, "SELECT DISTINCT COMPANYINDUSTRY FROM tblcompany WHERE COMPANYINDUSTRY IS NOT NULL AND COMPANYINDUSTRY != '' LIMIT 6");
+                                                $popular_ind = mysqli_query($con, "SELECT DISTINCT COMPANYINDUSTRY FROM tblcompany WHERE COMPANYINDUSTRY IS NOT NULL AND COMPANYINDUSTRY != '' AND COMPANYSTATUS = 'Active' LIMIT 6");
                                                 while ($pop = mysqli_fetch_array($popular_ind)) {
                                                 ?>
                                                 <a href="?industry=<?php echo urlencode($pop['COMPANYINDUSTRY']); ?>"
