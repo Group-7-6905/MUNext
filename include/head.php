@@ -15,3 +15,11 @@
 <!-- Preloader - style you can find in spinners.css -->
 <!-- ============================================================== -->
 <!-- <div class="preloader"></div> -->
+
+<?php
+// ==================== GET SITE SETTINGS ====================
+require './dashboard/settings-manager.php';
+// ==================== ====================
+
+
+?>
