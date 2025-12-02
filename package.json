@@ -7,6 +7,8 @@
     "lint:php": "php vendor/bin/phpcs --standard=.phpcs.xml",
     "lint:php:fix": "php vendor/bin/phpcbf --standard=.phpcs.xml",
     "lint:php:report": "php vendor/bin/phpcs --standard=.phpcs.xml --report=summary",
+    "analyse": "php vendor/bin/phpstan analyse --memory-limit=1G",
+    "analyse:baseline": "php vendor/bin/phpstan analyse --generate-baseline",
     "lint:js": "eslint assets/js/**/*.js",
     "lint:js:fix": "eslint assets/js/**/*.js --fix",
     "lint:css": "stylelint \"assets/css/**/*.css\"",

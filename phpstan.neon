@@ -1,0 +1,57 @@
+# PHPStan Configuration for MUNext
+# Static Analysis Tool for PHP Code Quality
+
+parameters:
+    # Analysis level (0-9, where 9 is the strictest)
+    # Starting with level 5 for balanced strictness
+    level: 5
+
+    # Paths to analyze
+    paths:
+        - .
+
+    # Paths to exclude from analysis
+    excludePaths:
+        - vendor/
+        - node_modules/
+        - coverage/
+        - tests/
+        - cypress/
+        - assets/
+        - profile/
+        - resumes_cv/
+        - company_logo/
+        - avater/
+        - db/
+
+    # Scan files for analysis
+    scanFiles:
+        - mysqli_connect.php
+
+    # Bootstrap file for analysis context
+    bootstrapFiles:
+        - mysqli_connect.php
+
+    # Report unmatched ignored errors
+    reportUnmatchedIgnoredErrors: false
+
+    # Ignore errors for common PHP patterns
+    ignoreErrors:
+        # Ignore mysqli procedural function type issues (legacy code)
+        - '#Call to function mysqli_[a-z_]+\(\) with [0-9]+ parameter#'
+
+        # Ignore session variable type issues
+        - '#Variable \$_SESSION#'
+
+        # Ignore superglobal type issues
+        - '#Variable \$_(GET|POST|REQUEST|SERVER|FILES)#'
+
+        # Ignore missing type hints from arrays and generics
+        -
+            identifier: missingType.iterableValue
+        -
+            identifier: missingType.generics
+
+    # Universal object crates (for flexibility with database results)
+    universalObjectCratesClasses:
+        - stdClass
