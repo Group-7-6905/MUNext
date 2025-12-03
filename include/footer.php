@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <label for="dd" class="checkbox-custom-label">Remember Me</label>
                             </div>
                             <div class="eltio_k2">
-                                <a href="#" class="theme-cl">Lost Your Password?</a>
+                                <a href="forgot-password.php" class="theme-cl">Lost Your Password?</a>
                             </div>
                         </div>
                     </div>
@@ -290,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
 
                     <div class="form-group text-center mb-0">
-                        <p class="extra">Not a member?<a href="#et-register-wrap" class="text-dark"> Register</a></p>
+                        <p class="extra">Not a member?<a href="login.php" class="text-dark"> Register</a></p>
                     </div>
                 </form>
             </div>
@@ -322,3 +322,69 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 })();
 </script>
+
+
+
+
+
+<!-- Toast Notification Script -->
+<script>
+function showToast(message, type = 'info') {
+    const toast = document.getElementById('toast');
+    if (!toast) {
+        console.error('Toast element not found');
+        return;
+    }
+
+    toast.className = '';
+
+    let icon = '';
+    switch (type) {
+        case 'success':
+            icon = '✓';
+            break;
+        case 'error':
+            icon = '✕';
+            break;
+        case 'warning':
+            icon = '⚠';
+            break;
+        case 'info':
+            icon = 'ℹ';
+            break;
+    }
+
+    toast.innerHTML = '<span style="font-size: 1.2rem;">' + icon + '</span><span>' + message + '</span>';
+    toast.className = 'show ' + type;
+
+    setTimeout(() => {
+        toast.className = toast.className.replace('show', '');
+    }, 3000);
+}
+
+// Password validation for registration
+document.addEventListener('DOMContentLoaded', function() {
+    const regForm = document.getElementById('registrationForm');
+    if (regForm) {
+        regForm.addEventListener('submit', function(e) {
+            const password = document.getElementById('regPassword').value;
+            const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                showToast('Passwords do not match!', 'error');
+                return false;
+            }
+
+            if (password.length < 6) {
+                e.preventDefault();
+                showToast('Password must be at least 6 characters long!', 'error');
+                return false;
+            }
+        });
+    }
+});
+</script>
+
+<!-- Render Toast from Session -->
+<?php  echo Toast::render(); ?>
