@@ -12,6 +12,8 @@ include "include/helper.php";
 
 
 
+
+
 if (!empty($_GET['type'])) {
 	$type = $_GET['type'];
 
@@ -40,6 +42,9 @@ if (!empty($_GET['type'])) {
 <?php include 'include/head.php' ?>
 
 <body>
+
+
+    <div id="toast"></div>
 
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->

@@ -3,51 +3,80 @@
 
 <?php
 require('./mysqli_connect.php');
-		// session_start();
 
-		// header.php
-		// include "include/helper.php";
+include "session_check.php";
 
 
-		include 'session_check.php';
+require_once "include/email-functions.php";
 
-		include "include/helper.php";
+// include "include/toast.php";
 
 
-	
-		
+$UserRole = $_GET['role'] ?? '';
+
+// Get any URL parameter for redirect after login
+$requestedUrl = isset($_GET['redirect']) ? htmlspecialchars($_GET['redirect']) : '';
+
+$Lerror = '';
+$error = '';
+$alertText = '';
+$chk = "";
+
+if (!empty($_GET['chk'])) {
+    $chk = $_GET['chk'];
+}
+
+// ==================== GET REGISTRATION SETTINGS ====================
+// Check if user registration is allowed
+$userRegQuery = "SELECT setting_value FROM tbl_settings WHERE setting_key = 'user_registration'";
+$userRegResult = mysqli_query($con, $userRegQuery);
+$userRegAllowed = false;
+if ($userRegResult && mysqli_num_rows($userRegResult) > 0) {
+    $userRegRow = mysqli_fetch_assoc($userRegResult);
+    $userRegAllowed = ($userRegRow['setting_value'] == '1');
+}
+
+// Check if company registration is allowed
+$compRegQuery = "SELECT setting_value FROM tbl_settings WHERE setting_key = 'company_registration'";
+$compRegResult = mysqli_query($con, $compRegQuery);
+$compRegAllowed = false;
+if ($compRegResult && mysqli_num_rows($compRegResult) > 0) {
+    $compRegRow = mysqli_fetch_assoc($compRegResult);
+    $compRegAllowed = ($compRegRow['setting_value'] == '1');
+}
+
+// Check auto-approve companies setting
+$autoApproveQuery = "SELECT setting_value FROM tbl_settings WHERE setting_key = 'auto_approve_companies'";
+$autoApproveResult = mysqli_query($con, $autoApproveQuery);
+$autoApproveCompanies = false;
+if ($autoApproveResult && mysqli_num_rows($autoApproveResult) > 0) {
+    $autoApproveRow = mysqli_fetch_assoc($autoApproveResult);
+    $autoApproveCompanies = ($autoApproveRow['setting_value'] == '1');
+}
+
+include "include/helper.php";
+
+
 ?>
-
-<!-- Mirrored from themezhub.net/live-workplex/workplex/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Feb 2022 12:08:07 GMT -->
 
 <?php include 'include/head.php' ?>
 
 <body>
+    <div id="toast"></div>
 
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
     <div id="main-wrapper">
-
-        <!-- ============================================================== -->
-        <!-- Top header  -->
-        <!-- ============================================================== -->
-        <!-- Start Navigation -->
+        <!-- Header -->
         <?php include 'include/header.php' ?>
-        <!-- End Navigation -->
         <div class="clearfix"></div>
-        <!-- ============================================================== -->
-        <!-- Top header  -->
-        <!-- ============================================================== -->
 
-        <!-- ======================= Top Breadcrubms ======================== -->
+        <!-- Breadcrumb -->
         <div class="gray py-3">
             <div class="container">
                 <div class="row">
                     <div class="colxl-12 col-lg-12 col-md-12">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="index.php">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Login</li>
                             </ol>
@@ -56,39 +85,44 @@ require('./mysqli_connect.php');
                 </div>
             </div>
         </div>
-        <!-- ======================= Top Breadcrubms ======================== -->
 
-        <!-- ======================= Login Detail ======================== -->
+        <!-- Login and Registration Section -->
         <section class="middle">
             <div class="container">
-                <div class="row align-items-start justify-content-between">
-
-
-                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-
+                <div class="row">
+                    <!-- Login Section -->
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mfliud">
                         <div class="form-group">
                             <?php if ($chk == "successful") { ?>
-                            <h5 class="t">Registration Successful!</h5>
-
-                            <hr>Thank You!!!<br>
+                            <h5 class="text-bold">Registration Successful!</h5>
+                            <hr>
+                            <div>Thank You!!!</div>
                             <span>Please Sign In to your account.</span>
-                            <!-- </h6> -->
-
                             <?php } else { ?>
                             <h5>Welcome Back!</h5>
                             <span class="t">Access Account</span>
-
                             <?php } ?>
                         </div>
+
+                        <?php if (!empty($Lerror)): ?>
+                        <div class="form-group">
+                            <div class="alert alert-danger">
+                                <?php echo $Lerror; ?>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
                         <form class="border p-3 rounded" method="post">
                             <div class="form-group">
                                 <label>User Name *</label>
-                                <input type="text" class="form-control" placeholder="Username*" name="username">
+                                <input required type="text" class="form-control" placeholder="Username*"
+                                    name="username">
                             </div>
 
                             <div class="form-group">
                                 <label>Password *</label>
-                                <input type="password" class="form-control" placeholder="Password*" name="password">
+                                <input required type="password" class="form-control" placeholder="Password*"
+                                    name="password">
                             </div>
 
                             <div class="form-group">
@@ -98,88 +132,95 @@ require('./mysqli_connect.php');
                                         <label for="dd" class="checkbox-custom-label">Remember Me</label>
                                     </div>
                                     <div class="eltio_k2">
-                                        <a href="#">Lost Your Password?</a>
+                                        <a href="forgot-password.php">Lost Your Password?</a>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="flex-1">
-                                        <?php echo $Lerror;?>
-                                    </div>
-                                </div>
-                            </div>
+
 
                             <div class="form-group">
                                 <button type="submit" name="login_btn"
-                                    class="btn btn-md full-width theme-bg text-light fs-md ft-medium">Login</button>
+                                    class="btn btn-md full-width theme-bg text-light fs-md ft-medium">
+                                    Login
+                                </button>
                             </div>
                         </form>
                     </div>
 
+                    <!-- Registration Section -->
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mfliud">
-
                         <div class="form-group">
-
                             <h5>Create Account!</h5>
                             <span class="t">Signup Account</span>
-
-                            <?php if (!empty($alertText)){ echo '<div class="pt-2">'.$alertText .' </div>';}?>
-
-
-
-
+                            <?php if (!empty($alertText)) { echo '<div class="pt-2">' . $alertText . '</div>'; } ?>
                         </div>
-                        <form class="border p-3 rounded" method="post">
 
-                            <!-- Choose between registering as job applicant and employer -->
+                        <form class="border p-3 rounded" method="post" id="registrationForm">
+                            <!-- Role Selection -->
                             <div class="form-group">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="flex-1">
-                                        <input id="applicant" class="" name="role" type="radio" value="Applicant"
-                                            checked>
-                                        <label for="applicant" class="checkbox-custom-label">Register as Job
-                                            Applicant</label>
+                                        <input required id="applicant" name="role" type="radio" value="Applicant"
+                                            <?php echo ($UserRole == 'applicants' || $UserRole == '') ? 'checked' : ''; ?>
+                                            <?php echo !$userRegAllowed ? 'disabled' : ''; ?>>
+                                        <label for="applicant" class="checkbox-custom-label">
+                                            Register as Job Applicant
+                                            <?php if (!$userRegAllowed): ?>
+                                            <small class="text-danger">(Disabled)</small>
+                                            <?php endif; ?>
+                                        </label>
                                     </div>
                                     <div class="flex-1">
-                                        <input id="employer" class="" name="role" type="radio" value="Employer">
-                                        <label for="employer" class="checkbox-custom-label">Register as Employer</label>
+                                        <input required id="employer" name="role" type="radio" value="Employer"
+                                            <?php echo ($UserRole == 'employer') ? 'checked' : ''; ?>
+                                            <?php echo !$compRegAllowed ? 'disabled' : ''; ?>>
+                                        <label for="employer" class="checkbox-custom-label">
+                                            Register as Employer
+                                            <?php if (!$compRegAllowed): ?>
+                                            <small class="text-danger">(Disabled)</small>
+                                            <?php endif; ?>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
-
+                            <hr>
 
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>First Name *</label>
-                                    <input type="text" class="form-control" placeholder="First Name" name="Fname">
+                                    <input required type="text" class="form-control" placeholder="First Name"
+                                        name="Fname">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label>Last Name</label>
-                                    <input type="text" class="form-control" placeholder="Last Name" name="Lname">
+                                    <label>Last Name *</label>
+                                    <input required type="text" class="form-control" placeholder="Last Name"
+                                        name="Lname">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label>Email *</label>
-                                <input type="email" class="form-control" placeholder="Email*" name="email">
+                                <input required type="email" class="form-control" placeholder="Email*" name="email">
                             </div>
 
                             <div class="form-group">
                                 <label>Username *</label>
-                                <input type="text" class="form-control" placeholder="Username*" name="username">
+                                <input required type="text" class="form-control" placeholder="Username*"
+                                    name="username">
                             </div>
+
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label>Password *</label>
-                                    <input type="password" class="form-control" placeholder="Password*" name="password">
+                                    <input required type="password" class="form-control" placeholder="Password*"
+                                        name="password" minlength="6" id="regPassword">
+                                    <small class="form-text text-muted">Minimum 6 characters</small>
                                 </div>
-
                                 <div class="form-group col-md-6">
                                     <label>Confirm Password *</label>
-                                    <input type="password" class="form-control" placeholder="Confirm Password*"
-                                        name="cpassword">
+                                    <input required type="password" class="form-control" placeholder="Confirm Password*"
+                                        name="cpassword" id="regConfirmPassword">
                                 </div>
                             </div>
 
@@ -188,15 +229,6 @@ require('./mysqli_connect.php');
                                     Cookie Policy.</p>
                             </div>
 
-                            <!-- <div class="form-group">
-									<div class="d-flex align-items-center justify-content-between">
-										<div class="flex-1">
-											<input id="admin" class="checkbox-custom" name="admin" type="checkbox" value="Administrator">
-											<label for="admin" class="checkbox-custom-label">For Administrator?</label>
-										</div>		
-									</div>
-								</div>
-								 -->
                             <div class="form-group">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="flex-1">
@@ -208,41 +240,21 @@ require('./mysqli_connect.php');
                             </div>
 
                             <div class="form-group">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="flex-1">
-                                        <?php echo $error;?>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
                                 <button type="submit" name="register_btn"
-                                    class="btn btn-md full-width theme-bg text-light fs-md ft-medium">Create An
-                                    Account</button>
+                                    class="btn btn-md full-width theme-bg text-light fs-md ft-medium">
+                                    Create An Account
+                                </button>
                             </div>
                         </form>
-
-
                     </div>
-
                 </div>
             </div>
         </section>
-        <!-- ======================= Login End ======================== -->
 
-        <?php include 'include/footer.php';
-			session_destroy();
-		?>
-
-
+        <?php include 'include/footer.php'; ?>
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
 
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
+    <!-- Scripts -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
@@ -252,12 +264,69 @@ require('./mysqli_connect.php');
     <script src="assets/js/snackbar.min.js"></script>
     <script src="assets/js/jQuery.style.switcher.js"></script>
     <script src="assets/js/custom.js"></script>
-    <!-- ============================================================== -->
-    <!-- This page plugins -->
-    <!-- ============================================================== -->
+
+    <!-- Toast Notification Script -->
+    <script>
+    function showToast(message, type = 'info') {
+        const toast = document.getElementById('toast');
+        if (!toast) {
+            console.error('Toast element not found');
+            return;
+        }
+
+        toast.className = '';
+
+        let icon = '';
+        switch (type) {
+            case 'success':
+                icon = '✓';
+                break;
+            case 'error':
+                icon = '✕';
+                break;
+            case 'warning':
+                icon = '⚠';
+                break;
+            case 'info':
+                icon = 'ℹ';
+                break;
+        }
+
+        toast.innerHTML = '<span style="font-size: 1.2rem;">' + icon + '</span><span>' + message + '</span>';
+        toast.className = 'show ' + type;
+
+        setTimeout(() => {
+            toast.className = toast.className.replace('show', '');
+        }, 3000);
+    }
+
+    // Password validation for registration
+    document.addEventListener('DOMContentLoaded', function() {
+        const regForm = document.getElementById('registrationForm');
+        if (regForm) {
+            regForm.addEventListener('submit', function(e) {
+                const password = document.getElementById('regPassword').value;
+                const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+                if (password !== confirmPassword) {
+                    e.preventDefault();
+                    showToast('Passwords do not match!', 'error');
+                    return false;
+                }
+
+                if (password.length < 6) {
+                    e.preventDefault();
+                    showToast('Password must be at least 6 characters long!', 'error');
+                    return false;
+                }
+            });
+        }
+    });
+    </script>
+
+    <!-- Render Toast from Session -->
+    <?php echo Toast::render(); ?>
 
 </body>
-
-<!-- Mirrored from themezhub.net/live-workplex/workplex/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Feb 2022 12:08:07 GMT -->
 
 </html>

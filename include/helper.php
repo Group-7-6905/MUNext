@@ -1,5 +1,9 @@
 <?php
 
+include "include/toast.php";
+
+
+
 $query = mysqli_query($con, "SELECT * FROM tblusers WHERE USERID = '$session_id'") or die(mysqli_error($con));
 $row = mysqli_fetch_array($query);
 
@@ -491,40 +495,23 @@ function cleanOldLoginHistory($con, $days = 90) {
 
 
 
-
-
-
-
 $Lerror = '';
 $error = '';
 $errorActv = '';
 
-$chk = "";
-if (!empty($_GET['chk'])) {
-    $chk = $_GET['chk'];
-}
-
+// ==================== LOGIN FUNCTIONALITY ====================
 if (isset($_POST['login_btn'])) {
     $username = validate_input_text($_POST['username']);
-    if (empty($username)) {
-        $Lerror = "You forgot to enter your Username";
-        $_SESSION['error_msg'] = $Lerror;
-    }
-
     $password = validate_input_text($_POST['password']);
-    if (empty($password)) {
-        $Lerror = "You forgot to enter your password";
-        $_SESSION['error_msg'] = $Lerror;
-    }
-
-
-
-
-
-
-    if (empty($Lerror)) {
-        // sql query
-
+    
+    // Validation
+    if (empty($username)) {
+        $Lerror = "Please enter your Username";
+        Toast::error($Lerror);
+    } elseif (empty($password)) {
+        $Lerror = "Please enter your password";
+        Toast::error($Lerror);
+    } else {
         // Check user credentials
         $query = "SELECT * FROM tblusers WHERE USERNAME = ?";
         $stmt = mysqli_prepare($con, $query);
@@ -533,14 +520,29 @@ if (isset($_POST['login_btn'])) {
         $result = mysqli_stmt_get_result($stmt);
         
         if (mysqli_num_rows($result) == 1) {
-            session_unset();
             $row = mysqli_fetch_assoc($result);
-            // verify password
+            
+            // Verify password
             if (password_verify($password, $row['PASS'])) {
-                $suspiciousCheck = checkSuspiciousActivity($con, $row['USERID']);
-                
-                if ($suspiciousCheck['is_suspicious']) {
-                    // Log failed attempt due to suspicious activity
+                // Check user status
+                if ($row['USERSTATUS'] != 'Active') {
+                    // Account is not active
+                    $statusMessage = '';
+                    switch ($row['USERSTATUS']) {
+                        case 'Pending':
+                            $statusMessage = "Your account is pending approval. Please wait for admin verification.";
+                            break;
+                        case 'Suspended':
+                            $statusMessage = "Your account has been suspended. Please contact support for assistance.";
+                            break;
+                        case 'Inactive':
+                            $statusMessage = "Your account is inactive. Please contact support to reactivate.";
+                            break;
+                        default:
+                            $statusMessage = "Your account status is: " . $row['USERSTATUS'] . ". Please contact support.";
+                    }
+                    
+                    // Record failed login attempt due to status
                     recordLoginHistory(
                         $con, 
                         $row['USERID'], 
@@ -548,81 +550,79 @@ if (isset($_POST['login_btn'])) {
                         $row['EMAIL'], 
                         $row['ROLE'], 
                         'Blocked', 
-                        $suspiciousCheck['reason']
-                    );
-
-
-                    $Lerror = "Login blocked due to suspicious activity. Please contact support.";
-                    $_SESSION['error_msg'] = $Lerror;
-            
-            } else {
-                    // Successful login
-
-                    $_SESSION['userID'] = $row['USERID'];
-                    $_SESSION['loggedin_time'] = time();
-                    $_SESSION['role'] = $row['ROLE'];
-
-                    
-
-                      // Record successful login
-                    recordLoginHistory(
-                        $con, 
-                        $row['USERID'], 
-                        $row['USERNAME'], 
-                        $row['EMAIL'], 
-                        $row['ROLE'], 
-                        'Success'
+                        'Account status: ' . $row['USERSTATUS']
                     );
                     
-
-                    // Update last login time
-                    // $updateQuery = "UPDATE tblusers SET LASTLOGIN = NOW() WHERE USERID = ?";
-                    // $updateStmt = mysqli_prepare($con, $updateQuery);
-                    // mysqli_stmt_bind_param($updateStmt, "i", $row['USERID']);
-                    // mysqli_stmt_execute($updateStmt);
-                    
-                    $message = "Login Successful!";
-                // echo "<script>alert('Incorrect Username or Password!')</script>";
-                $_SESSION['success_msg'] = $message;
-                    
-                if ($row['ROLE'] == "Admin") {
-                              // header("location: ./admin/");
-                              echo "<script>
-                          setTimeout(function() {
-                            window.location.href = './admin/';
-                          }, 2000);
-                        </script>";
-             
-                        exit();
+                    $Lerror = $statusMessage;
+                    Toast::error($statusMessage);
                 } else {
-                  
-                    if (!empty($_POST['url'])) {
-                        $url = $_POST['url'];
-                        // header("location: ./$url");
-                        echo "<script>
-                        setTimeout(function() {
-                          window.location.href = './$url';
-                        }, 2000);
-                      </script>";
+                    // Check for suspicious activity
+                    $suspiciousCheck = checkSuspiciousActivity($con, $row['USERID']);
+                    
+                    if ($suspiciousCheck['is_suspicious']) {
+                        // Log failed attempt due to suspicious activity
+                        recordLoginHistory(
+                            $con, 
+                            $row['USERID'], 
+                            $row['USERNAME'], 
+                            $row['EMAIL'], 
+                            $row['ROLE'], 
+                            'Blocked', 
+                            $suspiciousCheck['reason']
+                        );
+                        
+                        $Lerror = "Login blocked due to suspicious activity. Please contact support.";
+                        Toast::error($Lerror);
                     } else {
-
-                        echo "<script> window.location.href = './dashboard/'; </script>";
-
-
-                      // if ($row['ROLE'] == "Applicant") {
-                      //           // header("location: ./dashboard/");
-                      //          echo "<script> window.location.href = './dashboard/applicant/'; </script>";
-                      // } else {
-                      //           // header("location: ./employer/");
-                      //           echo "<script> window.location.href = './dashboard/employer'; </script>";
-                      // }
+                        // Successful login
+                        session_regenerate_id(true); // Prevent session fixation
+                        
+                        $_SESSION['userID'] = $row['USERID'];
+                        $_SESSION['loggedin_time'] = time();
+                        $_SESSION['role'] = $row['ROLE'];
+                        $_SESSION['username'] = $row['USERNAME'];
+                        
+                        // Record successful login
+                        recordLoginHistory(
+                            $con, 
+                            $row['USERID'], 
+                            $row['USERNAME'], 
+                            $row['EMAIL'], 
+                            $row['ROLE'], 
+                            'Success'
+                        );
+                        
+                        Toast::success("Login Successful! Redirecting...");
+                        
+                        // Redirect based on role
+                        if ($row['ROLE'] == "Admin") {
+                            echo "<script>
+                                setTimeout(function() {
+                                    window.location.href = './admin/';
+                                }, 1500);
+                            </script>";
+                            exit();
+                        } else {
+                            // Check for redirect URL
+                            if (!empty($_POST['url'])) {
+                                $url = $_POST['url'];
+                                echo "<script>
+                                    setTimeout(function() {
+                                        window.location.href = './$url';
+                                    }, 1500);
+                                </script>";
+                            } else {
+                                echo "<script>
+                                    setTimeout(function() {
+                                        window.location.href = './dashboard/';
+                                    }, 1500);
+                                </script>";
+                            }
+                            exit();
+                        }
                     }
-
-                    exit();
-                }
                 }
             } else {
-
                 // Failed login - wrong password
                 recordLoginHistory(
                     $con, 
@@ -634,15 +634,11 @@ if (isset($_POST['login_btn'])) {
                     'Incorrect password'
                 );
                 
-
                 $Lerror = "<div style='color:red'>Incorrect Username or Password!</div>";
-                $error = "Incorrect Username or Password!";
-                // echo "<script>alert('Incorrect Username or Password!')</script>";
-                $_SESSION['error_msg'] = $Lerror;
-
+                Toast::error("Incorrect Username or Password!");
             }
         } else {
-             // User not found - record with dummy userid (0)
+            // User not found
             recordLoginHistory(
                 $con, 
                 0, 
@@ -654,180 +650,174 @@ if (isset($_POST['login_btn'])) {
             );
             
             $Lerror = "<div style='color:red'>Username does not exist!</div>";
-            $error = "Username does not exist!";
-            // echo "<script>alert('Username does not exist!')</script>";
-            $_SESSION['error_msg'] = $Lerror;
-
+            Toast::error("Username does not exist!");
         }
-    } else {
-        $Lerror = "<div style='color:red'>Please Fill out Username and password to login!</div>";
-        $error = "Please Fill out Username and password to login!";
         
-         $_SESSION['error_msg'] = $Lerror;
+        mysqli_stmt_close($stmt);
     }
 }
-/////////////////// login Ends//////////////////////////////
-/////////////////// login Functions END//////////////////////////////
+/* ======================= LOGIN FUNCTIONALITY ENDS ===========*/
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/////////////////// Sign Up //////////////////////////////
-
-
+// ==================== REGISTRATION FUNCTIONALITY ====================
 if (isset($_POST['register_btn'])) {
-    # code...
-
     $role = validate_input_text($_POST['role']);
     
-
+    // Check if registration is allowed for this role
+    if ($role == 'Applicant' && !$userRegAllowed) {
+        $alertText = "<div class='alert alert-danger'>User registration is currently disabled. Please contact support.</div>";
+        Toast::error("User registration is currently disabled!");
+        goto skip_registration;
+    }
+    
+    if ($role == 'Employer' && !$compRegAllowed) {
+        $alertText = "<div class='alert alert-danger'>Employer registration is currently disabled. Please contact support.</div>";
+        Toast::error("Employer registration is currently disabled!");
+        goto skip_registration;
+    }
+    
+    // Validate inputs
     $firstName = validate_input_text($_POST['Fname']);
     if (empty($firstName)) {
-        $alertText = "You forgot to enter your first Name";
-        $ferror = "You forgot to enter your first Name";
-         $_SESSION['error_msg'] = $alertText;
+        $alertText = "Please enter your first name";
+        Toast::error($alertText);
+        goto skip_registration;
     }
-
+    
     $lastName = validate_input_text($_POST['Lname']);
     if (empty($lastName)) {
-        $alertText = "You forgot to enter your last Name";
-        $lerror = "You forgot to enter your last Name";
-        $_SESSION['error_msg'] = $alertText;
+        $alertText = "Please enter your last name";
+        Toast::error($alertText);
+        goto skip_registration;
     }
-
+    
     $username = validate_input_text($_POST['username']);
     if (empty($username)) {
-        $alertText = "You forgot to enter your Username";
-        $_SESSION['error_msg'] = $alertText;
+        $alertText = "Please enter a username";
+        Toast::error($alertText);
+        goto skip_registration;
     }
-
+    
     $email = validate_input_email($_POST['email']);
     if (empty($email)) {
-        $alertText = "You forgot to enter your Email";
-        $eerror = "You forgot to enter your Email";
-         $_SESSION['error_msg'] = $alertText;
+        $alertText = "Please enter a valid email address";
+        Toast::error($alertText);
+        goto skip_registration;
     }
-
-
+    
     $password = validate_input_text($_POST['password']);
     if (empty($password)) {
-        $alertText = "You forgot to enter your password";
-        $perror = "You forgot to enter your password";
-        $_SESSION['error_msg'] = $alertText;
+        $alertText = "Please enter a password";
+        Toast::error($alertText);
+        goto skip_registration;
     }
-
+    
+    if (strlen($password) < 6) {
+        $alertText = "Password must be at least 6 characters long";
+        Toast::error($alertText);
+        goto skip_registration;
+    }
+    
     $confirm_pwd = validate_input_text($_POST['cpassword']);
-    if (empty($confirm_pwd)) {
-        $alertText = "You forgot to enter your Confirm Password";
-        $_SESSION['error_msg'] = $alertText;
-    }
     if ($password != $confirm_pwd) {
-        $alertText = "Retype Confirm Password";
-        $_SESSION['error_msg'] = $alertText;
-        goto a;
+        $alertText = "Passwords do not match!";
+        Toast::error($alertText);
+        goto skip_registration;
     }
-
-
-    if (empty($error)) {
-
-        // register a new user
-        $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
-
-
-        $query = "SELECT * from tblusers" or die(mysqli_error($con));
-        $run = mysqli_query($con, $query);
-        while ($row = mysqli_fetch_array($run)) {
-
-            $demail = $row['EMAIL'];
-            $dusername = $row['USERNAME'];
-            if ($demail == $email) {
-                # code...
-                // echo '<script>alert("E-mail Already existing")</script>';
-                
-                $message = "E-mail provided is already existing";
-                $alertText = "<div style='color:red'>E-mail provided is already existing</div>";
-            
-                $_SESSION['error_msg'] = $message;
-              
-
-                goto a;
-            }
-            if ($dusername == $username) {
-                # code...
-                // echo '<script>alert("Username Already existing")</script>';
-
-                $message = "Username provided is already existing";
-                $alertText = "<div style='color:red'>Username provided is already existing</div>";
-
-                $_SESSION['error_msg'] = $message;
-
-                goto a;
-            }
-        }
-
-
-       
-        // $status = "Unverified";
-        $FULLNAME = $firstName . ' ' . $lastName;
-
-        if (!empty($_POST['admin'])) {
-            $admin = validate_input_text($_POST['admin']);
-            $ROLE = $admin;
+    
+    // Check if email already exists
+    $checkEmailQuery = "SELECT USERID FROM tblusers WHERE EMAIL = ?";
+    $stmtEmail = mysqli_prepare($con, $checkEmailQuery);
+    mysqli_stmt_bind_param($stmtEmail, "s", $email);
+    mysqli_stmt_execute($stmtEmail);
+    $emailResult = mysqli_stmt_get_result($stmtEmail);
+    
+    if (mysqli_num_rows($emailResult) > 0) {
+        $alertText = "<div style='color:red'>Email address is already registered!</div>";
+        Toast::error("Email address is already registered!");
+        mysqli_stmt_close($stmtEmail);
+        goto skip_registration;
+    }
+    mysqli_stmt_close($stmtEmail);
+    
+    // Check if username already exists
+    $checkUserQuery = "SELECT USERID FROM tblusers WHERE USERNAME = ?";
+    $stmtUser = mysqli_prepare($con, $checkUserQuery);
+    mysqli_stmt_bind_param($stmtUser, "s", $username);
+    mysqli_stmt_execute($stmtUser);
+    $userResult = mysqli_stmt_get_result($stmtUser);
+    
+    if (mysqli_num_rows($userResult) > 0) {
+        $alertText = "<div style='color:red'>Username is already taken!</div>";
+        Toast::error("Username is already taken!");
+        mysqli_stmt_close($stmtUser);
+        goto skip_registration;
+    }
+    mysqli_stmt_close($stmtUser);
+    
+    // Hash password
+    $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
+    
+    // Determine user status based on role and settings
+    $userStatus = 'Active'; // Default for applicants
+    
+    if ($role == 'Employer') {
+        // For employers, check auto-approve setting
+        $userStatus = $autoApproveCompanies ? 'Active' : 'Pending';
+    }
+    
+    // Handle admin role
+    if (!empty($_POST['admin'])) {
+        $admin = validate_input_text($_POST['admin']);
+        $role = $admin;
+        $userStatus = 'Pending'; // Admins always need approval
+    }
+    
+    // Insert new user
+    $insertQuery = "INSERT INTO tblusers (FNAME, ONAME, EMAIL, USERNAME, PASS, ROLE, USERSTATUS, DATECREATED) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, NOW())";
+    $stmtInsert = mysqli_prepare($con, $insertQuery);
+    mysqli_stmt_bind_param($stmtInsert, "sssssss", $firstName, $lastName, $email, $username, $hashed_pass, $role, $userStatus);
+    
+    if (mysqli_stmt_execute($stmtInsert)) {
+        $newUserId = mysqli_insert_id($con);
+        
+        // Send welcome email
+        $fullName = $firstName . ' ' . $lastName;
+        $emailSent = sendWelcomeEmail($con, $email, $fullName, $role);
+        
+        // Success message based on status
+        if ($userStatus == 'Pending') {
+            $alertText = '<div class="alert alert-success">Account created successfully! Your account is pending approval. You will receive an email once approved.</div>';
+            Toast::success("Account created! Pending approval.");
         } else {
-            $ROLE = $role; //Administrator //Employee //Applicant
+            $alertText = '<div class="alert alert-success">Account created successfully! You can now log in.</div>';
+            Toast::success("Account created successfully!");
         }
-
-        $query = "INSERT into tblusers (FNAME, ONAME, EMAIL, USERNAME, PASS, ROLE, USERSTATUS, DATECREATED) values ('$firstName', '$lastName', '$email', '$username', '$hashed_pass', '$ROLE', 'Active', now())" or die(mysqli_error($con));
-        $result = mysqli_query($con, $query);
-
-        if ($result) {
-         
-
-            // create session variable
-            // $_SESSION['userID'] = mysqli_insert_id($con);
-            // $_SESSION['loggedin_time'] = time();
-
-
-           
-            
-           $alertText='<div class="alert alert-success alert-dismissible fade show" role="alert">Your account has been created successfully! <i class="fa fa-check-circle"></i> <br>You can now log in to access your account</div>';
-           
-            $message = "Account Created Successfully!";
-            $_SESSION['success_msg'] = $message;
-
-          // exit();
-
-        } else {
-            $alertText = "<div style='color:red'>Error while registration...!</div>";
-            $message = "Error while registration...!";
-
-            $_SESSION['error_msg'] = $message;
-
-            echo mysqli_error($con);
+        
+        if (!$emailSent) {
+            error_log("Failed to send welcome email to: {$email}");
         }
+        
+        // Redirect to login page after 3 seconds
+        echo "<script>
+            setTimeout(function() {
+                window.location.href = 'login.php?chk=successful';
+            }, 3000);
+        </script>";
+        
     } else {
-        //$error =  "<div style='color:red'>Not validate!</div>";
+        $alertText = "<div style='color:red'>Error while creating account. Please try again.</div>";
+        Toast::error("Error while creating account!");
+        error_log("Registration error: " . mysqli_error($con));
     }
-
-    a:
+    
+    mysqli_stmt_close($stmtInsert);
+    
+    skip_registration:
 }
-
-/////////////////// Sign Up Ends/////////////////////////////
+/* ======================= REGISTRATION FUNCTIONALITY ENDS ===========*/
 
 
 
