@@ -7,14 +7,10 @@
 
     <!-- Custom CSS -->
     <link href="assets/css/styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/plugins/toast.css">
 
 </head>
 
-
-<!-- ============================================================== -->
-<!-- Preloader - style you can find in spinners.css -->
-<!-- ============================================================== -->
-<!-- <div class="preloader"></div> -->
 
 <?php
 // ==================== GET SITE SETTINGS ====================
