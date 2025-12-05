@@ -1,0 +1,1812 @@
+================================================================================
+APPENDIX A: PHPSTAN STATIC ANALYSIS REPORT
+================================================================================
+
+Project: MUNext - Memorial University Job Board Platform
+Tool: PHPStan v1.x
+Analysis Level: 5 (out of 9)
+Date: December 5, 2025
+Configuration: phpstan.neon
+Files Analyzed: 112
+Total Issues Found: 1,313
+
+Command Used:
+  php vendor/bin/phpstan analyse --memory-limit=256M
+
+================================================================================
+DETAILED ANALYSIS OUTPUT
+================================================================================
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-active-jobs.php                 
+ ------ -------------------------------------------- 
+  :18    Variable $con might not be defined.         
+  :25    Variable $con might not be defined.         
+  :27    Variable $session_id might not be defined.  
+  :39    Variable $con might not be defined.         
+  :46    Variable $con might not be defined.         
+  :48    Variable $session_id might not be defined.  
+  :61    Variable $con might not be defined.         
+  :68    Variable $con might not be defined.         
+  :70    Variable $session_id might not be defined.  
+  :96    Variable $con might not be defined.         
+  :97    Variable $con might not be defined.         
+  :98    Variable $con might not be defined.         
+  :99    Variable $con might not be defined.         
+  :100   Variable $con might not be defined.         
+  :154   Variable $con might not be defined.         
+  :179   Variable $con might not be defined.         
+  :186   Variable $con might not be defined.         
+  :189   Variable $con might not be defined.         
+  :192   Variable $con might not be defined.         
+  :195   Variable $con might not be defined.         
+  :199   Variable $con might not be defined.         
+  :394   Variable $path might not be defined.        
+ ------ -------------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   admin/admin-activity-logs.php        
+ ------ ------------------------------------- 
+  :16    Variable $con might not be defined.  
+  :18    Variable $con might not be defined.  
+  :19    Variable $con might not be defined.  
+  :20    Variable $con might not be defined.  
+  :66    Variable $con might not be defined.  
+  :89    Variable $con might not be defined.  
+  :96    Variable $con might not be defined.  
+  :110   Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-administrators.php              
+ ------ -------------------------------------------- 
+  :15    Variable $session_id might not be defined.  
+  :25    Variable $con might not be defined.         
+  :32    Variable $con might not be defined.         
+  :34    Variable $session_id might not be defined.  
+  :46    Variable $con might not be defined.         
+  :53    Variable $con might not be defined.         
+  :55    Variable $session_id might not be defined.  
+  :68    Variable $con might not be defined.         
+  :75    Variable $con might not be defined.         
+  :77    Variable $session_id might not be defined.  
+  :95    Variable $con might not be defined.         
+  :96    Variable $con might not be defined.         
+  :97    Variable $con might not be defined.         
+  :98    Variable $con might not be defined.         
+  :100   Variable $con might not be defined.         
+  :119   Variable $con might not be defined.         
+  :128   Variable $con might not be defined.         
+  :143   Variable $con might not be defined.         
+  :150   Variable $con might not be defined.         
+  :152   Variable $session_id might not be defined.  
+  :175   Variable $con might not be defined.         
+  :176   Variable $con might not be defined.         
+  :203   Variable $con might not be defined.         
+  :220   Variable $con might not be defined.         
+  :227   Variable $con might not be defined.         
+  :230   Variable $con might not be defined.         
+  :233   Variable $con might not be defined.         
+  :364   Variable $session_id might not be defined.  
+  :374   Variable $session_id might not be defined.  
+  :408   Variable $session_id might not be defined.  
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-all-applications.php            
+ ------ -------------------------------------------- 
+  :17    Variable $con might not be defined.         
+  :24    Variable $con might not be defined.         
+  :26    Variable $session_id might not be defined.  
+  :38    Variable $con might not be defined.         
+  :45    Variable $con might not be defined.         
+  :47    Variable $session_id might not be defined.  
+  :59    Variable $con might not be defined.         
+  :72    Variable $con might not be defined.         
+  :79    Variable $con might not be defined.         
+  :81    Variable $session_id might not be defined.  
+  :104   Variable $con might not be defined.         
+  :107   Variable $con might not be defined.         
+  :108   Variable $con might not be defined.         
+  :109   Variable $con might not be defined.         
+  :173   Variable $con might not be defined.         
+  :201   Variable $con might not be defined.         
+  :208   Variable $con might not be defined.         
+  :211   Variable $con might not be defined.         
+  :214   Variable $con might not be defined.         
+  :217   Variable $con might not be defined.         
+  :220   Variable $con might not be defined.         
+  :224   Variable $con might not be defined.         
+  :228   Variable $con might not be defined.         
+  :404   Variable $path might not be defined.        
+  :431   Variable $path might not be defined.        
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------- 
+  Line   admin/admin-all-companies.php         
+ ------ -------------------------------------- 
+  :10    Variable $con might not be defined.   
+  :11    Variable $con might not be defined.   
+  :16    Variable $con might not be defined.   
+  :27    Variable $con might not be defined.   
+  :39    Variable $con might not be defined.   
+  :48    Variable $con might not be defined.   
+  :66    Variable $con might not be defined.   
+  :67    Variable $con might not be defined.   
+  :68    Variable $con might not be defined.   
+  :101   Variable $con might not be defined.   
+  :106   Variable $con might not be defined.   
+  :121   Variable $con might not be defined.   
+  :129   Variable $con might not be defined.   
+  :137   Variable $con might not be defined.   
+  :140   Variable $con might not be defined.   
+  :141   Variable $con might not be defined.   
+  :142   Variable $con might not be defined.   
+  :143   Variable $con might not be defined.   
+  :297   Variable $path might not be defined.  
+ ------ -------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-all-jobs.php                    
+ ------ -------------------------------------------- 
+  :19    Variable $con might not be defined.         
+  :26    Variable $con might not be defined.         
+  :28    Variable $session_id might not be defined.  
+  :40    Variable $con might not be defined.         
+  :47    Variable $con might not be defined.         
+  :49    Variable $session_id might not be defined.  
+  :62    Variable $con might not be defined.         
+  :69    Variable $con might not be defined.         
+  :71    Variable $session_id might not be defined.  
+  :83    Variable $con might not be defined.         
+  :90    Variable $con might not be defined.         
+  :92    Variable $session_id might not be defined.  
+  :114   Variable $con might not be defined.         
+  :116   Variable $con might not be defined.         
+  :117   Variable $con might not be defined.         
+  :118   Variable $con might not be defined.         
+  :119   Variable $con might not be defined.         
+  :173   Variable $con might not be defined.         
+  :197   Variable $con might not be defined.         
+  :204   Variable $con might not be defined.         
+  :207   Variable $con might not be defined.         
+  :210   Variable $con might not be defined.         
+  :213   Variable $con might not be defined.         
+  :216   Variable $con might not be defined.         
+  :220   Variable $con might not be defined.         
+  :398   Variable $path might not be defined.        
+ ------ -------------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   admin/admin-analytics-dashboard.php  
+ ------ ------------------------------------- 
+  :40    Variable $con might not be defined.  
+  :44    Variable $con might not be defined.  
+  :48    Variable $con might not be defined.  
+  :52    Variable $con might not be defined.  
+  :56    Variable $con might not be defined.  
+  :60    Variable $con might not be defined.  
+  :64    Variable $con might not be defined.  
+  :68    Variable $con might not be defined.  
+  :77    Variable $con might not be defined.  
+  :96    Variable $con might not be defined.  
+  :111   Variable $con might not be defined.  
+  :127   Variable $con might not be defined.  
+  :144   Variable $con might not be defined.  
+  :154   Variable $con might not be defined.  
+  :160   Variable $con might not be defined.  
+  :166   Variable $con might not be defined.  
+  :180   Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ ------------------------------------------------------ 
+  Line   admin/admin-application-reports.php                   
+ ------ ------------------------------------------------------ 
+  :9     Variable $con might not be defined.                   
+  :10    Variable $con might not be defined.                   
+  :11    Variable $con might not be defined.                   
+  :31    Variable $con might not be defined.                   
+  :63    Variable $con might not be defined.                   
+  :70    Variable $con might not be defined.                   
+  :77    Variable $con might not be defined.                   
+  :84    Variable $con might not be defined.                   
+  :91    Variable $con might not be defined.                   
+  :98    Variable $con might not be defined.                   
+  :104   Variable $applicationTrendData might not be defined.  
+  :112   Variable $con might not be defined.                   
+  :129   Variable $con might not be defined.                   
+  :147   Variable $con might not be defined.                   
+  :162   Variable $con might not be defined.                   
+  :176   Variable $con might not be defined.                   
+  :193   Variable $con might not be defined.                   
+  :212   Variable $con might not be defined.                   
+  :213   Variable $con might not be defined.                   
+  :214   Variable $con might not be defined.                   
+  :505   Variable $path might not be defined.                  
+  :566   Variable $path might not be defined.                  
+  :625   Variable $path might not be defined.                  
+  :645   Variable $path might not be defined.                  
+ ------ ------------------------------------------------------ 
+
+ ------ -------------------------------------------------------------------- 
+  Line   admin/admin-application-statistics.php                              
+ ------ -------------------------------------------------------------------- 
+  :9     Variable $con might not be defined.                                 
+  :10    Variable $con might not be defined.                                 
+  :15    Variable $con might not be defined.                                 
+  :19    Variable $con might not be defined.                                 
+  :22    Variable $con might not be defined.                                 
+  :25    Variable $con might not be defined.                                 
+  :28    Variable $con might not be defined.                                 
+  :31    Variable $con might not be defined.                                 
+  :35    Variable $con might not be defined.                                 
+  :46    Variable $con might not be defined.                                 
+  :59    Variable $con might not be defined.                                 
+  :73    Variable $con might not be defined.                                 
+  :85    Variable $con might not be defined.                                 
+  :96    Variable $con might not be defined.                                 
+  :104   Comparison operation ">" between int<1, max> and 0 is always true.  
+  :104   Else branch is unreachable because ternary operator condition is    
+         always true.                                                        
+  :127   Variable $con might not be defined.                                 
+  :139   Variable $con might not be defined.                                 
+  :148   Variable $con might not be defined.                                 
+  :149   Variable $con might not be defined.                                 
+  :150   Variable $con might not be defined.                                 
+  :453   Variable $path might not be defined.                                
+  :510   Variable $path might not be defined.                                
+  :573   Variable $path might not be defined.                                
+  :588   Variable $path might not be defined.                                
+ ------ -------------------------------------------------------------------- 
+
+ ------ ----------------------------------------- 
+  Line   admin/admin-change-password.php          
+ ------ ----------------------------------------- 
+  :70    Variable $msgType might not be defined.  
+  :72    Variable $msgType might not be defined.  
+  :383   Variable $msgType might not be defined.  
+ ------ ----------------------------------------- 
+
+ ------ -------------------------------------- 
+  Line   admin/admin-company-statistics.php    
+ ------ -------------------------------------- 
+  :9     Variable $con might not be defined.   
+  :10    Variable $con might not be defined.   
+  :15    Variable $con might not be defined.   
+  :19    Variable $con might not be defined.   
+  :23    Variable $con might not be defined.   
+  :27    Variable $con might not be defined.   
+  :31    Variable $con might not be defined.   
+  :38    Variable $con might not be defined.   
+  :46    Variable $con might not be defined.   
+  :62    Variable $con might not be defined.   
+  :68    Variable $con might not be defined.   
+  :82    Variable $con might not be defined.   
+  :92    Variable $con might not be defined.   
+  :96    Variable $con might not be defined.   
+  :99    Variable $con might not be defined.   
+  :115   Variable $con might not be defined.   
+  :124   Variable $con might not be defined.   
+  :127   Variable $con might not be defined.   
+  :128   Variable $con might not be defined.   
+  :393   Variable $path might not be defined.  
+  :471   Variable $path might not be defined.  
+  :531   Variable $path might not be defined.  
+ ------ -------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-email-settings.php              
+ ------ -------------------------------------------- 
+  :10    Variable $con might not be defined.         
+  :28    Variable $con might not be defined.         
+  :84    Variable $con might not be defined.         
+  :97    Variable $con might not be defined.         
+  :98    Variable $con might not be defined.         
+  :102   Variable $con might not be defined.         
+  :109   Variable $con might not be defined.         
+  :111   Variable $session_id might not be defined.  
+  :134   Variable $con might not be defined.         
+  :147   Variable $con might not be defined.         
+  :158   Variable $con might not be defined.         
+  :164   Variable $con might not be defined.         
+  :166   Variable $session_id might not be defined.  
+  :181   Variable $con might not be defined.         
+  :185   Variable $con might not be defined.         
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-employers.php                   
+ ------ -------------------------------------------- 
+  :18    Variable $con might not be defined.         
+  :25    Variable $con might not be defined.         
+  :27    Variable $session_id might not be defined.  
+  :39    Variable $con might not be defined.         
+  :46    Variable $con might not be defined.         
+  :48    Variable $session_id might not be defined.  
+  :61    Variable $con might not be defined.         
+  :68    Variable $con might not be defined.         
+  :70    Variable $session_id might not be defined.  
+  :92    Variable $con might not be defined.         
+  :93    Variable $con might not be defined.         
+  :94    Variable $con might not be defined.         
+  :95    Variable $con might not be defined.         
+  :140   Variable $con might not be defined.         
+  :166   Variable $con might not be defined.         
+  :173   Variable $con might not be defined.         
+  :176   Variable $con might not be defined.         
+  :179   Variable $con might not be defined.         
+  :182   Variable $con might not be defined.         
+  :333   Variable $path might not be defined.        
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-expired-jobs.php                
+ ------ -------------------------------------------- 
+  :19    Variable $con might not be defined.         
+  :26    Variable $con might not be defined.         
+  :28    Variable $session_id might not be defined.  
+  :40    Variable $con might not be defined.         
+  :47    Variable $con might not be defined.         
+  :49    Variable $session_id might not be defined.  
+  :62    Variable $con might not be defined.         
+  :69    Variable $con might not be defined.         
+  :71    Variable $session_id might not be defined.  
+  :94    Variable $con might not be defined.         
+  :95    Variable $con might not be defined.         
+  :96    Variable $con might not be defined.         
+  :97    Variable $con might not be defined.         
+  :146   Variable $con might not be defined.         
+  :171   Variable $con might not be defined.         
+  :178   Variable $con might not be defined.         
+  :181   Variable $con might not be defined.         
+  :184   Variable $con might not be defined.         
+  :187   Variable $con might not be defined.         
+  :191   Variable $con might not be defined.         
+  :349   Variable $path might not be defined.        
+ ------ -------------------------------------------- 
+
+ ------ ---------------------------------------- 
+  Line   admin/admin-export-reports.php          
+ ------ ---------------------------------------- 
+  :10    Variable $con might not be defined.     
+  :11    Variable $con might not be defined.     
+  :12    Variable $con might not be defined.     
+  :13    Variable $con might not be defined.     
+  :14    Variable $con might not be defined.     
+  :31    Variable $output might not be defined.  
+  :45    Variable $con might not be defined.     
+  :56    Variable $output might not be defined.  
+  :74    Variable $output might not be defined.  
+  :89    Variable $con might not be defined.     
+  :100   Variable $output might not be defined.  
+  :116   Variable $output might not be defined.  
+  :129   Variable $con might not be defined.     
+  :141   Variable $output might not be defined.  
+  :160   Variable $output might not be defined.  
+  :173   Variable $con might not be defined.     
+  :184   Variable $output might not be defined.  
+  :201   Variable $output might not be defined.  
+  :204   Variable $con might not be defined.     
+  :206   Variable $con might not be defined.     
+  :208   Variable $con might not be defined.     
+  :210   Variable $con might not be defined.     
+  :212   Variable $con might not be defined.     
+  :214   Variable $con might not be defined.     
+  :216   Variable $output might not be defined.  
+  :217   Variable $output might not be defined.  
+  :218   Variable $output might not be defined.  
+  :219   Variable $output might not be defined.  
+  :220   Variable $output might not be defined.  
+  :221   Variable $output might not be defined.  
+  :222   Variable $output might not be defined.  
+  :223   Variable $output might not be defined.  
+  :227   Variable $output might not be defined.  
+ ------ ---------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-general-settings.php            
+ ------ -------------------------------------------- 
+  :14    Variable $con might not be defined.         
+  :15    Variable $con might not be defined.         
+  :16    Variable $con might not be defined.         
+  :17    Variable $con might not be defined.         
+  :18    Variable $con might not be defined.         
+  :29    Variable $con might not be defined.         
+  :36    Variable $con might not be defined.         
+  :38    Variable $session_id might not be defined.  
+  :51    Variable $con might not be defined.         
+  :52    Variable $con might not be defined.         
+  :53    Variable $con might not be defined.         
+  :54    Variable $con might not be defined.         
+  :55    Variable $con might not be defined.         
+  :56    Variable $con might not be defined.         
+  :67    Variable $con might not be defined.         
+  :73    Variable $con might not be defined.         
+  :75    Variable $session_id might not be defined.  
+  :104   Variable $con might not be defined.         
+  :110   Variable $con might not be defined.         
+  :112   Variable $session_id might not be defined.  
+  :128   Variable $con might not be defined.         
+ ------ -------------------------------------------- 
+
+ ------ ----------------------------------------- 
+  Line   admin/admin-get-application-details.php  
+ ------ ----------------------------------------- 
+  :25    Variable $con might not be defined.      
+  :45    Variable $con might not be defined.      
+  :238   Variable $path might not be defined.     
+  :316   Variable $path might not be defined.     
+ ------ ----------------------------------------- 
+
+ ------ -------------------------------------- 
+  Line   admin/admin-get-company-details.php   
+ ------ -------------------------------------- 
+  :19    Variable $con might not be defined.   
+  :33    Variable $con might not be defined.   
+  :39    Variable $con might not be defined.   
+  :45    Variable $con might not be defined.   
+  :55    Variable $con might not be defined.   
+  :67    Variable $con might not be defined.   
+  :235   Variable $path might not be defined.  
+ ------ -------------------------------------- 
+
+ ------ -------------------------------------- 
+  Line   admin/admin-get-job-details.php       
+ ------ -------------------------------------- 
+  :19    Variable $con might not be defined.   
+  :33    Variable $con might not be defined.   
+  :39    Variable $con might not be defined.   
+  :45    Variable $con might not be defined.   
+  :51    Variable $con might not be defined.   
+  :58    Variable $con might not be defined.   
+  :71    Variable $con might not be defined.   
+  :303   Variable $path might not be defined.  
+  :640   Variable $path might not be defined.  
+ ------ -------------------------------------- 
+
+ ------ -------------------------------------- 
+  Line   admin/admin-get-user-details.php      
+ ------ -------------------------------------- 
+  :22    Variable $con might not be defined.   
+  :36    Variable $con might not be defined.   
+  :43    Variable $con might not be defined.   
+  :50    Variable $con might not be defined.   
+  :57    Variable $con might not be defined.   
+  :64    Variable $con might not be defined.   
+  :78    Variable $con might not be defined.   
+  :265   Variable $path might not be defined.  
+ ------ -------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-help-support.php                
+ ------ -------------------------------------------- 
+  :13    Variable $con might not be defined.         
+  :14    Variable $session_id might not be defined.  
+  :32    Variable $con might not be defined.         
+  :38    Variable $con might not be defined.         
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-job-category.php                
+ ------ -------------------------------------------- 
+  :8     Variable $session_id might not be defined.  
+  :20    Variable $con might not be defined.         
+  :30    Variable $con might not be defined.         
+  :50    Variable $con might not be defined.         
+  :60    Variable $con might not be defined.         
+  :81    Variable $con might not be defined.         
+  :92    Variable $con might not be defined.         
+  :102   Variable $con might not be defined.         
+  :240   Variable $con might not be defined.         
+  :334   Variable $con might not be defined.         
+  :402   Variable $con might not be defined.         
+  :480   Variable $con might not be defined.         
+ ------ -------------------------------------------- 
+
+ ------ ------------------------------------------------ 
+  Line   admin/admin-job-details.php                     
+ ------ ------------------------------------------------ 
+  :9     Variable $session_id might not be defined.      
+  :25    Variable $con might not be defined.             
+  :32    Variable $con might not be defined.             
+  :51    Variable $con might not be defined.             
+  :56    Variable $con might not be defined.             
+  :61    Variable $con might not be defined.             
+  :66    Variable $con might not be defined.             
+  :72    Variable $con might not be defined.             
+  :79    Variable $con might not be defined.             
+  :118   Variable $con might not be defined.             
+  :142   Variable $con might not be defined.             
+  :150   Variable $con might not be defined.             
+  :173   Variable $con might not be defined.             
+  :202   Expression on left side of ?? is not nullable.  
+  :203   Expression on left side of ?? is not nullable.  
+  :294   If condition is always true.                    
+  :423   If condition is always true.                    
+  :512   Variable $path might not be defined.            
+ ------ ------------------------------------------------ 
+
+ ------ -------------------------------------- 
+  Line   admin/admin-job-reports.php           
+ ------ -------------------------------------- 
+  :9     Variable $con might not be defined.   
+  :10    Variable $con might not be defined.   
+  :11    Variable $con might not be defined.   
+  :32    Variable $con might not be defined.   
+  :69    Variable $con might not be defined.   
+  :76    Variable $con might not be defined.   
+  :83    Variable $con might not be defined.   
+  :90    Variable $con might not be defined.   
+  :97    Variable $con might not be defined.   
+  :107   Variable $con might not be defined.   
+  :121   Variable $con might not be defined.   
+  :138   Variable $con might not be defined.   
+  :153   Variable $con might not be defined.   
+  :167   Variable $con might not be defined.   
+  :184   Variable $con might not be defined.   
+  :200   Variable $con might not be defined.   
+  :214   Variable $con might not be defined.   
+  :228   Variable $con might not be defined.   
+  :243   Variable $con might not be defined.   
+  :255   Variable $con might not be defined.   
+  :264   Variable $con might not be defined.   
+  :265   Variable $con might not be defined.   
+  :266   Variable $con might not be defined.   
+  :551   Variable $path might not be defined.  
+  :700   Variable $path might not be defined.  
+ ------ -------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-job-seekers.php                 
+ ------ -------------------------------------------- 
+  :19    Variable $con might not be defined.         
+  :26    Variable $con might not be defined.         
+  :28    Variable $session_id might not be defined.  
+  :40    Variable $con might not be defined.         
+  :47    Variable $con might not be defined.         
+  :49    Variable $session_id might not be defined.  
+  :62    Variable $con might not be defined.         
+  :69    Variable $con might not be defined.         
+  :71    Variable $session_id might not be defined.  
+  :93    Variable $con might not be defined.         
+  :94    Variable $con might not be defined.         
+  :95    Variable $con might not be defined.         
+  :96    Variable $con might not be defined.         
+  :141   Variable $con might not be defined.         
+  :169   Variable $con might not be defined.         
+  :176   Variable $con might not be defined.         
+  :179   Variable $con might not be defined.         
+  :182   Variable $con might not be defined.         
+  :185   Variable $con might not be defined.         
+  :194   Variable $con might not be defined.         
+  :351   Variable $path might not be defined.        
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-pending-applications.php        
+ ------ -------------------------------------------- 
+  :17    Variable $con might not be defined.         
+  :24    Variable $con might not be defined.         
+  :26    Variable $session_id might not be defined.  
+  :38    Variable $con might not be defined.         
+  :45    Variable $con might not be defined.         
+  :47    Variable $session_id might not be defined.  
+  :59    Variable $con might not be defined.         
+  :83    Variable $con might not be defined.         
+  :84    Variable $con might not be defined.         
+  :85    Variable $con might not be defined.         
+  :130   Variable $con might not be defined.         
+  :158   Variable $con might not be defined.         
+  :165   Variable $con might not be defined.         
+  :168   Variable $con might not be defined.         
+  :171   Variable $con might not be defined.         
+  :174   Variable $con might not be defined.         
+  :179   Variable $con might not be defined.         
+  :361   Variable $path might not be defined.        
+  :392   Variable $path might not be defined.        
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-pending-jobs.php                
+ ------ -------------------------------------------- 
+  :18    Variable $con might not be defined.         
+  :25    Variable $con might not be defined.         
+  :27    Variable $session_id might not be defined.  
+  :39    Variable $con might not be defined.         
+  :46    Variable $con might not be defined.         
+  :48    Variable $session_id might not be defined.  
+  :60    Variable $con might not be defined.         
+  :67    Variable $con might not be defined.         
+  :69    Variable $session_id might not be defined.  
+  :82    Variable $con might not be defined.         
+  :89    Variable $con might not be defined.         
+  :91    Variable $session_id might not be defined.  
+  :133   Variable $con might not be defined.         
+  :147   Variable $con might not be defined.         
+  :149   Variable $session_id might not be defined.  
+  :167   Variable $con might not be defined.         
+  :168   Variable $con might not be defined.         
+  :169   Variable $con might not be defined.         
+  :170   Variable $con might not be defined.         
+  :218   Variable $con might not be defined.         
+  :242   Variable $con might not be defined.         
+  :249   Variable $con might not be defined.         
+  :252   Variable $con might not be defined.         
+  :255   Variable $con might not be defined.         
+  :258   Variable $con might not be defined.         
+  :262   Variable $con might not be defined.         
+  :449   Variable $path might not be defined.        
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/admin-profile.php                     
+ ------ -------------------------------------------- 
+  :10    Variable $con might not be defined.         
+  :11    Variable $session_id might not be defined.  
+  :37    Variable $con might not be defined.         
+  :38    Variable $session_id might not be defined.  
+  :44    Variable $con might not be defined.         
+  :45    Variable $session_id might not be defined.  
+  :51    Variable $con might not be defined.         
+  :52    Variable $con might not be defined.         
+  :53    Variable $con might not be defined.         
+  :54    Variable $con might not be defined.         
+  :63    Variable $con might not be defined.         
+  :64    Variable $con might not be defined.         
+  :65    Variable $con might not be defined.         
+  :74    Variable $con might not be defined.         
+  :75    Variable $session_id might not be defined.  
+  :81    Variable $con might not be defined.         
+  :82    Variable $session_id might not be defined.  
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------- 
+  Line   admin/admin-user-reports.php          
+ ------ -------------------------------------- 
+  :9     Variable $con might not be defined.   
+  :10    Variable $con might not be defined.   
+  :11    Variable $con might not be defined.   
+  :29    Variable $con might not be defined.   
+  :65    Variable $con might not be defined.   
+  :72    Variable $con might not be defined.   
+  :79    Variable $con might not be defined.   
+  :86    Variable $con might not be defined.   
+  :99    Variable $con might not be defined.   
+  :113   Variable $con might not be defined.   
+  :132   Variable $con might not be defined.   
+  :146   Variable $con might not be defined.   
+  :161   Variable $con might not be defined.   
+  :182   Variable $con might not be defined.   
+  :201   Variable $con might not be defined.   
+  :213   Variable $con might not be defined.   
+  :225   Variable $con might not be defined.   
+  :226   Variable $con might not be defined.   
+  :534   Variable $path might not be defined.  
+  :602   Variable $path might not be defined.  
+ ------ -------------------------------------- 
+
+ ------ -------------------------------------------------------------------- 
+  Line   admin/admin-verify-companies.php                                    
+ ------ -------------------------------------------------------------------- 
+  :10    Variable $con might not be defined.                                 
+  :11    Variable $con might not be defined.                                 
+  :16    Variable $con might not be defined.                                 
+  :22    Variable $con might not be defined.                                 
+  :24    Variable $session_id might not be defined.                          
+  :35    Variable $con might not be defined.                                 
+  :41    Variable $con might not be defined.                                 
+  :43    Variable $session_id might not be defined.                          
+  :55    Variable $con might not be defined.                                 
+  :72    Variable $con might not be defined.                                 
+  :73    Variable $con might not be defined.                                 
+  :74    Variable $con might not be defined.                                 
+  :105   Variable $where_clauses in empty() always exists and is not falsy.  
+  :109   Variable $con might not be defined.                                 
+  :133   Variable $con might not be defined.                                 
+  :140   Variable $con might not be defined.                                 
+  :143   Variable $con might not be defined.                                 
+  :146   Variable $con might not be defined.                                 
+  :149   Variable $con might not be defined.                                 
+  :153   Variable $con might not be defined.                                 
+  :313   Variable $path might not be defined.                                
+ ------ -------------------------------------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   admin/get_company.php                
+ ------ ------------------------------------- 
+  :13    Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------- ------------------------------------------------------------- 
+  Line    admin/include/phpcode.php                                    
+ ------- ------------------------------------------------------------- 
+  :575    Variable $con might not be defined.                          
+  :575    Variable $con might not be defined.                          
+  :575    Variable $session_id might not be defined.                   
+  :586    Variable $FNAME on left side of ?? always exists and is not  
+          nullable.                                                    
+  :586    Variable $ONAME on left side of ?? always exists and is not  
+          nullable.                                                    
+  :622    Left side of || is always true.                              
+  :622    Variable $con might not be defined.                          
+  :623    Variable $con might not be defined.                          
+  :628    Variable $con might not be defined.                          
+  :645    Left side of || is always true.                              
+  :645    Variable $con might not be defined.                          
+  :646    Variable $con might not be defined.                          
+  :655    Variable $con might not be defined.                          
+  :693    Variable $id might not be defined.                           
+  :695    Variable $con might not be defined.                          
+  :699    Variable $id might not be defined.                           
+  :700    Variable $con might not be defined.                          
+  :702    Variable $id might not be defined.                           
+  :703    Variable $con might not be defined.                          
+  :718    Left side of || is always true.                              
+  :718    Variable $con might not be defined.                          
+  :719    Variable $con might not be defined.                          
+  :729    Variable $con might not be defined.                          
+  :750    Variable $con might not be defined.                          
+  :758    Variable $con might not be defined.                          
+  :780    Variable $con might not be defined.                          
+  :788    Variable $con might not be defined.                          
+  :811    Variable $con might not be defined.                          
+  :819    Variable $con might not be defined.                          
+  :842    Variable $con might not be defined.                          
+  :850    Variable $con might not be defined.                          
+  :908    Variable $con might not be defined.                          
+  :909    Variable $con might not be defined.                          
+  :910    Variable $con might not be defined.                          
+  :928    Variable $con might not be defined.                          
+  :929    Variable $session_id might not be defined.                   
+  :940    Variable $con might not be defined.                          
+  :941    Variable $session_id might not be defined.                   
+  :947    Variable $con might not be defined.                          
+  :948    Variable $session_id might not be defined.                   
+  :980    Variable $con might not be defined.                          
+  :991    Variable $con might not be defined.                          
+  :993    Left side of || is always true.                              
+  :993    Variable $con might not be defined.                          
+  :995    Variable $con might not be defined.                          
+  :1003   Variable $con might not be defined.                          
+  :1015   Variable $con might not be defined.                          
+  :1026   Variable $con might not be defined.                          
+  :1028   Left side of || is always true.                              
+  :1028   Variable $con might not be defined.                          
+  :1030   Variable $con might not be defined.                          
+  :1037   Variable $con might not be defined.                          
+ ------- ------------------------------------------------------------- 
+
+ ------ ------------------------------------------------------------------- 
+  Line   admin/include/session.php                                          
+ ------ ------------------------------------------------------------------- 
+  :6     Parameter #1 $string of function trim expects string, bool given.  
+ ------ ------------------------------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   admin/index.php                             
+ ------ -------------------------------------------- 
+  :15    Variable $con might not be defined.         
+  :32    Variable $con might not be defined.         
+  :33    Variable $session_id might not be defined.  
+  :42    Variable $con might not be defined.         
+  :47    Variable $con might not be defined.         
+  :52    Variable $con might not be defined.         
+  :57    Variable $con might not be defined.         
+  :62    Variable $con might not be defined.         
+  :67    Variable $con might not be defined.         
+  :72    Variable $con might not be defined.         
+  :77    Variable $con might not be defined.         
+ ------ -------------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   admin/logout.php                     
+ ------ ------------------------------------- 
+  :18    Variable $con might not be defined.  
+  :24    Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   admin/sidenav.php                    
+ ------ ------------------------------------- 
+  :23    Variable $con might not be defined.  
+  :38    Variable $con might not be defined.  
+  :74    Variable $con might not be defined.  
+  :122   Variable $con might not be defined.  
+  :152   Variable $con might not be defined.  
+  :165   Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ ------------------------------------------------ 
+  Line   apply-job.php                                   
+ ------ ------------------------------------------------ 
+  :11    Variable $session_id might not be defined.      
+  :19    Variable $con might not be defined.             
+  :85    Variable $totalQuestions might not be defined.  
+  :129   Variable $name might not be defined.            
+  :135   Variable $email might not be defined.           
+  :138   Variable $phone might not be defined.           
+  :145   Variable $city might not be defined.            
+  :145   Variable $country might not be defined.         
+  :149   Variable $city might not be defined.            
+  :149   Variable $city might not be defined.            
+  :149   Variable $country might not be defined.         
+  :149   Variable $country might not be defined.         
+  :155   Variable $about might not be defined.           
+  :167   Variable $degree might not be defined.          
+  :167   Variable $school might not be defined.          
+  :170   Variable $degree might not be defined.          
+  :171   Variable $school might not be defined.          
+  :176   Variable $exCompany might not be defined.       
+  :176   Variable $exTitle might not be defined.         
+  :179   Variable $exTitle might not be defined.         
+  :180   Variable $exCompany might not be defined.       
+  :185   Variable $skills might not be defined.          
+  :221   Variable $user might not be defined.            
+  :286   Variable $questions might not be defined.       
+  :456   Variable $city might not be defined.            
+  :456   Variable $city might not be defined.            
+  :456   Variable $country might not be defined.         
+  :456   Variable $country might not be defined.         
+  :472   Variable $user might not be defined.            
+ ------ ------------------------------------------------ 
+
+ ------ ------------------------------------- 
+  Line   browse-category.php                  
+ ------ ------------------------------------- 
+  :66    Variable $con might not be defined.  
+  :511   Variable $con might not be defined.  
+  :522   Variable $con might not be defined.  
+  :563   Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ ----------------------------------------------------------------------- 
+  Line   browse-employers.php                                                   
+ ------ ----------------------------------------------------------------------- 
+  :24    Variable $con might not be defined.                                    
+  :26    Variable $con might not be defined.                                    
+  :30    Variable $con might not be defined.                                    
+  :32    Variable $con might not be defined.                                    
+  :36    Variable $con might not be defined.                                    
+  :38    Variable $con might not be defined.                                    
+  :66    Variable $where_conditions in empty() always exists and is not falsy.  
+  :70    Variable $con might not be defined.                                    
+  :197   Variable $con might not be defined.                                    
+  :245   Variable $con might not be defined.                                    
+  :312   Variable $con might not be defined.                                    
+ ------ ----------------------------------------------------------------------- 
+
+ ------ ----------------------------------------------------------------------- 
+  Line   browse-jobs.php                                                        
+ ------ ----------------------------------------------------------------------- 
+  :29    Variable $con might not be defined.                                    
+  :31    Variable $con might not be defined.                                    
+  :35    Variable $con might not be defined.                                    
+  :37    Variable $con might not be defined.                                    
+  :41    Variable $con might not be defined.                                    
+  :43    Variable $con might not be defined.                                    
+  :47    Variable $con might not be defined.                                    
+  :49    Variable $con might not be defined.                                    
+  :90    Variable $where_conditions in empty() always exists and is not falsy.  
+  :98    Variable $con might not be defined.                                    
+  :254   Variable $con might not be defined.                                    
+  :416   Variable $con might not be defined.                                    
+ ------ ----------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------- 
+  Line   dashboard/applicant/candidate-detail.php           
+ ------ --------------------------------------------------- 
+  :7     Variable $session_id might not be defined.         
+  :21    Variable $con might not be defined.                
+  :29    Variable $con might not be defined.                
+  :55    Variable $FULLNAME might not be defined.           
+  :57    Variable $FULLNAME might not be defined.           
+  :118   Variable $APPLICANTPHOTO might not be defined.     
+  :118   Variable $path might not be defined.               
+  :119   Variable $FULLNAME might not be defined.           
+  :122   Variable $profileCompletion might not be defined.  
+  :123   Variable $profileCompletion might not be defined.  
+  :128   Variable $FULLNAME might not be defined.           
+  :131   Variable $JOBTITLE might not be defined.           
+  :134   Variable $CITY might not be defined.               
+  :134   Variable $COUNTRY might not be defined.            
+  :260   Variable $path might not be defined.               
+  :284   Variable $profileCompletion might not be defined.  
+ ------ --------------------------------------------------- 
+
+ ------ ----------------------------------------------- 
+  Line   dashboard/applicant/dashboard-add-profile.php  
+ ------ ----------------------------------------------- 
+  :9     Variable $session_id might not be defined.     
+  :10    Variable $con might not be defined.            
+  :161   Variable $JOBCATEGORYID might not be defined.  
+  :163   Variable $SUBCATEGORY might not be defined.    
+  :169   Left side of || is always true.                
+  :169   Variable $con might not be defined.            
+  :171   Variable $con might not be defined.            
+  :229   Variable $msg might not be defined.            
+  :257   Variable $session_id might not be defined.     
+  :258   Variable $con might not be defined.            
+  :262   Variable $session_id might not be defined.     
+  :634   Variable $msg2 might not be defined.           
+  :763   Variable $con might not be defined.            
+  :877   Variable $msg3 might not be defined.           
+ ------ ----------------------------------------------- 
+
+ ------ ------------------------------------------------------------ 
+  Line   dashboard/applicant/dashboard-alert-job.php                 
+ ------ ------------------------------------------------------------ 
+  :7     Variable $session_id might not be defined.                  
+  :11    Variable $con might not be defined.                         
+  :52    Variable $SKILLS might not be defined.                      
+  :53    Expression on left side of ?? is not nullable.              
+  :89    Variable $con might not be defined.                         
+  :124   Variable $con might not be defined.                         
+  :149   Variable $con might not be defined.                         
+  :150   Variable $types in empty() always exists and is not falsy.  
+  :162   Variable $con might not be defined.                         
+  :235   Variable $SKILLS might not be defined.                      
+  :312   Variable $path might not be defined.                        
+  :324   Variable $path might not be defined.                        
+  :383   Variable $path might not be defined.                        
+  :388   Variable $path might not be defined.                        
+  :482   Variable $path might not be defined.                        
+ ------ ------------------------------------------------------------ 
+
+ ------ ------------------------------------------------ 
+  Line   dashboard/applicant/dashboard-applied-jobs.php  
+ ------ ------------------------------------------------ 
+  :22    Variable $con might not be defined.             
+  :30    Variable $con might not be defined.             
+  :36    Variable $con might not be defined.             
+  :105   Variable $con might not be defined.             
+  :124   Variable $con might not be defined.             
+  :164   Variable $con might not be defined.             
+  :368   Variable $con might not be defined.             
+  :398   Variable $path might not be defined.            
+  :409   Variable $path might not be defined.            
+  :476   Variable $path might not be defined.            
+ ------ ------------------------------------------------ 
+
+ ------ ---------------------------------------------- 
+  Line   dashboard/applicant/dashboard-my-profile.php  
+ ------ ---------------------------------------------- 
+  :85    Variable $path might not be defined.          
+  :149   Variable $SUBCATEGORY might not be defined.   
+  :155   Left side of || is always true.               
+  :155   Variable $con might not be defined.           
+  :157   Variable $con might not be defined.           
+  :215   Variable $msg might not be defined.           
+  :239   Variable $session_id might not be defined.    
+  :240   Variable $con might not be defined.           
+  :244   Variable $session_id might not be defined.    
+  :616   Variable $msg2 might not be defined.          
+  :744   Variable $con might not be defined.           
+  :858   Variable $msg3 might not be defined.          
+ ------ ---------------------------------------------- 
+
+ ------ ---------------------------------------------- 
+  Line   dashboard/applicant/dashboard-saved-jobs.php  
+ ------ ---------------------------------------------- 
+  :9     Variable $session_id might not be defined.    
+  :17    Variable $con might not be defined.           
+  :24    Variable $con might not be defined.           
+  :99    Variable $con might not be defined.           
+  :116   Variable $con might not be defined.           
+  :133   Variable $con might not be defined.           
+  :173   Variable $con might not be defined.           
+  :186   Variable $con might not be defined.           
+  :389   Variable $path might not be defined.          
+  :403   Variable $path might not be defined.          
+  :494   Variable $path might not be defined.          
+  :507   Variable $path might not be defined.          
+ ------ ---------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   dashboard/applicant/include/phpcode.php     
+ ------ -------------------------------------------- 
+  :12    Variable $con might not be defined.         
+  :12    Variable $con might not be defined.         
+  :12    Variable $session_id might not be defined.  
+  :28    Variable $con might not be defined.         
+  :60    Variable $con might not be defined.         
+  :96    Variable $session_id might not be defined.  
+  :97    Variable $con might not be defined.         
+  :106   Variable $session_id might not be defined.  
+  :107   Variable $con might not be defined.         
+  :107   Variable $con might not be defined.         
+  :111   Left side of || is always true.             
+  :111   Variable $con might not be defined.         
+  :117   Variable $con might not be defined.         
+  :129   Variable $con might not be defined.         
+  :152   Variable $con might not be defined.         
+  :163   Variable $con might not be defined.         
+  :204   Variable $con might not be defined.         
+  :215   Variable $con might not be defined.         
+  :273   Variable $con might not be defined.         
+  :277   Variable $con might not be defined.         
+  :284   Variable $con might not be defined.         
+  :298   Variable $con might not be defined.         
+  :299   Variable $con might not be defined.         
+  :305   Variable $con might not be defined.         
+  :309   Variable $con might not be defined.         
+  :316   Variable $con might not be defined.         
+  :329   Variable $con might not be defined.         
+  :330   Variable $con might not be defined.         
+  :354   Variable $con might not be defined.         
+  :365   Variable $con might not be defined.         
+  :406   Variable $con might not be defined.         
+  :417   Variable $con might not be defined.         
+  :432   Variable $session_id might not be defined.  
+  :469   Variable $con might not be defined.         
+  :484   Variable $con might not be defined.         
+  :494   Variable $con might not be defined.         
+  :525   Variable $session_id might not be defined.  
+  :531   Variable $con might not be defined.         
+  :536   Variable $con might not be defined.         
+  :541   Variable $con might not be defined.         
+  :544   Variable $con might not be defined.         
+  :556   Variable $con might not be defined.         
+  :562   Variable $con might not be defined.         
+  :566   Variable $con might not be defined.         
+  :570   Variable $con might not be defined.         
+  :574   Variable $con might not be defined.         
+  :577   Variable $con might not be defined.         
+  :611   Variable $con might not be defined.         
+  :612   Variable $session_id might not be defined.  
+ ------ -------------------------------------------- 
+
+ ------ ------------------------------------------------------------------- 
+  Line   dashboard/applicant/include/session.php                            
+ ------ ------------------------------------------------------------------- 
+  :6     Parameter #1 $string of function trim expects string, bool given.  
+ ------ ------------------------------------------------------------------- 
+
+ ------ --------------------------------------------------- 
+  Line   dashboard/applicant/index.php                      
+ ------ --------------------------------------------------- 
+  :15    Variable $con might not be defined.                
+  :16    Variable $session_id might not be defined.         
+  :29    Variable $con might not be defined.                
+  :30    Variable $session_id might not be defined.         
+  :39    Variable $con might not be defined.                
+  :40    Variable $session_id might not be defined.         
+  :49    Variable $con might not be defined.                
+  :50    Variable $session_id might not be defined.         
+  :59    Variable $con might not be defined.                
+  :60    Variable $session_id might not be defined.         
+  :69    Variable $con might not be defined.                
+  :70    Variable $session_id might not be defined.         
+  :78    Variable $con might not be defined.                
+  :79    Variable $session_id might not be defined.         
+  :90    Variable $con might not be defined.                
+  :91    Variable $JOBTITLE might not be defined.           
+  :92    Variable $JOBCATEGORYID might not be defined.      
+  :130   Variable $FULLNAME might not be defined.           
+  :240   Variable $profileCompletion might not be defined.  
+  :251   Variable $profileCompletion might not be defined.  
+  :282   Variable $path might not be defined.               
+  :337   Variable $con might not be defined.                
+  :338   Variable $session_id might not be defined.         
+  :360   Variable $con might not be defined.                
+  :373   Variable $con might not be defined.                
+  :375   Variable $session_id might not be defined.         
+  :387   Variable $con might not be defined.                
+  :404   Variable $senderName might not be defined.         
+  :406   Variable $senderName might not be defined.         
+  :482   Variable $con might not be defined.                
+  :483   Variable $JOBTITLE might not be defined.           
+  :484   Variable $JOBCATEGORYID might not be defined.      
+ ------ --------------------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   dashboard/applicant/logout.php       
+ ------ ------------------------------------- 
+  :18    Variable $con might not be defined.  
+  :24    Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ --------------------------------------------------- 
+  Line   dashboard/applicant/sidenav.php                    
+ ------ --------------------------------------------------- 
+  :9     Variable $profileCompletion might not be defined.  
+  :43    Expression on left side of ?? is not nullable.     
+  :57    Variable $con might not be defined.                
+  :93    Variable $con might not be defined.                
+  :94    Variable $session_id might not be defined.         
+  :120   Variable $con might not be defined.                
+  :121   Variable $session_id might not be defined.         
+ ------ --------------------------------------------------- 
+
+ ------ ------------------------------------------ 
+  Line   dashboard/employer/ajax-get-messages.php  
+ ------ ------------------------------------------ 
+  :26    Variable $con might not be defined.       
+ ------ ------------------------------------------ 
+
+ ------ ----------------------------------------------- 
+  Line   dashboard/employer/ajax_toggle_job_status.php  
+ ------ ----------------------------------------------- 
+  :27    Variable $con might not be defined.            
+  :32    Variable $con might not be defined.            
+  :52    Variable $con might not be defined.            
+  :57    Variable $con might not be defined.            
+ ------ ----------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   dashboard/employer/company-detail.php       
+ ------ -------------------------------------------- 
+  :10    Variable $con might not be defined.         
+  :11    Variable $session_id might not be defined.  
+  :105   Variable $path might not be defined.        
+ ------ -------------------------------------------- 
+
+ ------ --------------------------------------------------- 
+  Line   dashboard/employer/dashboard-candidate-detail.php  
+ ------ --------------------------------------------------- 
+  :30    Variable $con might not be defined.                
+  :43    Expression on left side of ?? is not nullable.     
+  :74    Variable $con might not be defined.                
+  :160   Variable $path might not be defined.               
+ ------ --------------------------------------------------- 
+
+ ------ ---------------------------------------------------------------- 
+  Line   dashboard/employer/dashboard-change-password.php                
+ ------ ---------------------------------------------------------------- 
+  :9     Variable $session_id might not be defined.                      
+  :59    Left side of || is always false.                                
+  :71    Variable $errors in empty() always exists and is always falsy.  
+ ------ ---------------------------------------------------------------- 
+
+ ------ --------------------------------------------------- 
+  Line   dashboard/employer/dashboard-company-edit.php      
+ ------ --------------------------------------------------- 
+  :14    Variable $con might not be defined.                
+  :41    Variable $con might not be defined.                
+  :144   Variable $msg might not be defined.                
+  :147   Variable $companyid might not be defined.          
+  :157   Variable $COMPANYNAME might not be defined.        
+  :169   Variable $COMPANYEMAIL might not be defined.       
+  :178   Variable $COMPANYCONTACTNO might not be defined.   
+  :191   Variable $COMPANYNAME might not be defined.        
+  :243   Variable $COMPANYSPECIALISM might not be defined.  
+  :579   Variable $COMPANYCITY might not be defined.        
+  :590   Variable $COMPANYADDRESS might not be defined.     
+  :600   Variable $COMPANYWEBSITE might not be defined.     
+  :611   Variable $COMPANYABOUT might not be defined.       
+  :616   Variable $COMPANYLOGO might not be defined.        
+  :619   Variable $COMPANYLOGO might not be defined.        
+  :619   Variable $path might not be defined.               
+  :647   Variable $COMPANYAWARD might not be defined.       
+  :656   Variable $COMPANYYEAR might not be defined.        
+  :667   Variable $COMPANYAWARDDESC might not be defined.   
+ ------ --------------------------------------------------- 
+
+ ------ ------------------------------------------------ 
+  Line   dashboard/employer/dashboard-job-details.php    
+ ------ ------------------------------------------------ 
+  :8     Variable $session_id might not be defined.      
+  :35    Variable $con might not be defined.             
+  :59    Variable $con might not be defined.             
+  :67    Variable $con might not be defined.             
+  :87    Variable $con might not be defined.             
+  :114   Expression on left side of ?? is not nullable.  
+  :182   If condition is always true.                    
+  :297   If condition is always true.                    
+  :429   Variable $path might not be defined.            
+ ------ ------------------------------------------------ 
+
+ ------ -------------------------------------------- 
+  Line   dashboard/employer/dashboard-jobs-edit.php  
+ ------ -------------------------------------------- 
+  :19    Variable $con might not be defined.         
+  :26    Variable $session_id might not be defined.  
+  :52    Variable $con might not be defined.         
+  :61    Variable $con might not be defined.         
+  :85    Variable $con might not be defined.         
+  :86    Variable $con might not be defined.         
+  :88    Variable $con might not be defined.         
+  :89    Variable $con might not be defined.         
+  :90    Variable $con might not be defined.         
+  :91    Variable $con might not be defined.         
+  :92    Variable $con might not be defined.         
+  :93    Variable $con might not be defined.         
+  :94    Variable $con might not be defined.         
+  :96    Variable $con might not be defined.         
+  :119   Variable $con might not be defined.         
+  :353   Variable $con might not be defined.         
+ ------ -------------------------------------------- 
+
+ ------ ------------------------------------------------------ 
+  Line   dashboard/employer/dashboard-manage-applications.php  
+ ------ ------------------------------------------------------ 
+  :9     Variable $session_id might not be defined.            
+  :19    Variable $con might not be defined.                   
+  :42    Variable $con might not be defined.                   
+  :48    Variable $con might not be defined.                   
+  :68    Variable $con might not be defined.                   
+  :136   Variable $con might not be defined.                   
+  :161   Variable $con might not be defined.                   
+  :178   Variable $con might not be defined.                   
+  :378   Variable $con might not be defined.                   
+  :405   Variable $con might not be defined.                   
+  :536   Variable $session_id might not be defined.            
+ ------ ------------------------------------------------------ 
+
+ ------ ---------------------------------------------- 
+  Line   dashboard/employer/dashboard-manage-jobs.php  
+ ------ ---------------------------------------------- 
+  :22    Variable $con might not be defined.           
+  :29    Variable $con might not be defined.           
+  :34    Variable $con might not be defined.           
+  :39    Variable $con might not be defined.           
+  :44    Variable $con might not be defined.           
+  :50    Variable $con might not be defined.           
+  :72    Variable $con might not be defined.           
+  :83    Variable $con might not be defined.           
+  :149   Variable $con might not be defined.           
+  :181   Variable $con might not be defined.           
+  :196   Variable $con might not be defined.           
+  :390   Variable $path might not be defined.          
+ ------ ---------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   dashboard/employer/dashboard-messages.php   
+ ------ -------------------------------------------- 
+  :7     Variable $session_id might not be defined.  
+  :18    Variable $con might not be defined.         
+  :26    Variable $con might not be defined.         
+  :77    Variable $con might not be defined.         
+  :104   Variable $con might not be defined.         
+  :118   Variable $con might not be defined.         
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   dashboard/employer/dashboard-post-job.php   
+ ------ -------------------------------------------- 
+  :11    Variable $con might not be defined.         
+  :12    Variable $session_id might not be defined.  
+  :36    Variable $con might not be defined.         
+  :37    Variable $con might not be defined.         
+  :39    Variable $con might not be defined.         
+  :40    Variable $con might not be defined.         
+  :41    Variable $con might not be defined.         
+  :42    Variable $con might not be defined.         
+  :43    Variable $con might not be defined.         
+  :44    Variable $con might not be defined.         
+  :45    Variable $con might not be defined.         
+  :47    Variable $con might not be defined.         
+  :63    Variable $con might not be defined.         
+  :67    Variable $session_id might not be defined.  
+  :139   Variable $path might not be defined.        
+  :293   Variable $con might not be defined.         
+ ------ -------------------------------------------- 
+
+ ------ ------------------------------------------------------ 
+  Line   dashboard/employer/dashboard-screening-questions.php  
+ ------ ------------------------------------------------------ 
+  :7     Variable $session_id might not be defined.            
+  :15    Variable $con might not be defined.                   
+  :56    Variable $con might not be defined.                   
+  :65    Variable $con might not be defined.                   
+  :91    Variable $con might not be defined.                   
+  :109   Variable $con might not be defined.                   
+  :124   Variable $con might not be defined.                   
+  :134   Variable $con might not be defined.                   
+ ------ ------------------------------------------------------ 
+
+ ------ ----------------------------------------------------- 
+  Line   dashboard/employer/dashboard-shortlisted-resume.php  
+ ------ ----------------------------------------------------- 
+  :8     Variable $session_id might not be defined.           
+  :16    Variable $con might not be defined.                  
+  :22    Variable $con might not be defined.                  
+  :45    Variable $con might not be defined.                  
+  :51    Variable $con might not be defined.                  
+  :116   Variable $con might not be defined.                  
+  :144   Variable $con might not be defined.                  
+  :161   Variable $con might not be defined.                  
+  :348   Variable $con might not be defined.                  
+ ------ ----------------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   dashboard/employer/download-resume.php      
+ ------ -------------------------------------------- 
+  :13    Variable $con might not be defined.         
+  :23    Variable $session_id might not be defined.  
+  :31    Variable $path might not be defined.        
+ ------ -------------------------------------------- 
+
+ ------ ----------------------------------------------------------------------- 
+  Line   dashboard/employer/include/phpcode.php                                 
+ ------ ----------------------------------------------------------------------- 
+  :23    Variable $con might not be defined.                                    
+  :23    Variable $con might not be defined.                                    
+  :23    Variable $session_id might not be defined.                             
+  :34    Variable $FNAME on left side of ?? always exists and is not nullable.  
+  :34    Variable $ONAME on left side of ?? always exists and is not nullable.  
+  :40    Variable $con might not be defined.                                    
+  :40    Variable $con might not be defined.                                    
+  :58    Variable $con might not be defined.                                    
+  :59    Variable $con might not be defined.                                    
+  :60    Expression on left side of ?? is not nullable.                         
+  :60    Variable $con might not be defined.                                    
+  :61    Variable $con might not be defined.                                    
+  :62    Variable $con might not be defined.                                    
+  :63    Variable $con might not be defined.                                    
+  :64    Variable $con might not be defined.                                    
+  :65    Variable $con might not be defined.                                    
+  :66    Variable $con might not be defined.                                    
+  :67    Expression on left side of ?? is not nullable.                         
+  :67    Variable $con might not be defined.                                    
+  :68    Expression on left side of ?? is not nullable.                         
+  :68    Variable $con might not be defined.                                    
+  :69    Expression on left side of ?? is not nullable.                         
+  :69    Variable $con might not be defined.                                    
+  :70    Expression on left side of ?? is not nullable.                         
+  :70    Variable $con might not be defined.                                    
+  :87    Variable $session_id might not be defined.                             
+  :91    Variable $con might not be defined.                                    
+  :95    Variable $con might not be defined.                                    
+  :99    Variable $con might not be defined.                                    
+  :114   Variable $con might not be defined.                                    
+  :115   Variable $con might not be defined.                                    
+  :116   Expression on left side of ?? is not nullable.                         
+  :116   Variable $con might not be defined.                                    
+  :117   Variable $con might not be defined.                                    
+  :118   Variable $con might not be defined.                                    
+  :119   Variable $con might not be defined.                                    
+  :120   Variable $con might not be defined.                                    
+  :121   Variable $con might not be defined.                                    
+  :122   Variable $con might not be defined.                                    
+  :123   Expression on left side of ?? is not nullable.                         
+  :123   Variable $con might not be defined.                                    
+  :124   Expression on left side of ?? is not nullable.                         
+  :124   Variable $con might not be defined.                                    
+  :125   Expression on left side of ?? is not nullable.                         
+  :125   Variable $con might not be defined.                                    
+  :127   Expression on left side of ?? is not nullable.                         
+  :127   Variable $con might not be defined.                                    
+  :129   Variable $con might not be defined.                                    
+  :134   Variable $con might not be defined.                                    
+  :162   Variable $session_id might not be defined.                             
+  :165   Variable $con might not be defined.                                    
+  :173   Variable $con might not be defined.                                    
+  :214   Variable $con might not be defined.                                    
+  :236   Variable $con might not be defined.                                    
+  :237   Variable $session_id might not be defined.                             
+  :281   Variable $session_id might not be defined.                             
+  :318   Variable $con might not be defined.                                    
+  :333   Variable $con might not be defined.                                    
+  :343   Variable $con might not be defined.                                    
+  :375   Variable $con might not be defined.                                    
+  :386   Variable $con might not be defined.                                    
+  :388   Left side of || is always true.                                        
+  :388   Variable $con might not be defined.                                    
+  :390   Variable $con might not be defined.                                    
+  :398   Variable $con might not be defined.                                    
+  :417   Variable $con might not be defined.                                    
+  :428   Variable $con might not be defined.                                    
+  :430   Left side of || is always true.                                        
+  :430   Variable $con might not be defined.                                    
+  :432   Variable $con might not be defined.                                    
+  :439   Variable $con might not be defined.                                    
+  :455   Variable $session_id might not be defined.                             
+  :465   Variable $con might not be defined.                                    
+  :471   Variable $con might not be defined.                                    
+  :476   Variable $con might not be defined.                                    
+  :481   Variable $con might not be defined.                                    
+  :484   Variable $con might not be defined.                                    
+  :496   Variable $con might not be defined.                                    
+  :502   Variable $con might not be defined.                                    
+  :506   Variable $con might not be defined.                                    
+  :510   Variable $con might not be defined.                                    
+  :514   Variable $con might not be defined.                                    
+  :517   Variable $con might not be defined.                                    
+  :545   Variable $con might not be defined.                                    
+  :553   Left side of || is always true.                                        
+  :553   Variable $con might not be defined.                                    
+  :555   Variable $con might not be defined.                                    
+  :562   Variable $con might not be defined.                                    
+ ------ ----------------------------------------------------------------------- 
+
+ ------ ------------------------------------------------------------------- 
+  Line   dashboard/employer/include/session.php                             
+ ------ ------------------------------------------------------------------- 
+  :6     Parameter #1 $string of function trim expects string, bool given.  
+ ------ ------------------------------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   dashboard/employer/index.php                
+ ------ -------------------------------------------- 
+  :15    Variable $con might not be defined.         
+  :24    Variable $jobid might not be defined.       
+  :35    Variable $con might not be defined.         
+  :36    Variable $session_id might not be defined.  
+  :44    Variable $con might not be defined.         
+  :45    Variable $session_id might not be defined.  
+  :55    Variable $con might not be defined.         
+  :56    Variable $session_id might not be defined.  
+  :66    Variable $con might not be defined.         
+  :67    Variable $session_id might not be defined.  
+  :76    Variable $con might not be defined.         
+  :77    Variable $session_id might not be defined.  
+  :85    Variable $con might not be defined.         
+  :86    Variable $session_id might not be defined.  
+  :96    Variable $con might not be defined.         
+  :97    Variable $session_id might not be defined.  
+  :106   Variable $con might not be defined.         
+  :107   Variable $session_id might not be defined.  
+  :163   Variable $FULLNAME might not be defined.    
+  :351   Variable $con might not be defined.         
+  :353   Variable $session_id might not be defined.  
+  :376   Variable $con might not be defined.         
+  :391   Variable $con might not be defined.         
+  :393   Variable $session_id might not be defined.  
+  :405   Variable $con might not be defined.         
+  :504   Left side of || is always true.             
+  :525   Variable $session_id might not be defined.  
+  :527   Variable $con might not be defined.         
+  :529   Variable $con might not be defined.         
+ ------ -------------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   dashboard/employer/logout.php        
+ ------ ------------------------------------- 
+  :18    Variable $con might not be defined.  
+  :24    Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   dashboard/employer/sidenav.php              
+ ------ -------------------------------------------- 
+  :32    Variable $session_id might not be defined.  
+  :34    Variable $con might not be defined.         
+  :52    Left side of || is always true.             
+  :52    Variable $con might not be defined.         
+  :52    Variable $session_id might not be defined.  
+  :53    Variable $con might not be defined.         
+  :66    Variable $con might not be defined.         
+  :67    Variable $session_id might not be defined.  
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   dashboard/employer/view-resume.php          
+ ------ -------------------------------------------- 
+  :5     Variable $session_id might not be defined.  
+  :15    Variable $con might not be defined.         
+  :26    Variable $session_id might not be defined.  
+  :34    Variable $path might not be defined.        
+ ------ -------------------------------------------- 
+
+ ------ ----------------------------------------------- 
+  Line   dashboard/employer/view-screening-answers.php  
+ ------ ----------------------------------------------- 
+  :18    Variable $con might not be defined.            
+  :28    Variable $session_id might not be defined.     
+  :41    Variable $con might not be defined.            
+ ------ ----------------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   dashboard/settings-manager.php       
+ ------ ------------------------------------- 
+  :17    Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   email-test.php                       
+ ------ ------------------------------------- 
+  :10    Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ -------------------------------------------------------------------- 
+  Line   email-usage-examples.php                                            
+ ------ -------------------------------------------------------------------- 
+  :86    Parameter #6 $applicationId of function sendNewApplicationEmail     
+         expects string, int given.                                          
+  :167   Parameter #5 $jobId of function sendJobPostedEmail expects string,  
+         int given.                                                          
+ ------ -------------------------------------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   employer-detail.php                  
+ ------ ------------------------------------- 
+  :24    Variable $con might not be defined.  
+  :72    Variable $con might not be defined.  
+  :82    Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   forgot-password.php                  
+ ------ ------------------------------------- 
+  :21    Variable $con might not be defined.  
+  :25    Variable $con might not be defined.  
+  :44    Variable $con might not be defined.  
+  :52    Variable $con might not be defined.  
+  :80    Variable $con might not be defined.  
+  :94    Variable $con might not be defined.  
+  :108   Variable $con might not be defined.  
+  :114   Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ ---------------------------------------- 
+  Line   include/footer.php                      
+ ------ ---------------------------------------- 
+  :282   Variable $Lerror might not be defined.  
+ ------ ---------------------------------------- 
+
+ ------ ------------------------------------------------------------------- 
+  Line   include/header.php                                                 
+ ------ ------------------------------------------------------------------- 
+  :17    Parameter #1 $string of function trim expects string, bool given.  
+  :87    Parameter #1 $string of function trim expects string, bool given.  
+ ------ ------------------------------------------------------------------- 
+
+ ------- ------------------------------------------------------------- 
+  Line    include/helper.php                                           
+ ------- ------------------------------------------------------------- 
+  :7      Variable $con might not be defined.                          
+  :7      Variable $con might not be defined.                          
+  :7      Variable $session_id might not be defined.                   
+  :21     Variable $con might not be defined.                          
+  :48     Variable $con might not be defined.                          
+  :517    Variable $con might not be defined.                          
+  :547    Variable $con might not be defined.                          
+  :560    Variable $con might not be defined.                          
+  :565    Variable $con might not be defined.                          
+  :587    Variable $con might not be defined.                          
+  :628    Variable $con might not be defined.                          
+  :643    Variable $con might not be defined.                          
+  :668    Variable $userRegAllowed might not be defined.               
+  :674    Variable $compRegAllowed might not be defined.               
+  :731    Variable $con might not be defined.                          
+  :746    Variable $con might not be defined.                          
+  :767    Variable $autoApproveCompanies might not be defined.         
+  :780    Variable $con might not be defined.                          
+  :784    Variable $con might not be defined.                          
+  :788    Variable $con might not be defined.                          
+  :813    Variable $con might not be defined.                          
+  :839    Variable $con might not be defined.                          
+  :840    Variable $jobId might not be defined.                        
+  :840    Variable $userId might not be defined.                       
+  :846    Variable $jobId might not be defined.                        
+  :852    Variable $con might not be defined.                          
+  :853    Variable $userId might not be defined.                       
+  :859    Variable $con might not be defined.                          
+  :860    Variable $jobId might not be defined.                        
+  :919    Variable $jobId might not be defined.                        
+  :919    Variable $userId might not be defined.                       
+  :936    Variable $con might not be defined.                          
+  :943    Variable $con might not be defined.                          
+  :944    Variable $jobId might not be defined.                        
+  :944    Variable $userId might not be defined.                       
+  :947    Variable $con might not be defined.                          
+  :950    Variable $con might not be defined.                          
+  :998    Variable $con might not be defined.                          
+  :1000   Variable $jobId might not be defined.                        
+  :1000   Variable $userId might not be defined.                       
+  :1003   Variable $con might not be defined.                          
+  :1013   Variable $con might not be defined.                          
+  :1017   Variable $con might not be defined.                          
+  :1022   Variable $con might not be defined.                          
+  :1029   Variable $con might not be defined.                          
+  :1032   Variable $uploadDir might not be defined.                    
+  :1033   Variable $uploadDir might not be defined.                    
+  :1040   Variable $errors in empty() always exists and is not falsy.  
+  :1057   Result of && is always false.                                
+  :1057   Undefined variable: $row                                     
+  :1057   Undefined variable: $row                                     
+  :1057   Variable $row in isset() is never defined.                   
+  :1120   Left side of || is always true.                              
+  :1120   Variable $con might not be defined.                          
+  :1122   Variable $con might not be defined.                          
+  :1137   Variable $con might not be defined.                          
+ ------- ------------------------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   include/testing.php                         
+ ------ -------------------------------------------- 
+  :3     Variable $con might not be defined.         
+  :3     Variable $con might not be defined.         
+  :3     Variable $session_id might not be defined.  
+  :17    Variable $con might not be defined.         
+  :44    Variable $con might not be defined.         
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   index.php                                   
+ ------ -------------------------------------------- 
+  :25    Variable $con might not be defined.         
+  :34    Variable $jobid might not be defined.       
+  :165   Left side of || is always true.             
+  :165   Variable $con might not be defined.         
+  :167   Variable $con might not be defined.         
+  :174   Left side of || is always true.             
+  :174   Variable $con might not be defined.         
+  :176   Variable $con might not be defined.         
+  :239   Left side of || is always true.             
+  :240   Variable $con might not be defined.         
+  :242   Variable $con might not be defined.         
+  :254   Variable $con might not be defined.         
+  :275   Variable $session_id might not be defined.  
+  :277   Left side of || is always true.             
+  :277   Variable $con might not be defined.         
+  :277   Variable $session_id might not be defined.  
+  :278   Variable $con might not be defined.         
+  :393   Left side of || is always true.             
+  :393   Variable $con might not be defined.         
+  :395   Variable $con might not be defined.         
+  :404   Left side of || is always true.             
+  :404   Variable $con might not be defined.         
+  :406   Variable $con might not be defined.         
+ ------ -------------------------------------------- 
+
+ ------ -------------------------------------------------------------------- 
+  Line   job-detail.php                                                      
+ ------ -------------------------------------------------------------------- 
+  :21    Variable $con might not be defined.                                 
+  :48    Variable $con might not be defined.                                 
+  :75    Variable $con might not be defined.                                 
+  :155   Variable $COMPANYNAME might not be defined.                         
+  :161   Variable $COMPANYID might not be defined.                           
+  :162   Variable $JOBTITLE might not be defined.                            
+  :166   Variable $COMPANYCITY might not be defined.                         
+  :167   Variable $COMPANYCOUNTRY might not be defined.                      
+  :169   Variable $COMPANYADDRESS might not be defined.                      
+  :171   Variable $JOBTYPE might not be defined.                             
+  :174   Variable $isFilled might not be defined.                            
+  :178   Variable $isActive might not be defined.                            
+  :184   Variable $COMPANYINDUSTRY might not be defined.                     
+  :186   Variable $COMPANYSPECIALISM might not be defined.                   
+  :193   Variable $COMPANYID might not be defined.                           
+  :204   Variable $JOBDESCRIPTION might not be defined.                      
+  :214   Variable $WORKPLACE_POLICY might not be defined.                    
+  :217   Variable $COMPANYINDUSTRY might not be defined.                     
+  :220   Variable $COMPANYSPECIALISM might not be defined.                   
+  :222   Variable $JOBTYPE might not be defined.                             
+  :225   Variable $QUALIFICATION might not be defined.                       
+  :227   Variable $PREFEREDSEX might not be defined.                         
+  :230   Variable $WORKEXPERIENCE might not be defined.                      
+  :232   Variable $CAREERLEVEL might not be defined.                         
+  :235   Variable $SALARY might not be defined.                              
+  :241   Variable $DATEPOSTED might not be defined.                          
+  :243   Variable $DEADLINE might not be defined.                            
+  :289   Variable $JOBID might not be defined.                               
+  :292   Left side of || is always true.                                     
+  :292   Variable $JOBID might not be defined.                               
+  :292   Variable $con might not be defined.                                 
+  :293   Variable $con might not be defined.                                 
+  :298   Variable $JOBID might not be defined.                               
+  :369   Variable $Lerror might not be defined.                              
+  :383   Variable $JOBID might not be defined.                               
+  :386   Variable $curPageName might not be defined.                         
+  :438   Variable $Lerror might not be defined.                              
+  :452   Variable $JOBID might not be defined.                               
+  :456   Variable $curPageName might not be defined.                         
+  :514   Variable $session_id in isset() always exists and is not nullable.  
+  :518   Variable $con might not be defined.                                 
+  :519   Variable $JOBID might not be defined.                               
+  :529   Variable $isExpired might not be defined.                           
+  :534   Variable $JOBID might not be defined.                               
+  :539   Negated boolean expression is always true.                          
+  :539   Variable $daysUntilDeadline might not be defined.                   
+  :552   Variable $JOBID might not be defined.                               
+  :594   Left side of || is always true.                                     
+  :594   Variable $JOBTITLE might not be defined.                            
+  :594   Variable $JOBTYPE might not be defined.                             
+  :594   Variable $con might not be defined.                                 
+  :596   Variable $con might not be defined.                                 
+  :606   Variable $con might not be defined.                                 
+  :614   Variable $JOBID might not be defined.                               
+  :660   Variable $count might not be defined.                               
+ ------ -------------------------------------------------------------------- 
+
+ ------ ----------------------------------------------------------------------- 
+  Line   job-list-v1.php                                                        
+ ------ ----------------------------------------------------------------------- 
+  :15    Variable $con might not be defined.                                    
+  :16    Variable $con might not be defined.                                    
+  :17    Variable $con might not be defined.                                    
+  :18    Variable $con might not be defined.                                    
+  :19    Variable $con might not be defined.                                    
+  :79    Variable $where_conditions in empty() always exists and is not falsy.  
+  :86    Variable $con might not be defined.                                    
+  :266   Variable $con might not be defined.                                    
+  :336   Variable $con might not be defined.                                    
+ ------ ----------------------------------------------------------------------- 
+
+ ------ -------------------------------------------- 
+  Line   job-search-v1.php                           
+ ------ -------------------------------------------- 
+  :24    Variable $con might not be defined.         
+  :33    Variable $jobid might not be defined.       
+  :189   Left side of || is always true.             
+  :189   Variable $con might not be defined.         
+  :195   Left side of || is always true.             
+  :195   Variable $con might not be defined.         
+  :198   Left side of || is always true.             
+  :198   Variable $con might not be defined.         
+  :202   Left side of || is always true.             
+  :202   Variable $con might not be defined.         
+  :205   Left side of || is always true.             
+  :205   Variable $con might not be defined.         
+  :208   Left side of || is always true.             
+  :208   Variable $con might not be defined.         
+  :212   Left side of || is always true.             
+  :212   Variable $con might not be defined.         
+  :216   Variable $con might not be defined.         
+  :227   Variable $con might not be defined.         
+  :244   Variable $session_id might not be defined.  
+  :246   Left side of || is always true.             
+  :246   Variable $con might not be defined.         
+  :246   Variable $session_id might not be defined.  
+  :247   Variable $con might not be defined.         
+ ------ -------------------------------------------- 
+
+ ------ ------------------------------------------------------------------- 
+  Line   login.php                                                          
+ ------ ------------------------------------------------------------------- 
+  :32    Variable $con might not be defined.                                
+  :41    Variable $con might not be defined.                                
+  :50    Variable $con might not be defined.                                
+  :107   Variable $Lerror in empty() always exists and is always falsy.     
+  :156   Variable $alertText in empty() always exists and is always falsy.  
+ ------ ------------------------------------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   logout.php                           
+ ------ ------------------------------------- 
+  :18    Variable $con might not be defined.  
+  :24    Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   maintenance.php                      
+ ------ ------------------------------------- 
+  :21    Variable $con might not be defined.  
+  :37    Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ ------------------------------------------------------------------ 
+  Line   mysqli_connect.php                                                
+ ------ ------------------------------------------------------------------ 
+  :34    Parameter #5 $port of class mysqli constructor expects int|null,  
+         string given.                                                     
+ ------ ------------------------------------------------------------------ 
+
+ ------ ------------------------------------- 
+  Line   newsletter-confirm.php               
+ ------ ------------------------------------- 
+  :9     Variable $con might not be defined.  
+  :13    Variable $con might not be defined.  
+  :27    Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ ----------------------------------------------------------------------- 
+  Line   newsletter-handler.php                                                 
+ ------ ----------------------------------------------------------------------- 
+  :40    Variable $con might not be defined.                                    
+  :58    Variable $con might not be defined.                                    
+  :63    Function sendSubscriptionEmail invoked with 2 parameters, 3 required.  
+  :63    Parameter #1 $con of function sendSubscriptionEmail expects mysqli,    
+         string given.                                                          
+  :85    Variable $con might not be defined.                                    
+  :92    Function sendSubscriptionEmail invoked with 2 parameters, 3 required.  
+  :92    Parameter #1 $con of function sendSubscriptionEmail expects mysqli,    
+         string given.                                                          
+ ------ ----------------------------------------------------------------------- 
+
+ ------ ------------------------------------- 
+  Line   newsletter-unsubscribe.php           
+ ------ ------------------------------------- 
+  :9     Variable $con might not be defined.  
+  :12    Variable $con might not be defined.  
+ ------ ------------------------------------- 
+
+ ------ ------------------------------------------------------------------- 
+  Line   session_check.php                                                  
+ ------ ------------------------------------------------------------------- 
+  :4     Parameter #1 $string of function trim expects string, bool given.  
+ ------ ------------------------------------------------------------------- 
+
+ [ERROR] Found 1313 errors                                                      
+
