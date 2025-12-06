@@ -3,6 +3,8 @@
 
 <?php 
 require 'include/phpcode.php';
+unset($result); // Clear any $result from phpcode.php
+
 
 $applicantId = $session_id;
 
@@ -18,6 +20,11 @@ $JOBTITLE = $profile['JOBTITLE'] ?? '';
 $EXJOBTITLE = $profile['EXJOBTITLE'] ?? '';
 $JOBCATEGORYID = $profile['JOBCATEGORYID'] ?? 0;
 
+$JOBTITLE = isset($JOBTITLE) ? trim($JOBTITLE) : '';
+$EXJOBTITLE = isset($EXJOBTITLE) ? trim($EXJOBTITLE) : '';
+$SKILLS = isset($SKILLS) ? trim($SKILLS) : '';
+$JOBCATEGORYID = isset($JOBCATEGORYID) ? $JOBCATEGORYID : null;
+
 // Pagination settings
 $recordsPerPage = 15;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
@@ -29,12 +36,13 @@ $categoryFilter = isset($_POST['category']) ? (int)$_POST['category'] : (isset($
 $sortBy = isset($_POST['sort']) ? $_POST['sort'] : (isset($_GET['sort']) ? $_GET['sort'] : 'recent');
 
 // Build query conditions
-$whereConditions = ["j.JOBSTATUS = 'Active'"];
+$whereConditions = [];
 $params = [];
 $types = "";
 
 // Match jobs based on applicant's profile
 if (!empty($JOBTITLE) || !empty($EXJOBTITLE) || !empty($JOBCATEGORYID)) {
+
     $matchConditions = [];
     
     if (!empty($JOBTITLE)) {
@@ -82,7 +90,7 @@ if (!empty($categoryFilter)) {
     $types .= "i";
 }
 
-$whereClause = implode(" AND ", $whereConditions);
+$whereClause = implode(" OR ", $whereConditions);
 
 // Check if applicant has already applied
 $appliedJobsQuery = "SELECT JOBID FROM tbljobapplication WHERE APPLICANTID = ?";
@@ -298,8 +306,14 @@ function timeago($date) {
                     <!-- Jobs List -->
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12">
-                            <?php if (mysqli_num_rows($jobs) > 0): ?>
+                            <?php if (mysqli_num_rows($jobs) > 0): 
+                            $jobsCount=0;?>
+
+
                             <?php while ($job = mysqli_fetch_assoc($jobs)): 
+                                if ($row['JOBSTATUS'] == 'Active'):
+                                    $jobsCount ++;
+                                    
                                     $jobId = $job['JOBID'];
                                     $isApplied = in_array($jobId, $appliedJobs);
                                     $isNew = (time() - strtotime($job['DATEPOSTED'])) < 259200; // 3 days
@@ -308,15 +322,18 @@ function timeago($date) {
                             <div class="job-card">
                                 <div class="row align-items-center">
                                     <div class="col-lg-1 col-md-2 col-3 text-center mb-3 mb-lg-0">
+
                                         <?php if (!empty($job['COMPANYLOGO'])): ?>
-                                        <img src="<?php echo $path.htmlspecialchars($job['COMPANYLOGO']); ?>" alt="Logo"
-                                            class="company-logo">
-                                        <?php else: ?>
-                                        <div class="company-logo">
+                                        <img src="<?php echo $path.htmlspecialchars($job['COMPANYLOGO']); ?>"
+                                            alt="Company Logo" class="company-logo"
+                                            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                        <?php endif; ?>
+                                        <div class="company-logo-placeholder ml-2"
+                                            style="<?php echo !empty($job['COMPANYLOGO']) ? 'display:none;' : ''; ?>">
                                             <?php echo strtoupper(substr($job['COMPANYNAME'], 0, 1)); ?>
                                         </div>
-                                        <?php endif; ?>
                                     </div>
+
 
                                     <div class="col-lg-7 col-md-6 col-9 mb-3 mb-lg-0">
                                         <div class="d-flex align-items-start mb-2">
@@ -380,10 +397,10 @@ function timeago($date) {
                                     </div>
 
                                     <div class="col-lg-2 col-md-2 col-6 text-center">
-                                        <a href="<?php echo $path?>job-detail.php?jobid=<?php echo $jobId; ?>"
+                                        <!-- <a href="<?php echo $path?>job-detail.php?jobid=<?php echo $jobId; ?>"
                                             class="btn btn-outline-secondary btn-sm btn-block">
                                             <i class="lni lni-eye mr-1"></i> View Details
-                                        </a>
+                                        </a> -->
                                         <?php if (!$isApplied): ?>
                                         <a href="<?php echo $path?>job-detail.php?jobid=<?php echo $jobId; ?>#apply"
                                             class="btn btn-outline text-white rounded small theme-bg btn-sm btn-block">
@@ -394,7 +411,9 @@ function timeago($date) {
                                 </div>
                             </div>
 
-                            <?php endwhile; ?>
+                            <?php 
+                                endif;
+                                endwhile; ?>
 
                             <!-- Pagination -->
                             <?php if ($totalPages > 1): ?>
@@ -459,7 +478,8 @@ function timeago($date) {
                             </div>
                             <?php endif; ?>
 
-                            <?php else: ?>
+
+                            <?php if ($jobsCount < 1):?>
                             <!-- Empty State -->
                             <div class="empty-state">
                                 <i class="lni lni-alarm"></i>
@@ -482,6 +502,7 @@ function timeago($date) {
                                 <a href="<?php echo $path?>browse-jobs.php" class="btn btn-outline-secondary mt-2 pt-4">
                                     <i class="lni lni-search"></i> Browse All Jobs
                                 </a>
+                                <?php endif; ?>
                                 <?php endif; ?>
                             </div>
                             <?php endif; ?>
