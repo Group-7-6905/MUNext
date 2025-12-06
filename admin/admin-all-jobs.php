@@ -123,6 +123,15 @@ $where_clauses = ["1=1"];
 $params = [];
 $types = '';
 
+// Default to Pending status for verification page
+if (!empty($filter_status)) {
+    $where_clauses[] = "JOBSTATUS = ?";
+    $params[] = $filter_status;
+    $types .= 's';
+} else {
+    $where_clauses[] = "JOBSTATUS != 'Pending'";
+}
+
 if (!empty($filter_status)) {
     $where_clauses[] = "j.JOBSTATUS = ?";
     $params[] = $filter_status;
