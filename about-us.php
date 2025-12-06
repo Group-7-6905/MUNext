@@ -55,7 +55,7 @@ include "include/helper.php";
                             career advancement, or an employer searching for MUN's best and brightest, MUNext is your
                             gateway to meaningful professional connections.</p>
 
-                        <a href="browse-jobs.php" class="btn btn-custom">
+                        <a href="browse-jobs.php" class="btn btn-custom theme-bg">
                             <i class="lni lni-briefcase mr-2"></i>Explore Opportunities
                         </a>
                     </div>
@@ -101,25 +101,25 @@ include "include/helper.php";
         <section class="stats-section">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3 col-6">
+                    <div class="col-md-3 col-6 col-sm-12 col-12 mt-2">
                         <div class="stat-card">
                             <span class="stat-number" data-count="5000">1000+</span>
                             <span class="stat-label">Active Students</span>
                         </div>
                     </div>
-                    <div class="col-md-3 col-6">
+                    <div class="col-md-3 col-6 col-sm-12 col-12 mt-2">
                         <div class="stat-card">
                             <span class="stat-number" data-count="500">500+</span>
                             <span class="stat-label">Job Postings</span>
                         </div>
                     </div>
-                    <div class="col-md-3 col-6">
+                    <div class="col-md-3 col-6 col-sm-12 col-12 mt-2">
                         <div class="stat-card">
                             <span class="stat-number" data-count="200">200+</span>
                             <span class="stat-label">Partner Companies</span>
                         </div>
                     </div>
-                    <div class="col-md-3 col-6">
+                    <div class="col-md-3 col-6 col-sm-12 col-12 mt-2">
                         <div class="stat-card">
                             <span class="stat-number">95%</span>
                             <span class="stat-label">Success Rate</span>
@@ -134,7 +134,7 @@ include "include/helper.php";
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-6 mb-4 mb-lg-0 order-lg-2">
-                        <h2 class="section-title ft-medium mb-4">What Makes MUNext Different?</h2>
+                        <h2 class="section-title ft-medium mb-4 small">What Makes MUNext Different?</h2>
                         <p class="mb-4">MUNext isn't just another job board – it's a purpose-built platform designed
                             specifically for the Memorial University community, offering features and benefits that set
                             us apart:</p>
