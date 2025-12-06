@@ -290,8 +290,8 @@ $COMPANYTWITTER = $row['COMPANYTWITTER'] ?? '';
                                         <i class="lni lni-pencil"></i>
                                         <span>Edit Company Profile</span>
                                     </a>
-                                    <a href="employer-detail.php?companyid=<?php echo $COMPANYID; ?>" target="_blank"
-                                        class="btn-secondary-action">
+                                    <a href="<?php echo $path?>employer-detail.php?companyid=<?php echo $COMPANYID; ?>"
+                                        target="_blank" class="btn-secondary-action">
                                         <i class="lni lni-eye"></i>
                                         <span>View Public Profile</span>
                                     </a>
