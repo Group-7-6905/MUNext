@@ -251,7 +251,8 @@ include "include/helper.php";
             </div>
         </section>
 
-        <?php include 'include/footer.php'; ?>
+        <?php include 'include/footer.php'; 
+        session_destroy(); ?>
     </div>
 
     <!-- Scripts -->
