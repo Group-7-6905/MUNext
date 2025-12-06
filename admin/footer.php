@@ -3,3 +3,4 @@
 	        <div class="py-3">© <?php echo date('Y')?> MUNext</div>
 	    </div>
 	</div>
+	<?php unset($_SESSION['toast']); ?>
