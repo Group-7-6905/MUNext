@@ -135,10 +135,18 @@ $recentJobsResult = mysqli_stmt_get_result($recentStmt);
                                 </p>
 
                                 <!-- Company Badges -->
+                                <?php if ($COMPANYSTATUS=='Active'): 
+                                    $badgeStatus = "success";
+                                    $statusIcon = ' <i class="lni lni-checkmark-circle"></i>';
+                                 else:
+                                    $badgeStatus = "warning";
+                                    $statusIcon = ' <i class="lni lni-warning"></i>';
+                                endif
+                                 
+                                 ?>
                                 <div class="company-badges">
-                                    <span class="badge-custom badge-active">
-                                        <i class="lni lni-checkmark-circle"></i>
-                                        <?php echo htmlspecialchars($COMPANYSTATUS); ?>
+                                    <span class="badge-custom badge-<?php echo $badgeStatus?>">
+                                        <?php echo $statusIcon?> <?php echo htmlspecialchars($COMPANYSTATUS); ?>
                                     </span>
                                     <?php if ($activeJobs > 0): ?>
                                     <span class="badge-custom badge-jobs">
@@ -399,7 +407,7 @@ $recentJobsResult = mysqli_stmt_get_result($recentStmt);
                                     <?php if (isset($job['SALARY']) && $job['SALARY'] > 0): ?>
                                     <span>
                                         <i class="lni lni-wallet"></i>
-                                        $<?php echo number_format($job['SALARY'], 0); ?>/hr
+                                        $<?php echo number_format($job['SALARY'], 0); ?>
                                     </span>
                                     <?php endif; ?>
                                     <span>
