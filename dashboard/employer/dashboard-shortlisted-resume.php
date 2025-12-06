@@ -7,6 +7,7 @@ unset($result); // Clear any $result from phpcode.php
 
 $employerId = $session_id;
 
+
 // ==================== HANDLE DELETE BOOKMARK ====================
 if (isset($_GET['type']) && $_GET['type'] == 'delete' && isset($_GET['bookmarkedid'])) {
     $bookmarkId = (int)$_GET['bookmarkedid'];
@@ -52,6 +53,35 @@ if (isset($_POST['applicationstatus']) && isset($_POST['jobapplicationid'])) {
         mysqli_stmt_bind_param($stmtUpdate, "si", $newStatus, $applicationId);
         
         if (mysqli_stmt_execute($stmtUpdate)) {
+
+            
+
+            // Get applicant details for email
+            $detailsQuery = "SELECT ja.ID, ja.APPLICANTID,
+                    u.FNAME, u.ONAME, u.EMAIL, j.JOBTITLE
+                    FROM tbljobapplication ja
+                    INNER JOIN tblusers u ON ja.APPLICANTID = u.USERID
+                    INNER JOIN tbljob j ON ja.JOBID = j.JOBID
+                    WHERE ja.ID = ?";
+            $detailsStmt = mysqli_prepare($con, $detailsQuery);
+            mysqli_stmt_bind_param($detailsStmt, "i", $applicationId);
+            mysqli_stmt_execute($detailsStmt);
+            $detailsResult = mysqli_stmt_get_result($detailsStmt);
+            
+            if ($details = mysqli_fetch_assoc($detailsResult)) {
+                $applicantName = $details['FNAME'] . ' ' . $details['ONAME'];
+                $applicantEmail = $details['EMAIL'] ?? '';
+                $jobTitle = $details['JOBTITLE'] ?? '';
+                
+
+
+                 // Send job application confirmation to Applicant
+                //  sendApplicationStatusEmail($con, $applicantEmail, $applicantName, $jobTitle, $newStatus);
+
+
+                 sendApplicationStatusEmail($con, $applicantEmail, $applicantName, $jobTitle, $newStatus, $companyName??'Company', $applicationId);
+            }
+            
             $_SESSION['success_msg'] = "Application status updated to $newStatus successfully!";
         } else {
             $_SESSION['error_msg'] = "Failed to update status.";
@@ -550,7 +580,7 @@ function timeago($date) {
                                     Resumes you shortlist will appear here for quick access.
                                     <?php endif; ?>
                                 </p>
-                                <a href="dashboard-manage-applications.php" class="btn btn-warning text-white mt-3">
+                                <a href="dashboard-manage-applications.php" class="btn btn-outline-secondary mt-3 pt-4">
                                     <i class="lni lni-users"></i> View All Applications
                                 </a>
                             </div>
@@ -558,6 +588,8 @@ function timeago($date) {
                         </div>
                     </div>
                 </div>
+
+                <div class="h-150"></div>
 
                 <?php include 'footer.php' ?>
             </div>
