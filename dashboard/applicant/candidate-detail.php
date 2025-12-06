@@ -159,7 +159,7 @@ $formattedBirthdate = !empty($BIRTHDATE) ? date('F d, Y', strtotime($BIRTHDATE))
                                             </div>
                                             <div class="col-4">
                                                 <div class="stat-item">
-                                                    <span class="stat-number"><?php echo $stats['hired']; ?></span>
+                                                    <span class="stat-number"><?php echo $stats['hired'] ?? 0; ?></span>
                                                     <span class="stat-label">Hired</span>
                                                 </div>
                                             </div>
@@ -305,19 +305,19 @@ $formattedBirthdate = !empty($BIRTHDATE) ? date('F d, Y', strtotime($BIRTHDATE))
                                     </h5>
                                     <div class="stats-grid">
                                         <div class="stat-card text-dark">
-                                            <span class="stat-card-number"><?php echo $stats['pending']; ?></span>
+                                            <span class="stat-card-number"><?php echo $stats['pending']??0; ?></span>
                                             <span class="stat-card-label">Pending</span>
                                         </div>
                                         <div class="stat-card text-dark">
-                                            <span class="stat-card-number"><?php echo $stats['reviewed']; ?></span>
+                                            <span class="stat-card-number"><?php echo $stats['reviewed']??0; ?></span>
                                             <span class="stat-card-label">Reviewed</span>
                                         </div>
                                         <div class="stat-card text-dark">
-                                            <span class="stat-card-number"><?php echo $stats['approved']; ?></span>
+                                            <span class="stat-card-number"><?php echo $stats['approved']??0; ?></span>
                                             <span class="stat-card-label">Approved</span>
                                         </div>
                                         <div class="stat-card text-dark">
-                                            <span class="stat-card-number"><?php echo $stats['rejected']; ?></span>
+                                            <span class="stat-card-number"><?php echo $stats['rejected']??0; ?></span>
                                             <span class="stat-card-label">Rejected</span>
                                         </div>
                                     </div>
