@@ -232,7 +232,7 @@ function timeago($date) {
 
                 <div class="dashboard-widg-bar d-block">
                     <!-- Success/Error Messages -->
-                    <?php if (isset($_SESSION['success_msg'])): ?>
+                    <?php if (!empty($_SESSION['success_msg'])): ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="lni lni-checkmark-circle"></i> <?php echo $_SESSION['success_msg']; ?>
                         <button type="button" class="close" data-dismiss="alert">
@@ -241,7 +241,7 @@ function timeago($date) {
                     </div>
                     <?php unset($_SESSION['success_msg']); endif; ?>
 
-                    <?php if (isset($_SESSION['error_msg'])): ?>
+                    <?php if (!empty($_SESSION['error_msg'])): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="lni lni-cross-circle"></i> <?php echo $_SESSION['error_msg']; ?>
                         <button type="button" class="close" data-dismiss="alert">
@@ -568,7 +568,7 @@ function timeago($date) {
                                     <i class="lni lni-reload"></i> Clear Filters
                                 </a>
                                 <?php else: ?>
-                                <a href="browse-jobs.php" class="btn btn-outline-secondary mt-4 pt-4">
+                                <a href="<?php echo $path?>browse-jobs.php" class="btn btn-outline-secondary mt-4 pt-4">
                                     <i class="lni lni-search"></i> Browse Jobs
                                 </a>
                                 <?php endif; ?>
