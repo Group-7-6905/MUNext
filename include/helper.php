@@ -1,7 +1,8 @@
 <?php
 
 include "include/toast.php";
-
+ date_default_timezone_set('America/St_Johns');
+ require_once "include/email-functions.php";
 
 
 $query = mysqli_query($con, "SELECT * FROM tblusers WHERE USERID = '$session_id'") or die(mysqli_error($con));
@@ -592,6 +593,8 @@ if (isset($_POST['login_btn'])) {
                             'Success'
                         );
                         
+                        // logEmail($con, $email, $templateName, $subject, $status);
+
                         Toast::success("Login Successful! Redirecting...");
                         
                         // Redirect based on role
@@ -1020,6 +1023,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_application']))
             
             // Commit transaction
             mysqli_commit($con);
+
+
+             // Get employer details for email
+            $detailsQuery = "SELECT 
+                j.*, 
+                u.EMAIL, u.FNAME, u.ONAME, c.COMPANYNAME 
+                FROM tbljob j
+                LEFT JOIN tblusers u ON j.EMPLOYERID = u.USERID
+                LEFT JOIN tblcompany c ON j.EMPLOYERID = c.USERID
+                WHERE j.JOBID = ?";
+            $detailsStmt = mysqli_prepare($con, $detailsQuery);
+            mysqli_stmt_bind_param($detailsStmt, "i", $jobid);
+            mysqli_stmt_execute($detailsStmt);
+            $detailsResult = mysqli_stmt_get_result($detailsStmt);
+                    
+            if ($details = mysqli_fetch_assoc($detailsResult)) {
+                $employerName = $details['FNAME'] . ' ' . $details['ONAME'];
+                $companyName = $details['COMPANYNAME'] ?? 'Your Company';
+                $companyEmail = $details['EMAIL'] ?? $details['COMPANYEMAIL'];
+                $jobTitle = $details['JOBTITLE'] ?? 'Job Title';
+                
+                 // Send email notification to employer 
+                sendNewApplicationEmail($con, $companyEmail, $employerName, $applicantName, $jobTitle, $applicationId);
+            }
+
+            // Get applicant details for email
+            $detailsQuery = "SELECT *
+                FROM tblusers 
+                WHERE USERID = ?";
+            $detailsStmt = mysqli_prepare($con, $detailsQuery);
+            mysqli_stmt_bind_param($detailsStmt, "i", $userId);
+            mysqli_stmt_execute($detailsStmt);
+            $detailsResult = mysqli_stmt_get_result($detailsStmt);
+                    
+            if ($details = mysqli_fetch_assoc($detailsResult)) {
+                $applicantName = $details['FNAME'] . ' ' . $details['ONAME'];
+                $applicantEmail = $details['EMAIL'] ?? '';
+
+                 // Send job application confirmation to Applicant
+                sendApplicationConfirmationEmail($con, $applicantEmail, $applicantName, $jobTitle, $companyName);
+            }
+
             
             $_SESSION['success_msg'] = "Application submitted successfully! The employer will review your application.";
             header("Location: dashboard/applicant/dashboard-applied-jobs.php");
