@@ -3,7 +3,20 @@
 
 
 
-<?php require 'include/phpcode.php'; ?>
+<?php require 'include/phpcode.php';
+
+
+
+    // Redirect if profile is already complete
+    $querycomp = "SELECT * from tblcompany WHERE USERID = '$session_id'";
+    $resultcomp = mysqli_query($con, $querycomp);
+    $rowcomp = mysqli_fetch_array($resultcomp);
+
+    $USERID = $rowcomp['USERID']  ?? '';
+    if (!empty($USERID)) {
+        header("Location: dashboard-company-edit.php");
+    }
+?>
 
 
 <head>
@@ -736,7 +749,7 @@
 
                                                 <div class="col-xl-6 col-lg-6 col-md-6">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Website UR</label>
+                                                        <label class="text-dark ft-medium">Website URL</label>
                                                         <input type="url" class="form-control" value=""
                                                             placeholder="https://example.com" name="websiteURL" />
                                                     </div>
@@ -754,13 +767,17 @@
 
                                                 <div class="col-xl-6 col-lg-6 col-md-12">
                                                     <label class="text-dark ft-medium">Company Logo</label>
-                                                    <div class="form-group custom-file">
+                                                    <div class="custom-file avater_uploads mb-2">
+                                                        <label class="custom-file-label" for="customFile"><i
+                                                                class="fa fa-logo"></i>COMPANY LOGO</label>
+                                                    </div>
 
-                                                        <input type="file" class="custom-file-input" id="customFile"
-                                                            accept=".png, .jpg,.jpeg,.gif,.bmp,.svg"" value="" name="
-                                                            image" />
-                                                        <label class="custom-file-label" for="customFile">Choose
-                                                            file</label>
+                                                    <div class="form-group custom-file">
+                                                        <input type="file" name="image" class="custom-file-input"
+                                                            id="customFile" accept=".png, .jpg,.jpeg,.gif,.bmp,.svg"" 
+                                                            value="" />
+                                                        <label class=" custom-file-label" for="customFile">Choose
+                                                        file</label>
                                                     </div>
                                                 </div>
 
