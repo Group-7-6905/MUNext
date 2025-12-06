@@ -201,7 +201,7 @@ $otherApps = mysqli_stmt_get_result($otherAppsStmt);
     font-style: italic;
 }
 
-.company-info-box {
+.company-info-box-details {
     background: #f8f9fa;
     padding: 15px;
     border-radius: 8px;
@@ -210,7 +210,7 @@ $otherApps = mysqli_stmt_get_result($otherAppsStmt);
     gap: 15px;
 }
 
-.company-logo-box {
+.company-logo-box-details {
     width: 60px;
     height: 60px;
     border-radius: 8px;
@@ -218,7 +218,7 @@ $otherApps = mysqli_stmt_get_result($otherAppsStmt);
     border: 2px solid #e9ecef;
 }
 
-.company-logo-placeholder {
+.company-logo-placeholder-details {
     width: 60px;
     height: 60px;
     border-radius: 8px;
@@ -310,13 +310,14 @@ $otherApps = mysqli_stmt_get_result($otherAppsStmt);
         <i class="lni lni-briefcase mr-2"></i>Job Information
     </h6>
 
-    <div class="company-info-box">
+    <div class="company-info-box-details">
 
         <?php if (!empty($app['COMPANYLOGO'])): ?>
         <img src="<?php echo $path.htmlspecialchars($app['COMPANYLOGO']); ?>" alt="Logo" class="company-logo-small"
             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
         <?php endif; ?>
-        <div class="company-logo-placeholder" style="<?php echo !empty($app['COMPANYLOGO']) ? 'display:none;' : ''; ?>">
+        <div class="company-logo-placeholder-details"
+            style="<?php echo !empty($app['COMPANYLOGO']) ? 'display:none;' : ''; ?>">
             <?php echo strtoupper(substr($app['COMPANYNAME'], 0, 1)); ?>
         </div>
 
