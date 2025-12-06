@@ -72,6 +72,16 @@ $whereConditions = [];
 $params = [];
 $types = '';
 
+// Default to Pending status for verification page
+if (!empty($status_filter)) {
+    $whereConditions[] = "COMPANYSTATUS = ?";
+    $params[] = $status_filter;
+    $types .= 's';
+} else {
+    $whereConditions[] = "COMPANYSTATUS != 'Pending'";
+}
+
+
 if (!empty($search)) {
     $whereConditions[] = "(COMPANYNAME LIKE ? OR COMPANYEMAIL LIKE ? OR COMPANYCITY LIKE ?)";
     $searchParam = "%$search%";
@@ -288,7 +298,7 @@ $suspendedCompaniesCount = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*
                                 <tbody>
                                     <?php while ($company = mysqli_fetch_assoc($companiesResult)): ?>
                                     <tr>
-                                        <td><?php echo $company['COMPANYID']; ?></td>
+                                        <td>#<?php echo $company['COMPANYID']; ?></td>
                                         <td>
                                             <div class="company-info">
 
@@ -343,12 +353,16 @@ $suspendedCompaniesCount = mysqli_fetch_assoc(mysqli_query($con, "SELECT COUNT(*
                                         </td>
                                         <td>
                                             <?php
-                                            $statusClass = 'status-active';
+                                            $statusClass = 'status-secondary';
                                             $status = $company['COMPANYSTATUS'];
                                             if ($status == 'Pending') {
                                                 $statusClass = 'status-pending';
+                                            } elseif ($status == 'Active') {
+                                                $statusClass = 'status-active';
                                             } elseif ($status == 'Suspended') {
                                                 $statusClass = 'status-suspended';
+                                            } elseif ($status == 'Rejected') {
+                                                $statusClass = 'bg-danger text-light';
                                             }elseif ($status == 'Info Required') {
                                                 $statusClass = 'badge-info';
                                             }
