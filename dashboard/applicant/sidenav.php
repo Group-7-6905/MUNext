@@ -17,7 +17,7 @@
                 <li><a href="dashboard-applied-jobs.php"><i class="lni lni-briefcase mr-2"></i>Applied jobs</a></li>
 
                 <?php
-                $Alert = 0;
+                $alertJobsCount = 0;
 
                 $JOBTITLE = isset($JOBTITLE) ? trim($JOBTITLE) : '';
                 $EXJOBTITLE = isset($EXJOBTITLE) ? trim($EXJOBTITLE) : '';
@@ -52,7 +52,7 @@
 
                 if (count($conditions) > 0) {
                     $where = implode(' OR ', $conditions);
-                    $sql = "SELECT COUNT(*) AS cnt FROM tbljob WHERE {$where}";
+                    $sql = "SELECT *, COUNT(*) AS cnt FROM tbljob WHERE {$where}";
 
                     if ($stmt = mysqli_prepare($con, $sql)) {
                         // Bind params dynamically when needed
@@ -70,7 +70,9 @@
                         mysqli_stmt_execute($stmt);
                         $result = mysqli_stmt_get_result($stmt);
                         if ($row = mysqli_fetch_assoc($result)) {
-                            $Alert = (int)$row['cnt'];
+                            if ($row['JOBSTATUS'] == 'Active'){
+                                $alertJobsCount = (int)$row['cnt'];
+                            }
                         }
                         mysqli_stmt_close($stmt);
                     }
@@ -78,8 +80,8 @@
                 ?>
 
                 <li><a href="dashboard-alert-job.php"><i class="ti-bell mr-2"></i>Alert Jobs
-                        <?php if ($Alert > 0): ?><span
-                            class="count-tag bg-info"><?php echo $Alert; ?></span><?php endif; ?></a></li>
+                        <?php if ($alertJobsCount > 0): ?><span
+                            class="count-tag bg-info"><?php echo $alertJobsCount; ?></span><?php endif; ?></a></li>
 
                 <?php  } ?>
 

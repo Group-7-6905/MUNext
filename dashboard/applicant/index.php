@@ -81,20 +81,20 @@ mysqli_stmt_execute($stmtBookmarks);
 $bookmarksResult = mysqli_stmt_get_result($stmtBookmarks);
 $bookmarksCount = mysqli_fetch_assoc($bookmarksResult)['count'];
 mysqli_stmt_close($stmtBookmarks);
-
-// 7. Alert Jobs Count (based on user profile)
 $alertJobsCount = 0;
-if (!empty($JOBTITLE) || !empty($EXJOBTITLE) || !empty($JOBCATEGORYID)) {
-    $alertQuery = "SELECT COUNT(*) as count FROM tbljob 
-                   WHERE JOBSTATUS = 'Active' AND (JOBTITLE LIKE ? OR JOBCATEGORYID = ?)";
-    $stmtAlert = mysqli_prepare($con, $alertQuery);
-    $searchTitle = "%{$JOBTITLE}%";
-    mysqli_stmt_bind_param($stmtAlert, "si", $searchTitle, $JOBCATEGORYID);
-    mysqli_stmt_execute($stmtAlert);
-    $alertResult = mysqli_stmt_get_result($stmtAlert);
-    $alertJobsCount = mysqli_fetch_assoc($alertResult)['count'];
-    mysqli_stmt_close($stmtAlert);
-}
+// 7. Alert Jobs Count (based on user profile)
+// $alertJobsCount = 0;
+// if (!empty($JOBTITLE) || !empty($EXJOBTITLE) || !empty($JOBCATEGORYID)) {
+//     $alertQuery = "SELECT COUNT(*) as count FROM tbljob 
+//                    WHERE JOBSTATUS = 'Active' AND (JOBTITLE LIKE ? OR JOBCATEGORYID = ?)";
+//     $stmtAlert = mysqli_prepare($con, $alertQuery);
+//     $searchTitle = "%{$JOBTITLE}%";
+//     mysqli_stmt_bind_param($stmtAlert, "si", $searchTitle, $JOBCATEGORYID);
+//     mysqli_stmt_execute($stmtAlert);
+//     $alertResult = mysqli_stmt_get_result($stmtAlert);
+//     $alertJobsCount = mysqli_fetch_assoc($alertResult)['count'];
+//     mysqli_stmt_close($stmtAlert);
+// }
 
 ?>
 
@@ -468,24 +468,74 @@ if (!empty($JOBTITLE) || !empty($EXJOBTITLE) || !empty($JOBCATEGORYID)) {
                                     }
                                     
                                     $jobCount = 0;
+
+                                    $JOBTITLE = isset($JOBTITLE) ? trim($JOBTITLE) : '';
+                                    $EXJOBTITLE = isset($EXJOBTITLE) ? trim($EXJOBTITLE) : '';
+                                    $SKILLS = isset($SKILLS) ? trim($SKILLS) : '';
+                                    $JOBCATEGORYID = isset($JOBCATEGORYID) ? $JOBCATEGORYID : null;
+
+
+                                    $conditions = [];
+                                    $types = '';
+                                    $params = [];
+
+                                    if ($JOBTITLE !== '') {
+                                        $conditions[] = 'JOBTITLE LIKE ?';
+                                        $types .= 's';
+                                        $params[] = "%{$JOBTITLE}%";
+                                    }
+                                    if ($EXJOBTITLE !== '') {
+                                        $conditions[] = 'JOBTITLE LIKE ?';
+                                        $types .= 's';
+                                        $params[] = "%{$EXJOBTITLE}%";
+                                    }
+                                    if ($SKILLS !== '') {
+                                        $conditions[] = 'JOBTITLE LIKE ?' ?? 'JOBDESCRIPTION LIKE ?';
+                                        $types .= 's';
+                                        $params[] = "%{$SKILLS}%";
+                                    }
+                                    if ($JOBCATEGORYID !== null && $JOBCATEGORYID !== '' && is_numeric($JOBCATEGORYID)) {
+                                        $conditions[] = 'JOBCATEGORYID = ?';
+                                        $types .= 'i';
+                                        $params[] = (int)$JOBCATEGORYID;
+                                    }
                                     
+                                                        
                                     if (!empty($JOBTITLE) || !empty($EXJOBTITLE) || !empty($JOBCATEGORYID)) {
-                                        $jobQuery = "SELECT j.*, c.COMPANYNAME, s.SUBCATEGORY 
+                                        $where = implode(' OR ', $conditions);
+
+                                        $jobQuery = "SELECT 
+                                                    j.*,
+                                                    c.COMPANYID, c.COMPANYNAME, c.COMPANYLOGO, c.COMPANYCITY, c.COMPANYCOUNTRY,
+                                                    jsc.SUBCATEGORY
                                                     FROM tbljob j
-                                                    LEFT JOIN tblcompany c ON j.COMPANYID = c.COMPANYID
-                                                    LEFT JOIN tbljobsubcategory s ON j.JOBCATEGORYID = s.ID
-                                                    WHERE j.JOBSTATUS = 'Active' 
-                                                    AND (j.JOBTITLE LIKE ? OR j.JOBCATEGORYID = ?)
+                                                    INNER JOIN tblcompany c ON j.COMPANYID = c.COMPANYID
+                                                    LEFT JOIN tbljobsubcategory jsc ON j.JOBCATEGORYID = jsc.ID
+                                                    WHERE $where
                                                     ORDER BY j.DATEPOSTED DESC
                                                     LIMIT 5";
+                                    
                                         
-                                        $stmtJob = mysqli_prepare($con, $jobQuery);
-                                        $searchTitle = "%{$JOBTITLE}%";
-                                        mysqli_stmt_bind_param($stmtJob, "si", $searchTitle, $JOBCATEGORYID);
-                                        mysqli_stmt_execute($stmtJob);
-                                        $jobResult = mysqli_stmt_get_result($stmtJob);
+                                        if ($stmt = mysqli_prepare($con, $jobQuery)) {
+                                            // Bind params dynamically when needed
+                                            if ($types !== '') {
+                                                $bind_params = [];
+                                                // first element must be the types string (by reference)
+                                                $bind_params[] = & $types;
+                                                // then each param (by reference)
+                                                for ($i = 0; $i < count($params); $i++) {
+                                                    $bind_params[] = & $params[$i];
+                                                }
+                                                call_user_func_array([$stmt, 'bind_param'], $bind_params);
+                                            }
+                                        }
+
+                                            mysqli_stmt_execute($stmt);
+                                            $jobResult = mysqli_stmt_get_result($stmt);
+                                          
                                         
                                         while ($jobRow = mysqli_fetch_assoc($jobResult)):
+                                            if ($row['JOBSTATUS'] == 'Active'):
                                             $jobCount++;
                                             $JOBID = $jobRow['JOBID'];
                                             $JOBTITLE_DISPLAY = $jobRow['JOBTITLE'];
@@ -493,6 +543,8 @@ if (!empty($JOBTITLE) || !empty($EXJOBTITLE) || !empty($JOBCATEGORYID)) {
                                             $SUBCATEGORY = $jobRow['SUBCATEGORY'];
                                             $DATEPOSTED = $jobRow['DATEPOSTED'];
                                             $DEADLINE = $jobRow['DEADLINE'];
+
+                                            
                                     ?>
 
                                     <li>
@@ -507,14 +559,15 @@ if (!empty($JOBTITLE) || !empty($EXJOBTITLE) || !empty($JOBCATEGORYID)) {
                                             </li>
                                         </ul>
                                         <div class="buttons-to-right">
-                                            <a href="job-detail.php?jobid=<?php echo $JOBID; ?>"
+                                            <a href="<?php echo $path?>job-detail.php?jobid=<?php echo $JOBID; ?>"
                                                 class="button text-light bg-success">Apply Job</a>
                                         </div>
                                     </li>
 
                                     <?php 
+                                        endif;
                                         endwhile;
-                                        mysqli_stmt_close($stmtJob);
+                                        mysqli_stmt_close($stmt);
                                     }
                                     
                                     if ($jobCount == 0): 
