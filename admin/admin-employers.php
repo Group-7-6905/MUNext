@@ -4,75 +4,136 @@
 <?php 
 require 'include/phpcode.php';
 require '../include/toast.php';
+require_once '../include/email-functions.php';
 
-
-// ==================== HANDLE COMPANY ACTIONS ====================
+// ==================== HANDLE EMPLOYER ACTIONS ====================
 if (isset($_POST['action'])) {
-    $action = $_POST['action'];
-    $companyid = isset($_POST['companyid']) ? (int)$_POST['companyid'] : 0;
+    // $action = $_POST['action'];
+    $action = mysqli_real_escape_string($con, $_POST['action']);
+    $userid = isset($_POST['userid']) ? (int)$_POST['userid'] : 0;
     
-    if ($companyid > 0) {
+    if ($userid > 0) {
         switch ($action) {
-            case 'verify':
-                $updateQuery = "UPDATE tblcompany SET COMPANYSTATUS = 'Active' WHERE COMPANYID = ?";
+            case 'approve':
+                // Approve employer account
+                $updateQuery = "UPDATE tblusers SET USERSTATUS = 'Active' WHERE USERID = ? AND ROLE = 'Employer'";
                 $stmt = mysqli_prepare($con, $updateQuery);
-                mysqli_stmt_bind_param($stmt, "i", $companyid);
+                mysqli_stmt_bind_param($stmt, "i", $userid);
                 
                 if (mysqli_stmt_execute($stmt)) {
+                    // Get employer details for email
+                    $detailsQuery = "SELECT u.EMAIL, u.FNAME, u.ONAME, c.COMPANYNAME 
+                                    FROM tblusers u
+                                    LEFT JOIN tblcompany c ON u.USERID = c.USERID
+                                    WHERE u.USERID = ?";
+                    $detailsStmt = mysqli_prepare($con, $detailsQuery);
+                    mysqli_stmt_bind_param($detailsStmt, "i", $userid);
+                    mysqli_stmt_execute($detailsStmt);
+                    $detailsResult = mysqli_stmt_get_result($detailsStmt);
+                    
+                    if ($details = mysqli_fetch_assoc($detailsResult)) {
+                        $employerName = $details['FNAME'] . ' ' . $details['ONAME'];
+                        $companyName = $details['COMPANYNAME'] ?? 'Your Company';
+                        
+                        // Send approval email
+                        sendCompanyApprovedEmail($con, $details['EMAIL'], $companyName, $employerName);
+                    }
+                    
                     // Log activity
                     $logQuery = "INSERT INTO tbl_activity_log (USERID, ACTION, DESCRIPTION, IP_ADDRESS, CREATED_AT) 
-                                VALUES (?, 'COMPANY_VERIFIED', 'Admin verified a company account', ?, NOW())";
+                                VALUES (?, 'EMPLOYER_APPROVED', CONCAT('Admin approved employer account: ', ?), ?, NOW())";
                     $logStmt = mysqli_prepare($con, $logQuery);
                     $ip = getClientIP();
-                    mysqli_stmt_bind_param($logStmt, "is", $session_id, $ip);
+                    mysqli_stmt_bind_param($logStmt, "iis", $session_id, $userid, $ip);
                     mysqli_stmt_execute($logStmt);
                     
-                    Toast::success('Company verified successfully!');
+                    Toast::success('Employer approved successfully! Email notification sent.');
                 } else {
-                    Toast::error('Failed to verify company.');
+                    Toast::error('Failed to approve employer.');
                 }
                 mysqli_stmt_close($stmt);
                 break;
                 
             case 'suspend':
-                $updateQuery = "UPDATE tblcompany SET COMPANYSTATUS = 'Suspended' WHERE COMPANYID = ?";
+                // Suspend employer account
+                $updateQuery = "UPDATE tblusers SET USERSTATUS = 'Suspended' WHERE USERID = ? AND ROLE = 'Employer'";
                 $stmt = mysqli_prepare($con, $updateQuery);
-                mysqli_stmt_bind_param($stmt, "i", $companyid);
+                mysqli_stmt_bind_param($stmt, "i", $userid);
                 
                 if (mysqli_stmt_execute($stmt)) {
                     // Log activity
                     $logQuery = "INSERT INTO tbl_activity_log (USERID, ACTION, DESCRIPTION, IP_ADDRESS, CREATED_AT) 
-                                VALUES (?, 'COMPANY_SUSPENDED', 'Admin suspended a company account', ?, NOW())";
+                                VALUES (?, 'EMPLOYER_SUSPENDED', CONCAT('Admin suspended employer account: ', ?), ?, NOW())";
                     $logStmt = mysqli_prepare($con, $logQuery);
                     $ip = getClientIP();
-                    mysqli_stmt_bind_param($logStmt, "is", $session_id, $ip);
+                    mysqli_stmt_bind_param($logStmt, "iis", $session_id, $userid, $ip);
+                    mysqli_stmt_execute($logStmt);
+
+                    // Get employer details for email
+                    $detailsQuery = "SELECT u.EMAIL, u.FNAME, u.ONAME, c.COMPANYNAME 
+                                    FROM tblusers u
+                                    LEFT JOIN tblcompany c ON u.USERID = c.USERID
+                                    WHERE u.USERID = ?";
+                    $detailsStmt = mysqli_prepare($con, $detailsQuery);
+                    mysqli_stmt_bind_param($detailsStmt, "i", $userid);
+                    mysqli_stmt_execute($detailsStmt);
+                    $detailsResult = mysqli_stmt_get_result($detailsStmt);
+                    
+                    if ($details = mysqli_fetch_assoc($detailsResult)) {
+                        $employerName = $details['FNAME'] . ' ' . $details['ONAME'];
+                        $companyName = $details['COMPANYNAME'] ?? 'Your Company';
+                        
+                        // Send approval email
+                        sendCompanyRejectedEmail($con, $details['EMAIL'], $companyName, $employerName);
+                    }
+                    
+                    Toast::warning('Employer suspended successfully!');
+                } else {
+                    Toast::error('Failed to suspend employer.');
+                }
+                mysqli_stmt_close($stmt);
+                break;
+                
+            case 'activate':
+                // Activate employer account (from suspended)
+                $updateQuery = "UPDATE tblusers SET USERSTATUS = 'Active' WHERE USERID = ? AND ROLE = 'Employer'";
+                $stmt = mysqli_prepare($con, $updateQuery);
+                mysqli_stmt_bind_param($stmt, "i", $userid);
+                
+                if (mysqli_stmt_execute($stmt)) {
+                    // Log activity
+                    $logQuery = "INSERT INTO tbl_activity_log (USERID, ACTION, DESCRIPTION, IP_ADDRESS, CREATED_AT) 
+                                VALUES (?, 'EMPLOYER_ACTIVATED', CONCAT('Admin activated employer account: ', ?), ?, NOW())";
+                    $logStmt = mysqli_prepare($con, $logQuery);
+                    $ip = getClientIP();
+                    mysqli_stmt_bind_param($logStmt, "iis", $session_id, $userid, $ip);
                     mysqli_stmt_execute($logStmt);
                     
-                    Toast::warning('Company suspended successfully!');
+                    Toast::success('Employer activated successfully!');
                 } else {
-                    Toast::error('Failed to suspend company.');
+                    Toast::error('Failed to activate employer.');
                 }
                 mysqli_stmt_close($stmt);
                 break;
                 
             case 'delete':
-                // Soft delete - mark as deleted
-                $deleteQuery = "UPDATE tblcompany SET COMPANYSTATUS = 'Deleted' WHERE COMPANYID = ?";
+                // Soft delete - mark as Inactive
+                $deleteQuery = "UPDATE tblusers SET USERSTATUS = 'Inactive' WHERE USERID = ? AND ROLE = 'Employer'";
                 $stmt = mysqli_prepare($con, $deleteQuery);
-                mysqli_stmt_bind_param($stmt, "i", $companyid);
+                mysqli_stmt_bind_param($stmt, "i", $userid);
                 
                 if (mysqli_stmt_execute($stmt)) {
                     // Log activity
                     $logQuery = "INSERT INTO tbl_activity_log (USERID, ACTION, DESCRIPTION, IP_ADDRESS, CREATED_AT) 
-                                VALUES (?, 'COMPANY_DELETED', 'Admin deleted a company account', ?, NOW())";
+                                VALUES (?, 'EMPLOYER_DELETED', CONCAT('Admin deleted employer account: ', ?), ?, NOW())";
                     $logStmt = mysqli_prepare($con, $logQuery);
                     $ip = getClientIP();
-                    mysqli_stmt_bind_param($logStmt, "is", $session_id, $ip);
+                    mysqli_stmt_bind_param($logStmt, "iis", $session_id, $userid, $ip);
                     mysqli_stmt_execute($logStmt);
                     
-                    Toast::success('Company deleted successfully!');
+                    Toast::success('Employer deleted successfully!');
                 } else {
-                    Toast::error('Failed to delete company.');
+                    Toast::error('Failed to delete employer.');
                 }
                 mysqli_stmt_close($stmt);
                 break;
@@ -95,47 +156,46 @@ $filter_date_to = isset($_GET['date_to']) ? mysqli_real_escape_string($con, $_GE
 $search = isset($_GET['search']) ? mysqli_real_escape_string($con, $_GET['search']) : '';
 
 // ==================== BUILD QUERY ====================
-$where_clauses = [];
+$where_clauses = ["u.ROLE = 'Employer'"]; // Always filter by Employer role
 $params = [];
 $types = '';
 
 if (!empty($filter_status)) {
-    $where_clauses[] = "c.COMPANYSTATUS = ?";
+    $where_clauses[] = "u.USERSTATUS = ?";
     $params[] = $filter_status;
     $types .= 's';
 }
 
 if (!empty($filter_date_from)) {
-    $where_clauses[] = "DATE(c.DATEREGISTERED) >= ?";
+    $where_clauses[] = "DATE(u.DATECREATED) >= ?";
     $params[] = $filter_date_from;
     $types .= 's';
 }
 
 if (!empty($filter_date_to)) {
-    $where_clauses[] = "DATE(c.DATEREGISTERED) <= ?";
+    $where_clauses[] = "DATE(u.DATECREATED) <= ?";
     $params[] = $filter_date_to;
     $types .= 's';
 }
 
 if (!empty($search)) {
-    $where_clauses[] = "(c.COMPANYNAME LIKE ? OR c.COMPANYEMAIL LIKE ? OR c.COMPANYWEBSITE LIKE ? OR CONCAT(u.FNAME, ' ', u.ONAME) LIKE ?)";
+    $where_clauses[] = "(u.FNAME LIKE ? OR u.ONAME LIKE ? OR u.EMAIL LIKE ? OR u.USERNAME LIKE ? OR c.COMPANYNAME LIKE ? OR c.COMPANYEMAIL LIKE ?)";
     $search_term = "%$search%";
     $params[] = $search_term;
     $params[] = $search_term;
     $params[] = $search_term;
     $params[] = $search_term;
-    $types .= 'ssss';
+    $params[] = $search_term;
+    $params[] = $search_term;
+    $types .= 'ssssss';
 }
 
-$where_sql = '';
-if (!empty($where_clauses)) {
-    $where_sql = 'WHERE ' . implode(' AND ', $where_clauses);
-}
+$where_sql = 'WHERE ' . implode(' AND ', $where_clauses);
 
 // ==================== GET TOTAL RECORDS ====================
 $count_query = "SELECT COUNT(*) as total 
-                FROM tblcompany c 
-                LEFT JOIN tblusers u ON c.USERID = u.USERID 
+                FROM tblusers u 
+                LEFT JOIN tblcompany c ON u.USERID = c.USERID 
                 $where_sql";
 $count_stmt = mysqli_prepare($con, $count_query);
 
@@ -148,15 +208,16 @@ $total_records = mysqli_fetch_assoc(mysqli_stmt_get_result($count_stmt))['total'
 $total_pages = ceil($total_records / $records_per_page);
 mysqli_stmt_close($count_stmt);
 
-// ==================== GET COMPANIES ====================
-$query = "SELECT c.*, 
-          u.FNAME, u.ONAME, u.EMAIL as USER_EMAIL, u.USERNAME,
-          (SELECT COUNT(*) FROM tbljob WHERE COMPANYID = c.COMPANYID AND JOBSTATUS = 'Active') as active_jobs,
-          (SELECT COUNT(*) FROM tbljob WHERE COMPANYID = c.COMPANYID) as total_jobs
-          FROM tblcompany c 
-          LEFT JOIN tblusers u ON c.USERID = u.USERID
+// ==================== GET EMPLOYERS ====================
+$query = "SELECT u.USERID, u.FNAME, u.ONAME, u.EMAIL, u.USERNAME, u.USERSTATUS, u.DATECREATED,
+          c.COMPANYID, c.COMPANYNAME, c.COMPANYEMAIL, c.COMPANYCONTACTNO, c.COMPANYLOGO, 
+          c.COMPANYWEBSITE, c.COMPANYSTATUS, c.DATEREGISTERED,
+          (SELECT COUNT(*) FROM tbljob WHERE EMPLOYERID = u.USERID AND JOBSTATUS = 'Active') as active_jobs,
+          (SELECT COUNT(*) FROM tbljob WHERE EMPLOYERID = u.USERID) as total_jobs
+          FROM tblusers u 
+          LEFT JOIN tblcompany c ON u.USERID = c.USERID
           $where_sql 
-          ORDER BY c.DATEREGISTERED DESC 
+          ORDER BY u.DATECREATED DESC 
           LIMIT ? OFFSET ?";
 
 $params[] = $records_per_page;
@@ -166,20 +227,27 @@ $types .= 'ii';
 $stmt = mysqli_prepare($con, $query);
 mysqli_stmt_bind_param($stmt, $types, ...$params);
 mysqli_stmt_execute($stmt);
-$companies = mysqli_stmt_get_result($stmt);
+$employers = mysqli_stmt_get_result($stmt);
 
 // ==================== GET STATISTICS ====================
-$totalCompaniesQuery = "SELECT COUNT(*) as total FROM tblcompany";
-$totalCompanies = mysqli_fetch_assoc(mysqli_query($con, $totalCompaniesQuery))['total'];
+$totalEmployersQuery = "SELECT COUNT(*) as total FROM tblusers WHERE ROLE = 'Employer'";
+$totalEmployers = mysqli_fetch_assoc(mysqli_query($con, $totalEmployersQuery))['total'];
 
-$activeCompaniesQuery = "SELECT COUNT(*) as total FROM tblcompany WHERE COMPANYSTATUS = 'Active'";
-$activeCompanies = mysqli_fetch_assoc(mysqli_query($con, $activeCompaniesQuery))['total'];
+$activeEmployersQuery = "SELECT COUNT(*) as total FROM tblusers WHERE ROLE = 'Employer' AND USERSTATUS = 'Active'";
+$activeEmployers = mysqli_fetch_assoc(mysqli_query($con, $activeEmployersQuery))['total'];
 
-$pendingCompaniesQuery = "SELECT COUNT(*) as total FROM tblcompany WHERE COMPANYSTATUS = 'Pending'";
-$pendingCompanies = mysqli_fetch_assoc(mysqli_query($con, $pendingCompaniesQuery))['total'];
+$pendingEmployersQuery = "SELECT COUNT(*) as total FROM tblusers WHERE ROLE = 'Employer' AND USERSTATUS = 'Pending'";
+$pendingEmployers = mysqli_fetch_assoc(mysqli_query($con, $pendingEmployersQuery))['total'];
 
-$suspendedCompaniesQuery = "SELECT COUNT(*) as total FROM tblcompany WHERE COMPANYSTATUS = 'Suspended'";
-$suspendedCompanies = mysqli_fetch_assoc(mysqli_query($con, $suspendedCompaniesQuery))['total'];
+$suspendedEmployersQuery = "SELECT COUNT(*) as total FROM tblusers WHERE ROLE = 'Employer' AND USERSTATUS = 'Suspended'";
+$suspendedEmployers = mysqli_fetch_assoc(mysqli_query($con, $suspendedEmployersQuery))['total'];
+
+// Get count of employers with company profiles
+$withCompanyQuery = "SELECT COUNT(DISTINCT u.USERID) as total 
+                     FROM tblusers u 
+                     INNER JOIN tblcompany c ON u.USERID = c.USERID 
+                     WHERE u.ROLE = 'Employer'";
+$withCompanyCount = mysqli_fetch_assoc(mysqli_query($con, $withCompanyQuery))['total'];
 ?>
 
 <head>
@@ -187,9 +255,34 @@ $suspendedCompanies = mysqli_fetch_assoc(mysqli_query($con, $suspendedCompaniesQ
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Employers Management - Admin Dashboard | MUNext</title>
     <link href="assets/css/styles.css" rel="stylesheet">
-
-
     <link rel="stylesheet" href="assets/css/custom-dashboard.css">
+
+    <style>
+    .profile-status-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 3px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-left: 5px;
+    }
+
+    .profile-complete {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .profile-incomplete {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .company-info-extended {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    </style>
 </head>
 
 <body>
@@ -208,12 +301,12 @@ $suspendedCompanies = mysqli_fetch_assoc(mysqli_query($con, $suspendedCompaniesQ
                 <!-- Page Header -->
                 <div class="page-header-section">
                     <h1 class="page-title">
-                        <i class="fa fa-building mr-2"></i>Employers Management
+                        <i class="fa fa-users mr-2"></i>Employers Management
                     </h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.php">Dashboard</a></li>
-                            <li class="breadcrumb-item"><a href="#">Company Management</a></li>
+                            <li class="breadcrumb-item"><a href="#">User Management</a></li>
                             <li class="breadcrumb-item active">Employers</li>
                         </ol>
                     </nav>
@@ -223,20 +316,24 @@ $suspendedCompanies = mysqli_fetch_assoc(mysqli_query($con, $suspendedCompaniesQ
                     <!-- Statistics -->
                     <div class="stats-grid">
                         <div class="stat-card total">
-                            <span class="stat-number"><?php echo number_format($totalCompanies); ?></span>
-                            <span class="stat-label">Total Companies</span>
+                            <span class="stat-number"><?php echo number_format($totalEmployers); ?></span>
+                            <span class="stat-label">Total Employers</span>
                         </div>
                         <div class="stat-card active">
-                            <span class="stat-number"><?php echo number_format($activeCompanies); ?></span>
-                            <span class="stat-label">Verified Companies</span>
+                            <span class="stat-number"><?php echo number_format($activeEmployers); ?></span>
+                            <span class="stat-label">Active Accounts</span>
                         </div>
                         <div class="stat-card pending">
-                            <span class="stat-number"><?php echo number_format($pendingCompanies); ?></span>
-                            <span class="stat-label">Pending Verification</span>
+                            <span class="stat-number"><?php echo number_format($pendingEmployers); ?></span>
+                            <span class="stat-label">Pending Approval</span>
                         </div>
                         <div class="stat-card suspended">
-                            <span class="stat-number"><?php echo number_format($suspendedCompanies); ?></span>
+                            <span class="stat-number"><?php echo number_format($suspendedEmployers); ?></span>
                             <span class="stat-label">Suspended</span>
+                        </div>
+                        <div class="stat-card info" style="border-left-color: #17a2b8;">
+                            <span class="stat-number"><?php echo number_format($withCompanyCount); ?></span>
+                            <span class="stat-label">With Company Profile</span>
                         </div>
                     </div>
 
@@ -253,7 +350,7 @@ $suspendedCompanies = mysqli_fetch_assoc(mysqli_query($con, $suspendedCompaniesQ
                                 <div class="col-md-3 mb-3">
                                     <label class="form-label">Search</label>
                                     <input type="text" name="search" class="form-control"
-                                        placeholder="Company name, email, contact person..."
+                                        placeholder="Name, email, company..."
                                         value="<?php echo htmlspecialchars($search); ?>">
                                 </div>
 
@@ -262,13 +359,16 @@ $suspendedCompanies = mysqli_fetch_assoc(mysqli_query($con, $suspendedCompaniesQ
                                     <select name="status" class="form-control">
                                         <option value="">All Status</option>
                                         <option value="Active"
-                                            <?php echo $filter_status === 'Active' ? 'selected' : ''; ?>>Verified
+                                            <?php echo $filter_status === 'Active' ? 'selected' : ''; ?>>Active
                                         </option>
                                         <option value="Pending"
                                             <?php echo $filter_status === 'Pending' ? 'selected' : ''; ?>>Pending
                                         </option>
                                         <option value="Suspended"
                                             <?php echo $filter_status === 'Suspended' ? 'selected' : ''; ?>>Suspended
+                                        </option>
+                                        <option value="Inactive"
+                                            <?php echo $filter_status === 'Inactive' ? 'selected' : ''; ?>>Inactive
                                         </option>
                                     </select>
                                 </div>
@@ -298,23 +398,24 @@ $suspendedCompanies = mysqli_fetch_assoc(mysqli_query($con, $suspendedCompaniesQ
                         </form>
                     </div>
 
-                    <!-- Companies Table -->
+                    <!-- Employers Table -->
                     <div class="companies-table-card">
                         <div class="table-header">
-                            <i class="fa fa-building mr-2"></i>Employers List
+                            <i class="fa fa-users mr-2"></i>Employers List
                             <span style="float: right; font-weight: normal;">
-                                Total: <?php echo number_format($total_records); ?> companies
+                                Total: <?php echo number_format($total_records); ?> employers
                             </span>
                         </div>
 
-                        <?php if (mysqli_num_rows($companies) > 0): ?>
+                        <?php if (mysqli_num_rows($employers) > 0): ?>
                         <div class="table-responsive">
                             <table class="companies-table">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>User ID</th>
+                                        <th>Employer Name</th>
                                         <th>Company</th>
-                                        <th>Contact Person</th>
+                                        <th>Email</th>
                                         <th>Phone</th>
                                         <th>Jobs</th>
                                         <th>Status</th>
@@ -323,90 +424,117 @@ $suspendedCompanies = mysqli_fetch_assoc(mysqli_query($con, $suspendedCompaniesQ
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php while ($company = mysqli_fetch_assoc($companies)): ?>
+                                    <?php while ($employer = mysqli_fetch_assoc($employers)): 
+                                        $hasCompanyProfile = !empty($employer['COMPANYID']);
+                                    ?>
                                     <tr>
-                                        <td><?php echo $company['COMPANYID']; ?></td>
+                                        <td><?php echo $employer['USERID']; ?></td>
                                         <td>
-                                            <div class="company-info">
-
-                                                <?php if (!empty($company['COMPANYLOGO'])): ?>
-                                                <img src="<?php echo $path.htmlspecialchars($company['COMPANYLOGO']); ?>"
+                                            <div class="company-details">
+                                                <span class="company-name">
+                                                    <?php echo htmlspecialchars($employer['FNAME'] . ' ' . $employer['ONAME']); ?>
+                                                </span>
+                                                <span class="company-email">
+                                                    @<?php echo htmlspecialchars($employer['USERNAME']); ?>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <?php if ($hasCompanyProfile): ?>
+                                            <div class="company-info-extended">
+                                                <?php if (!empty($employer['COMPANYLOGO'])): ?>
+                                                <img src="<?php echo $path.htmlspecialchars($employer['COMPANYLOGO']); ?>"
                                                     alt="Logo" class="company-logo-small"
                                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                                 <?php endif; ?>
                                                 <div class="company-logo-placeholder"
-                                                    style="<?php echo !empty($company['COMPANYLOGO']) ? 'display:none;' : ''; ?>">
-                                                    <?php echo strtoupper(substr($company['COMPANYNAME'], 0, 1)); ?>
+                                                    style="<?php echo !empty($employer['COMPANYLOGO']) ? 'display:none;' : ''; ?>">
+                                                    <?php echo strtoupper(substr($employer['COMPANYNAME'], 0, 1)); ?>
                                                 </div>
-
-
-
-                                                <div class="company-details">
+                                                <div>
                                                     <span class="company-name">
-                                                        <?php echo htmlspecialchars($company['COMPANYNAME']); ?>
+                                                        <?php echo htmlspecialchars($employer['COMPANYNAME']); ?>
                                                     </span>
-                                                    <span class="company-email">
-                                                        <?php echo htmlspecialchars($company['COMPANYEMAIL']); ?>
+                                                    <span class="profile-status-badge profile-complete">
+                                                        <i class="lni lni-checkmark"></i> Complete
                                                     </span>
                                                 </div>
                                             </div>
+                                            <?php else: ?>
+                                            <span class="profile-status-badge profile-incomplete">
+                                                <i class="lni lni-close"></i> No Company Profile
+                                            </span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo htmlspecialchars($employer['EMAIL']); ?>
+                                            <?php if ($hasCompanyProfile && !empty($employer['COMPANYEMAIL'])): ?>
+                                            <br><small class="text-muted">
+                                                Co: <?php echo htmlspecialchars($employer['COMPANYEMAIL']); ?>
+                                            </small>
+                                            <?php endif; ?>
                                         </td>
                                         <td>
                                             <?php 
-                                            if (!empty($company['FNAME']) && !empty($company['ONAME'])) {
-                                                echo htmlspecialchars($company['FNAME'] . ' ' . $company['ONAME']);
+                                            if ($hasCompanyProfile && !empty($employer['COMPANYPHONE'])) {
+                                                echo htmlspecialchars($employer['COMPANYPHONE']);
                                             } else {
-                                                echo 'N/A';
+                                                echo '<span class="text-muted">N/A</span>';
                                             }
                                             ?>
                                         </td>
-                                        <td><?php echo htmlspecialchars($company['COMPANYPHONE'] ?? 'N/A'); ?></td>
                                         <td>
+                                            <?php if ($employer['total_jobs'] > 0): ?>
                                             <span class="job-count-badge">
-                                                <?php echo $company['active_jobs']; ?> /
-                                                <?php echo $company['total_jobs']; ?>
+                                                <?php echo $employer['active_jobs']; ?> /
+                                                <?php echo $employer['total_jobs']; ?>
                                             </span>
+                                            <?php else: ?>
+                                            <span class="text-muted">None</span>
+                                            <?php endif; ?>
                                         </td>
                                         <td>
                                             <?php
                                             $statusClass = 'status-active';
-                                            $status = $company['COMPANYSTATUS'];
+                                            $status = $employer['USERSTATUS'];
                                             if ($status == 'Pending') {
                                                 $statusClass = 'status-pending';
                                             } elseif ($status == 'Suspended') {
                                                 $statusClass = 'status-suspended';
+                                            } elseif ($status == 'Inactive') {
+                                                $statusClass = 'status-inactive';
                                             }
                                             ?>
                                             <span class="status-badge <?php echo $statusClass; ?>">
                                                 <?php echo htmlspecialchars($status); ?>
                                             </span>
                                         </td>
-                                        <td><?php echo date('M d, Y', strtotime($company['DATEREGISTERED'])); ?></td>
+                                        <td><?php echo date('M d, Y', strtotime($employer['DATECREATED'])); ?></td>
                                         <td>
                                             <div class="action-buttons">
                                                 <button class="btn-action btn-view"
-                                                    onclick="viewCompany(<?php echo $company['COMPANYID']; ?>)"
-                                                    title="View">
+                                                    onclick="viewEmployer(<?php echo $employer['USERID']; ?>)"
+                                                    title="View Details">
                                                     <i class="lni lni-eye"></i>
                                                 </button>
 
-                                                <?php if ($company['COMPANYSTATUS'] != 'Active'): ?>
+                                                <?php if ($employer['USERSTATUS'] == 'Pending'): ?>
                                                 <form method="POST" style="display: inline;"
-                                                    onsubmit="return confirm('Verify this company?')">
-                                                    <input type="hidden" name="companyid"
-                                                        value="<?php echo $company['COMPANYID']; ?>">
-                                                    <input type="hidden" name="action" value="verify">
+                                                    onsubmit="return confirm('Approve this employer account?')">
+                                                    <input type="hidden" name="userid"
+                                                        value="<?php echo $employer['USERID']; ?>">
+                                                    <input type="hidden" name="action" value="approve">
                                                     <button type="submit" class="btn-action btn-verify" title="Approve">
                                                         <i class="lni lni-checkmark"></i>
                                                     </button>
                                                 </form>
                                                 <?php endif; ?>
 
-                                                <?php if ($company['COMPANYSTATUS'] == 'Active'): ?>
+                                                <?php if ($employer['USERSTATUS'] == 'Active'): ?>
                                                 <form method="POST" style="display: inline;"
-                                                    onsubmit="return confirm('Suspend this company?')">
-                                                    <input type="hidden" name="companyid"
-                                                        value="<?php echo $company['COMPANYID']; ?>">
+                                                    onsubmit="return confirm('Suspend this employer account?')">
+                                                    <input type="hidden" name="userid"
+                                                        value="<?php echo $employer['USERID']; ?>">
                                                     <input type="hidden" name="action" value="suspend">
                                                     <button type="submit" class="btn-action btn-suspend"
                                                         title="Suspend">
@@ -415,10 +543,23 @@ $suspendedCompanies = mysqli_fetch_assoc(mysqli_query($con, $suspendedCompaniesQ
                                                 </form>
                                                 <?php endif; ?>
 
+                                                <?php if ($employer['USERSTATUS'] == 'Suspended'): ?>
                                                 <form method="POST" style="display: inline;"
-                                                    onsubmit="return confirm('Delete this company permanently?')">
-                                                    <input type="hidden" name="companyid"
-                                                        value="<?php echo $company['COMPANYID']; ?>">
+                                                    onsubmit="return confirm('Activate this employer account?')">
+                                                    <input type="hidden" name="userid"
+                                                        value="<?php echo $employer['USERID']; ?>">
+                                                    <input type="hidden" name="action" value="activate">
+                                                    <button type="submit" class="btn-action btn-verify"
+                                                        title="Activate">
+                                                        <i class="lni lni-checkmark-circle"></i>
+                                                    </button>
+                                                </form>
+                                                <?php endif; ?>
+
+                                                <form method="POST" style="display: inline;"
+                                                    onsubmit="return confirm('Delete this employer account permanently? This will also affect their company profile and jobs.')">
+                                                    <input type="hidden" name="userid"
+                                                        value="<?php echo $employer['USERID']; ?>">
                                                     <input type="hidden" name="action" value="delete">
                                                     <button type="submit" class="btn-action btn-delete" title="Delete">
                                                         <i class="fas fa-trash"></i>
@@ -480,8 +621,8 @@ $suspendedCompanies = mysqli_fetch_assoc(mysqli_query($con, $suspendedCompaniesQ
 
                         <?php else: ?>
                         <div class="empty-state">
-                            <i class="fa fa-building empty-state-icon"></i>
-                            <p>No companies found.</p>
+                            <i class="fa fa-users empty-state-icon"></i>
+                            <p>No employers found.</p>
                         </div>
                         <?php endif; ?>
                     </div>
@@ -494,17 +635,17 @@ $suspendedCompanies = mysqli_fetch_assoc(mysqli_query($con, $suspendedCompaniesQ
         <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
     </div>
 
-    <!-- Company Details Modal -->
-    <div class="modal fade" id="companyModal" tabindex="-1" role="dialog">
+    <!-- Employer Details Modal -->
+    <div class="modal fade" id="employerModal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header" style="background: var(--primary-color); color: white;">
-                    <h5 class="modal-title text-white">Company Details</h5>
+                    <h5 class="modal-title text-white">Employer Details</h5>
                     <button type="button" class="close" data-dismiss="modal">
                         <span>&times;</span>
                     </button>
                 </div>
-                <div class="modal-body" id="companyModalContent">
+                <div class="modal-body" id="employerModalContent">
                     <div class="text-center py-5">
                         <i class="lni lni-spinner-arrow rotating" style="font-size: 3rem;"></i>
                         <p>Loading...</p>
@@ -520,25 +661,25 @@ $suspendedCompanies = mysqli_fetch_assoc(mysqli_query($con, $suspendedCompaniesQ
     <script src="assets/js/custom.js"></script>
 
     <script>
-    function viewCompany(companyid) {
-        $('#companyModal').modal('show');
-        $('#companyModalContent').html(
+    function viewEmployer(userid) {
+        $('#employerModal').modal('show');
+        $('#employerModalContent').html(
             '<div class="text-center py-5"><i class="lni lni-spinner-arrow rotating" style="font-size: 3rem;"></i><p>Loading...</p></div>'
         );
 
-        // Load company details via AJAX
+        // Load employer details via AJAX
         $.ajax({
-            url: 'admin-get-company-details.php',
+            url: 'admin-get-employer-details.php',
             method: 'GET',
             data: {
-                companyid: companyid
+                userid: userid
             },
             success: function(response) {
-                $('#companyModalContent').html(response);
+                $('#employerModalContent').html(response);
             },
             error: function() {
-                $('#companyModalContent').html(
-                    '<div class="alert alert-danger">Failed to load company details.</div>');
+                $('#employerModalContent').html(
+                    '<div class="alert alert-danger">Failed to load employer details.</div>');
             }
         });
     }
