@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="zxx">
 
-<?php require 'include/phpcode.php'; 
+<?php 
+require 'include/phpcode.php'; 
 
 
 
-
-$querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
+    // Redirect if profile is already complete
+    $querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
     $resultcomp = mysqli_query($con, $querycomp);
     $rowcomp = mysqli_fetch_array($resultcomp);
 
     $USERID = $rowcomp['USERID']  ?? '';
-    if (!empty($USERID)) {
-        header("Location: dashboard-my-profile.php");
+    if (!empty($USERID && $profileCompletion > 90)) {
+        // header("Location: dashboard-my-profile.php");
+        header("Refresh:1; url= dashboard-my-profile.php");
     }
         
-?>
+
 ?>
 
 <head>
@@ -23,39 +25,23 @@ $querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
     <meta name="author" content="Themezhub" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>MUNext - Creative Job Board</title>
+    <title>MUNext - Complete Profile</title>
 
     <!-- Custom CSS -->
     <link href="assets/css/styles.css" rel="stylesheet">
-
     <link rel="stylesheet" href="assets/css/custom-style.css">
 </head>
 
 <body>
 
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
-    <!-- <div class="preloader"></div> -->
-
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
     <div id="main-wrapper">
 
-        <!-- ============================================================== -->
-        <!-- Top header  -->
-        <!-- ============================================================== -->
+        <!-- Top header -->
         <?php include 'header.php' ?>
 
         <div class="clearfix"></div>
-        <!-- ============================================================== -->
-        <!-- Top header  -->
-        <!-- ============================================================== -->
 
-        <!-- ======================= dashboard Detail ======================== -->
-
-
+        <!-- Dashboard Section -->
         <div class="dashboard-wrap bg-light">
             <a class="mobNavigation" data-toggle="collapse" href="#MobNav" role="button" aria-expanded="false"
                 aria-controls="MobNav">
@@ -94,27 +80,21 @@ $querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
                                 <div class="_dashboard_content_body py-3 px-3">
                                     <form class="row" method="post" enctype="multipart/form-data">
                                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                                            <?php
-											if (!empty($APPLICANTPHOTO)) { ?>
+                                            <?php if (!empty($APPLICANTPHOTO)): ?>
                                             <div class="jb-list01-thumb">
-                                                <img src="../../<?php echo $APPLICANTPHOTO ?>" class="img-fluid"
-                                                    width="90" alt="" />
+                                                <img src="<?php echo $path.$APPLICANTPHOTO ?>"
+                                                    class="custom-file avater_uploads img-fluid" width="90" alt=""
+                                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
                                             </div>
-                                            <?php } else { ?>
+                                            <?php else: ?>
                                             <div class="custom-file avater_uploads">
-                                                <!-- <input type="file" class="custom-file-input" id="customFile" name="image"> -->
                                                 <label class="custom-file-label" for="customFile"><i
                                                         class="fa fa-user"></i></label>
                                             </div>
-                                            <?php } ?><br>
+                                            <?php endif ?></php>
+                                            <br>
 
                                             <div class="col-xl-12 col-lg-12 col-md-12">
-                                                <!-- <div class="form-group custom-file">
-                                                    <label class="text-dark ft-medium">Image Profile</label>
-                                                    <input type="file" name="image" class="custom-file-input"
-                                                        id="customFile" required>
-                                                </div> -->
-
                                                 <div class="form-group custom-file">
                                                     <input type="file" name="image" class="custom-file-input"
                                                         id="customFile" accept=".png, .jpg,.jpeg,.gif,.bmp,.svg">
@@ -126,103 +106,92 @@ $querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
 
                                         <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
                                             <div class="row">
-
-                                                <!-- <div class="col-xl-6 col-lg-6">
-													<div class="form-group">
-														<label class="text-dark ft-medium">First Name</label>
-														<input type="text" class="form-control rounded" placeholder="Full Name" name="FName">
-													</div>
-												</div>
-												<div class="col-xl-6 col-lg-6">
-													<div class="form-group">
-														<label class="text-dark ft-medium">Other Names</label>
-														<input type="text" class="form-control rounded" placeholder="Full Name" name="OName">
-													</div>
-												</div>
-												<div class="col-xl-12 col-lg-12 col-12">
-													<div class="form-group">
-														<label class="text-dark ft-medium">Email</label>
-														<input type="email" class="form-control rounded" value="uppcl@gmail.com" name="email" value="">
-													</div>
-												</div> -->
                                                 <div class="col-xl-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Professional Title</label>
+                                                        <label class="text-dark ft-medium">Professional Title <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="text" class="form-control rounded"
                                                             placeholder="e.g. Web Designer" name="job_title" required
-                                                            value="<?php if (!empty($JOBTITLE)) echo $JOBTITLE; ?>">
+                                                            value="<?php echo htmlspecialchars($JOBTITLE); ?>">
                                                     </div>
                                                 </div>
+
                                                 <div class="col-xl-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Job category</label>
+                                                        <label class="text-dark ft-medium">Job Category <span
+                                                                class="text-danger">*</span></label>
                                                         <select class="form-control rounded" name="job_categoryid"
                                                             required>
-                                                            <?php if (!$JOBCATEGORYID) { ?>
-                                                            <option value="<?php echo $JOBCATEGORYID ?>" hidden>
+                                                            <option value="" selected hidden>Select Job Category
+                                                            </option>
+                                                            <?php if (!empty($JOBCATEGORYID)) { ?>
+                                                            <option value="<?php echo $JOBCATEGORYID ?>" selected>
                                                                 <?php echo $SUBCATEGORY ?></option>
-                                                            <?php } else { ?>
-                                                            <option hidden>Choose Job Category</option>
                                                             <?php } ?>
 
                                                             <?php
-															$query = "SELECT * from tbljobsubcategory ORDER BY SUBCATEGORY ASC" or die(mysqli_error($con));
-
-															$run = mysqli_query($con, $query);
-
-															while ($row = mysqli_fetch_array($run)) {
-															?>
+                                                            $query = "SELECT * FROM tbljobsubcategory ORDER BY SUBCATEGORY ASC";
+                                                            $run = mysqli_query($con, $query);
+                                                            while ($row = mysqli_fetch_array($run)) {
+                                                                if ($row['ID'] != $JOBCATEGORYID) {
+                                                            ?>
                                                             <option value="<?php echo $row['ID'] ?>">
                                                                 <?php echo $row['SUBCATEGORY'] ?></option>
-
-                                                            <?php } ?>
+                                                            <?php 
+                                                                }
+                                                            } 
+                                                            ?>
                                                             <option value="0">Others</option>
-
                                                         </select>
                                                     </div>
                                                 </div>
+
                                                 <div class="col-xl-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Phone Number</label>
-                                                        <input type="number" class="form-control rounded"
+                                                        <label class="text-dark ft-medium">Phone Number <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="tel" class="form-control rounded"
                                                             placeholder="Phone Number" name="phoneno" required
-                                                            value="<?php if (!empty($CONTACTNO)) echo $CONTACTNO; ?>">
+                                                            value="<?php echo htmlspecialchars($CONTACTNO); ?>">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-xl-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Gender</label>
+                                                        <label class="text-dark ft-medium">Gender <span
+                                                                class="text-danger">*</span></label>
                                                         <select class="form-control rounded" name="sex" required>
-
-                                                            <?php if (!empty($SEX)) { ?><option selected hidden>
-                                                                <?php echo $SEX; ?></option> <?php } else { ?>
-                                                            <option hidden>Choose gender</option>
-                                                            <?php } ?>
-                                                            <option>Male</option>
-                                                            <option>Female</option>
+                                                            <option value="" hidden>Choose gender</option>
+                                                            <option <?php echo ($SEX == 'Male') ? 'selected' : ''; ?>>
+                                                                Male</option>
+                                                            <option <?php echo ($SEX == 'Female') ? 'selected' : ''; ?>>
+                                                                Female</option>
+                                                            <option
+                                                                <?php echo ($SEX == 'Prefer not to answer') ? 'selected' : ''; ?>>
+                                                                Prefer not to answer</option>
                                                         </select>
                                                     </div>
                                                 </div>
 
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Date Of Birth</label>
-                                                        <input type="date" class="form-control rounded"
-                                                            placeholder="dd-mm-yyyy" name="dob" required
-                                                            value="<?php if (!empty($BIRTHDATE)) echo $BIRTHDATE; ?>">
+                                                        <label class="text-dark ft-medium">Date Of Birth <span
+                                                                class="text-danger">*</span></label>
+                                                        <input type="date" class="form-control rounded" name="dob"
+                                                            required value="<?php echo $BIRTHDATE; ?>">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-xl-12 col-lg-12">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">About Me</label>
+                                                        <label class="text-dark ft-medium">About Me <span
+                                                                class="text-danger">*</span></label>
                                                         <textarea name="about_me" class="form-control with-light"
+                                                            rows="4"
                                                             placeholder="You can write about your years of experience, industry, or skills. People also talk about their achievements or previous job experience"
-                                                            required><?php if (!empty($ABOUTME)) echo $ABOUTME; ?></textarea>
+                                                            required><?php echo htmlspecialchars($ABOUTME); ?></textarea>
                                                     </div>
                                                 </div>
-
 
                                                 <div class="col-xl-12 col-lg-12">
                                                     <div class="form-group">
@@ -232,55 +201,44 @@ $querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
 
                                                 <div class="col-xl-12 col-lg-12">
                                                     <div class="form-group">
-                                                        <?php 
-														// if ($USERID != $session_id) {
-														?>
                                                         <button type="submit" name="save_data"
-                                                            class="btn btn-md ft-medium text-light rounded theme-bg">Save
-                                                            Data & Continue</button>
-                                                        <?php 
-														// } 
-													?>
+                                                            class="btn btn-md ft-medium text-light rounded theme-bg">
+                                                            💾 Save Data & Continue
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+
                     <?php
-
-					$querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
-					$resultcomp = mysqli_query($con, $querycomp);
-					$rowcomp = mysqli_fetch_array($resultcomp);
-
-					$USERID = $rowcomp['USERID']  ?? '';
-					if ($USERID == $session_id) {
-					?>
-
-                    <form method="post">
+                    // Only show additional forms if basic profile is saved
+                    if (!empty($USERID)) {
+                    ?>
+                    <!-- FORM 2: Contact Information & Social Links -->
+                    <form method="post" id="section23">
                         <div class="row">
-
-                            <div class="col-lg-12 col-md-12" id="section23">
+                            <div class="col-lg-12 col-md-12">
                                 <div class="_dashboard_content bg-white rounded mb-4">
                                     <div class="_dashboard_content_header br-bottom py-3 px-3">
                                         <div class="_dashboard__header_flex">
                                             <h4 class="mb-0 ft-medium fs-md"><i
-                                                    class="fas fa-lock mr-1 theme-cl fs-sm"></i>2. Contact Information
-                                            </h4>
+                                                    class="fas fa-map-marker-alt mr-1 theme-cl fs-sm"></i>2. Contact
+                                                Information</h4>
                                         </div>
                                     </div>
 
                                     <div class="_dashboard_content_body py-3 px-3">
-                                        <!-- <form class="row"> -->
                                         <div class="row">
                                             <div class="col-xl-6 col-lg-6 col-md-12">
                                                 <div class="form-group">
-                                                    <label class="text-dark ft-medium">Country</label>
+                                                    <label class="text-dark ft-medium">Country <span
+                                                            class="text-danger">*</span></label>
                                                     <select id="country" name="country" class="form-control" required>
                                                         <?php if (!empty($COUNTRY)) { ?> <option
                                                             value="<?php echo $COUNTRY; ?>" hidden>
@@ -549,34 +507,27 @@ $querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
                                                     </select>
                                                 </div>
                                             </div>
+
                                             <div class="col-xl-6 col-lg-6 col-md-12">
                                                 <div class="form-group">
-                                                    <label class="text-dark ft-medium">City</label>
+                                                    <label class="text-dark ft-medium">City <span
+                                                            class="text-danger">*</span></label>
                                                     <input type="text" class="form-control rounded" placeholder="City"
-                                                        name="city" required value="<?php if (!empty($CITY)) {
-																																															echo $CITY;
-																																														} ?>">
+                                                        name="city" required
+                                                        value="<?php echo htmlspecialchars($CITY); ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-xl-12 col-lg-12 col-md-12">
                                                 <div class="form-group">
-                                                    <label class="text-dark ft-medium">Full Address</label>
+                                                    <label class="text-dark ft-medium">Full Address <span
+                                                            class="text-danger">*</span></label>
                                                     <input type="text" class="form-control rounded"
                                                         placeholder="#10 Marke Juger, SBI Road" name="address" required
-                                                        value="<?php if (!empty($ADDRESS)) {
-																																																							echo $ADDRESS;
-																																																						} ?>">
-                                                </div>
-                                            </div>
-
-                                            <div class="col-xl-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <!-- <button type="submit" class="btn btn-md ft-medium text-light rounded theme-bg">Save Changes</button> -->
+                                                        value="<?php echo htmlspecialchars($ADDRESS); ?>">
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- </form> -->
                                     </div>
                                 </div>
                             </div>
@@ -591,74 +542,57 @@ $querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
                                     </div>
 
                                     <div class="_dashboard_content_body py-3 px-3">
-                                        <!-- <form class="row"> -->
                                         <div class="row">
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="text-dark ft-medium">Facebook</label>
-                                                    <input type="text" class="form-control rounded"
-                                                        placeholder="https://www.facebook.com/" name="fb" required
-                                                        value="<?php if (!empty($FB_link)) {
-																																																					echo $FB_link;
-																																																				} ?>">
+                                                    <label class="text-dark ft-medium">Facebook </label>
+                                                    <input type="url" class="form-control rounded"
+                                                        placeholder="https://www.facebook.com/yourprofile" name="fb"
+                                                        value="<?php echo htmlspecialchars($FB_link); ?>">
                                                 </div>
                                             </div>
 
-                                            <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-											<div class="form-group">
-												<label class="text-dark ft-medium">Twitter</label>
-												<input type="text" class="form-control rounded" placeholder="https://www.twitter.com/">
-											</div>
-										</div> -->
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                                 <div class="form-group">
-                                                    <label class="text-dark ft-medium">LinkedIn</label>
-                                                    <input type="text" class="form-control rounded"
-                                                        placeholder="https://www.linkedin.com/" name="lin" required
-                                                        value="<?php if (!empty($LinkedIn_link)) {
-																																																						echo $LinkedIn_link;
-																																																					} ?>">
+                                                    <label class="text-dark ft-medium">LinkedIn </label>
+                                                    <input type="url" class="form-control rounded"
+                                                        placeholder="https://www.linkedin.com/in/yourprofile" name="lin"
+                                                        value="<?php echo htmlspecialchars($LinkedIn_link); ?>">
                                                 </div>
                                             </div>
-                                            <!-- s -->
 
-                                            <!-- <div class="col-xl-12 col-lg-12">
-												<div class="form-group">
-													<button type="submit" class="btn btn-md ft-medium text-light rounded theme-bg">Save Changes</button>
-												</div>
-											</div> -->
-
-                                        </div>
-                                        <div class="col-xl-12 col-lg-12">
-                                            <div class="form-group">
-                                                <?php echo $msg2 ?>
+                                            <div class="col-xl-12 col-lg-12">
+                                                <div class="form-group">
+                                                    <?php echo $msg2 ?>
+                                                </div>
                                             </div>
                                         </div>
-                                        <!-- </form> -->
                                     </div>
                                 </div>
                             </div>
 
-                        </div>
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="form-group">
-                                <?php if ((empty($COUNTRY) || (empty($CITY)) || (empty($ADDRESS)) || (empty($FB_link)) || (empty($LinkedIn_link)))) {
-									?>
-                                <button type="submit" name="save_info"
-                                    class="btn btn-md ft-medium text-light rounded theme-bg">Save Info</button>
-                                <?php } ?>
+                            <div class="col-xl-12 col-lg-12">
+                                <div class="form-group">
+                                    <button type="submit" name="save_info"
+                                        class="btn btn-md ft-medium text-light rounded theme-bg">
+                                        💾 Save Contact Info
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>
-                    <hr>
 
-                    <?php if (!((empty($COUNTRY) || (empty($CITY)) || (empty($ADDRESS)) || (empty($FB_link)) || (empty($LinkedIn_link))))) {
-						?>
-                    <!-- Add Education -->
-                    <form method="post">
+                    <?php
+                    // Only show education/experience forms if contact info is complete
+                    if (!empty($COUNTRY) && !empty($CITY) && !empty($ADDRESS)) {
+                    ?>
+
+                    <!-- FORM 3: Education, Experience & Skills -->
+                    <form method="post" id="section456">
                         <div class="row">
+                            <!-- Education Section -->
                             <div class="col-lg-12 col-md-12">
-                                <div class="_dashboard_content bg-white rounded mb-4" id="section456">
+                                <div class="_dashboard_content bg-white rounded mb-4">
                                     <div class="_dashboard_content_header br-bottom py-3 px-3">
                                         <div class="_dashboard__header_flex">
                                             <h4 class="mb-0 ft-medium fs-md"><i
@@ -671,74 +605,52 @@ $querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
                                         <div class="row">
                                             <div class="col-xl-12 col-lg-12">
                                                 <div class="gray rounded p-3 mb-3 position-relative">
-                                                    <!-- <button class="aps-clone"><i class="fas fa-times"></i></button> -->
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">School Name</label>
+                                                        <label class="text-dark ft-medium">School Name <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="text" class="form-control rounded"
                                                             placeholder="School Name" name="schl_name" required
-                                                            value="<?php if (!empty($SCHOOLNAME)) echo $SCHOOLNAME ?>">
+                                                            value="<?php echo htmlspecialchars($SCHOOLNAME) ?>">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Qualification</label>
-                                                        <!-- <input type="text" class="form-control rounded" placeholder="Qualification Title" name="qualification" required> -->
+                                                        <label class="text-dark ft-medium">Qualification <span
+                                                                class="text-danger">*</span></label>
                                                         <select class="custom-select rounded" name="qualification"
                                                             required>
-                                                            <?php if (!empty($DEGREE)) { ?><option
-                                                                value="<?php echo $DEGREE ?>" hidden>
-                                                                <?php echo $DEGREE ?></option>
-                                                            <?php } else { ?>
                                                             <option value="" hidden>Please select</option>
-                                                            <?php } ?>
-                                                            <option>B.Sc</option>
-                                                            <option>Master Degree</option>
-                                                            <option>BPharma</option>
-                                                            <option>P.H.D.</option>
-                                                            <option>HND</option>
-                                                            <option>OND</option>
+                                                            <option
+                                                                <?php echo ($DEGREE == 'B.Sc') ? 'selected' : ''; ?>>
+                                                                B.Sc</option>
+                                                            <option
+                                                                <?php echo ($DEGREE == 'Master Degree') ? 'selected' : ''; ?>>
+                                                                Master Degree</option>
+                                                            <option
+                                                                <?php echo ($DEGREE == 'BPharma') ? 'selected' : ''; ?>>
+                                                                BPharma</option>
+                                                            <option
+                                                                <?php echo ($DEGREE == 'P.H.D.') ? 'selected' : ''; ?>>
+                                                                P.H.D.</option>
+                                                            <option <?php echo ($DEGREE == 'HND') ? 'selected' : ''; ?>>
+                                                                HND</option>
+                                                            <option <?php echo ($DEGREE == 'OND') ? 'selected' : ''; ?>>
+                                                                OND</option>
                                                         </select>
                                                     </div>
-                                                    <!-- <div class="form-row">
-															<div class="col-6">
-																<div class="form-group">
-																	<label class="text-dark ft-medium">Start Date</label>
-																	<input type="date" class="form-control rounded" placeholder="dd-mm-yyyy" name="schl_startdate" required>
-																</div>
-															</div>
-															<div class="col-6">
-																<div class="form-group">
-																	<label class="text-dark ft-medium">End Date</label>
-																	<input type="date" class="form-control rounded" placeholder="dd-mm-yyyy" name="schl_enddate" required>
-																</div>
-															</div>
-														</div> -->
-                                                    <!-- <div class="form-group">
-														<label class="text-dark ft-medium">Note</label>
-														<textarea class="form-control ht-80" placeholder="Note Optional"></textarea>
-													</div> -->
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <!-- <button type="submit" class="btn gray ft-medium apply-btn fs-sm rounded"><i class="fas fa-plus mr-1"></i>Add Education</button> -->
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-
-                        <!-- Add Experience -->
-                        <div class="row">
+                            <!-- Experience Section -->
                             <div class="col-lg-12 col-md-12">
                                 <div class="_dashboard_content bg-white rounded mb-4">
                                     <div class="_dashboard_content_header br-bottom py-3 px-3">
                                         <div class="_dashboard__header_flex">
                                             <h4 class="mb-0 ft-medium fs-md"><i
-                                                    class="fas fa-graduation-cap mr-1 theme-cl fs-sm"></i>5. Experience
-                                                Details (Optional)<code>Most recent experience</code></h4>
+                                                    class="fas fa-briefcase mr-1 theme-cl fs-sm"></i>5. Experience
+                                                Details (Optional) <code>Most recent experience</code></h4>
                                         </div>
                                     </div>
 
@@ -746,104 +658,60 @@ $querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
                                         <div class="row">
                                             <div class="col-xl-12 col-lg-12">
                                                 <div class="gray rounded p-3 mb-3 position-relative">
-                                                    <!-- <button class="aps-clone"><i class="fas fa-times"></i></button> -->
                                                     <div class="form-group">
                                                         <label class="text-dark ft-medium">Employer</label>
                                                         <select class="custom-select rounded" name="company_name_select"
-                                                            id="company_select" onchange="set_company()">
-
-                                                            <?php if (!empty($EXCOMPANYNAME)) { ?><option
-                                                                value="<?php echo $EXCOMPANYNAME ?>" hidden>
-                                                                <?php echo $EXCOMPANYNAME ?></option>
-                                                            <?php } else { ?>
+                                                            id="company_select" onchange="toggleCompanyInput()">
                                                             <option value="">Select Company</option>
+                                                            <?php if (!empty($EXCOMPANYNAME)) { ?>
+                                                            <option value="<?php echo $EXCOMPANYNAME ?>" selected>
+                                                                <?php echo $EXCOMPANYNAME ?></option>
                                                             <?php } ?>
 
-                                                            <?php $sql = "SELECT * from tblcompany ORDER BY COMPANYNAME ASC";
-																	$run = mysqli_query($con, $sql);
-																	while ($row = mysqli_fetch_array($run)) { ?>
-                                                            <option value="<?php echo ($row['COMPANYNAME']); ?>">
-                                                                <?php echo ($row['COMPANYNAME']); ?>
+                                                            <?php 
+                                                            $sql = "SELECT * FROM tblcompany ORDER BY COMPANYNAME ASC";
+                                                            $run = mysqli_query($con, $sql);
+                                                            while ($row = mysqli_fetch_array($run)) { 
+                                                                if ($row['COMPANYNAME'] != $EXCOMPANYNAME) {
+                                                            ?>
+                                                            <option
+                                                                value="<?php echo htmlspecialchars($row['COMPANYNAME']); ?>">
+                                                                <?php echo htmlspecialchars($row['COMPANYNAME']); ?>
                                                             </option>
-                                                            <?php
-																	} ?>
-                                                            <option>Others (Please specify)</option>
+                                                            <?php 
+                                                                }
+                                                            } 
+                                                            ?>
+                                                            <option value="Others (Please specify)">Others (Please
+                                                                specify)</option>
                                                         </select>
                                                     </div>
-                                                    <style>
-                                                    #company_other {
-                                                        display: none;
-                                                    }
-                                                    </style>
 
-                                                    <div class="form-group">
+                                                    <div class="form-group" id="company_other" style="display: none;">
                                                         <input type="text" class="form-control rounded"
-                                                            placeholder="Company Name" name="company_name_specify"
-                                                            id="company_other">
+                                                            placeholder="Company Name" name="company_name_specify">
                                                     </div>
 
-                                                    <script>
-                                                    function set_company() {
-                                                        var title_select = $('#company_select')
-                                                            .val(); //document.getElementById("title_select").innerHTML
-
-                                                        if (title_select == "Others (Please specify)") {
-                                                            document.getElementById("company_other").style.display =
-                                                                "block";
-                                                        } else {
-                                                            document.getElementById("company_other").style.display =
-                                                                "none";
-                                                        }
-                                                        // document.getElementById("set_wallet").innerHTML = set_wallet;
-                                                    }
-                                                    </script>
                                                     <div class="form-group">
                                                         <label class="text-dark ft-medium">Job Title</label>
                                                         <input type="text" class="form-control rounded"
                                                             placeholder="Designation Title" name="job_title"
-                                                            value="<?php if (!empty($EXJOBTITLE)) echo $EXJOBTITLE ?>">
+                                                            value="<?php echo htmlspecialchars($EXJOBTITLE) ?>">
                                                     </div>
-                                                    <!-- <div class="form-row">
-															<div class="col-6">
-																<div class="form-group">
-																	<label class="text-dark ft-medium">Start Date</label>
-																	<input type="date" class="form-control rounded" placeholder="dd-mm-yyyy" name="job_startdate">
-																</div>
-															</div>
-															<div class="col-6">
-																<div class="form-group">
-																	<label class="text-dark ft-medium">End Date</label>
-																	<input type="date" class="form-control rounded" placeholder="dd-mm-yyyy" name="job_enddate">
-																</div>
-															</div>
-														</div> -->
-                                                    <!-- <div class="form-group">
-															<label class="text-dark ft-medium">Note</label>
-															<textarea class="form-control ht-80" placeholder="Note Optional"></textarea>
-														</div> -->
                                                 </div>
                                             </div>
-                                            <div class="col-xl-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <!-- <button type="submit" class="btn gray ft-medium apply-btn fs-sm rounded"><i class="fas fa-plus mr-1"></i>Add Experience</button> -->
-                                                </div>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Add Skills -->
-                        <div class="row">
+                            <!-- Skills Section -->
                             <div class="col-lg-12 col-md-12">
                                 <div class="_dashboard_content bg-white rounded mb-4">
                                     <div class="_dashboard_content_header br-bottom py-3 px-3">
                                         <div class="_dashboard__header_flex">
                                             <h4 class="mb-0 ft-medium fs-md"><i
-                                                    class="fas fa-graduation-cap mr-1 theme-cl fs-sm"></i>6. Skills
-                                                Details</h4>
+                                                    class="fas fa-star mr-1 theme-cl fs-sm"></i>6. Skills Details</h4>
                                         </div>
                                     </div>
 
@@ -851,67 +719,54 @@ $querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
                                         <div class="row">
                                             <div class="col-xl-12 col-lg-12">
                                                 <div class="gray rounded p-3 mb-3 position-relative">
-                                                    <!-- <button class="aps-clone"><i class="fas fa-times"></i></button> -->
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Skills Name
-                                                            <code>Seperate with a comma</code></label>
+                                                        <label class="text-dark ft-medium">Skills Name *
+                                                            <code>Separate with a comma</code></label>
                                                         <input type="text" class="form-control rounded"
-                                                            placeholder="e.g Mysql, Javascript, ..." name="skills"
-                                                            required value="<?php if (!empty($SKILLS)) echo $SKILLS ?>">
+                                                            placeholder="e.g MySQL, Javascript, Python, React"
+                                                            name="skills" required
+                                                            value="<?php echo htmlspecialchars($SKILLS) ?>">
                                                     </div>
-                                                    <!-- <div class="form-group">
-														<label class="text-dark ft-medium">Percentage</label>
-														<input type="text" class="form-control rounded" placeholder="e.x. 80%">
-													</div> -->
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-12 col-lg-12">
-                                                <div class="form-group">
-                                                    <!-- <button type="submit" class="btn gray ft-medium apply-btn fs-sm rounded"><i class="fas fa-plus mr-1"></i>Add Skills</button> -->
                                                 </div>
                                             </div>
 
-                                        </div>
-                                        <div class="col-xl-12 col-lg-12">
-                                            <div class="form-group">
-                                                <?php echo $msg3 ?>
+                                            <div class="col-xl-12 col-lg-12">
+                                                <div class="form-group">
+                                                    <?php echo $msg3 ?>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Add Skills -->
-                        <div class="row">
                             <div class="col-lg-12 col-md-12">
                                 <button type="submit" name="save_preview"
-                                    class="btn btn-md ft-medium text-light rounded theme-bg">Save & Preview</button>
+                                    class="btn btn-md ft-medium text-light rounded theme-bg">
+                                    ✅ Save & Preview Profile
+                                </button>
                             </div>
                         </div>
                     </form>
-                    <?php }
-					} ?>
+
+                    <?php 
+                    } // End if contact info complete
+                    } // End if profile exists
+                    ?>
+
                 </div>
 
-                <!-- footer -->
+                <!-- Footer -->
                 <?php include 'footer.php' ?>
             </div>
 
         </div>
-        <!-- ======================= dashboard Detail End ======================== -->
 
         <a id="back2Top" class="top-scroll" title="Back to top" href="#"><i class="ti-arrow-up"></i></a>
 
-
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
 
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
-    <!-- ============================================================== -->
+    <!-- Scripts -->
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
@@ -921,12 +776,30 @@ $querycomp = "SELECT * from tblapplicants WHERE USERID = '$session_id'";
     <script src="assets/js/snackbar.min.js"></script>
     <script src="assets/js/jQuery.style.switcher.js"></script>
     <script src="assets/js/custom.js"></script>
-    <!-- ============================================================== -->
-    <!-- This page plugins -->
-    <!-- ============================================================== -->
+
+    <script>
+    // Toggle company input field
+    function toggleCompanyInput() {
+        var selectValue = document.getElementById('company_select').value;
+        var otherInput = document.getElementById('company_other');
+
+        if (selectValue === "Others (Please specify)") {
+            otherInput.style.display = "block";
+            otherInput.querySelector('input').required = true;
+        } else {
+            otherInput.style.display = "none";
+            otherInput.querySelector('input').required = false;
+        }
+    }
+
+    // File input label update
+    document.getElementById('customFile').addEventListener('change', function(e) {
+        var fileName = e.target.files[0] ? e.target.files[0].name : 'Choose file';
+        var label = e.target.nextElementSibling;
+        label.textContent = fileName;
+    });
+    </script>
 
 </body>
-
-<!-- Mirrored from themezhub.net/live-workplex/workplex/dashboard-add-Profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Feb 2022 12:08:06 GMT -->
 
 </html>
