@@ -4,10 +4,8 @@
  * Handles user logout and session cleanup
  */
 
-session_start();
-
-require_once '../../mysqli_connect.php';
-include "../../include/helper.php";
+// session_start();
+include "include/phpcode.php";
 require_once '../../include/toast.php';
 
 // Record logout if user is logged in
