@@ -274,13 +274,13 @@ $EMPLOYER_NAME = trim($job['EMPLOYER_FNAME'] . ' ' . $job['EMPLOYER_ONAME'])?? '
                         <h2 class="text-white"><?php echo htmlspecialchars($job['JOBTITLE']); ?></h2>
                         <div class="d-flex align-items-center gap-3">
                             <span
-                                class="status-badge <?php echo $job['JOBSTATUS'] == 'Active' ? 'badge-active' : ($job['JOBSTATUS'] == 'Filled' ? 'badge-filled' : 'badge-inactive'); ?>">
+                                class="badge <?php echo $job['JOBSTATUS'] == 'Active' ? 'badge-active' : ($job['JOBSTATUS'] == 'Filled' ? 'badge-filled' : 'badge-inactive'); ?>">
                                 <i
                                     class="lni lni-<?php echo $job['JOBSTATUS'] == 'Active' ? 'checkmark-circle' : 'eye-off'; ?>"></i>
                                 <?php echo htmlspecialchars($job['JOBSTATUS']); ?>
                             </span>
                             <?php if ($isExpired): ?>
-                            <span class="status-badge badge-expired">
+                            <span class="ml-2 badge badge-expired">
                                 <i class="lni lni-alarm"></i> Expired
                             </span>
                             <?php endif; ?>
@@ -448,7 +448,7 @@ $EMPLOYER_NAME = trim($job['EMPLOYER_FNAME'] . ' ' . $job['EMPLOYER_ONAME'])?? '
                                     <div class="detail-label">Status:</div>
                                     <div class="detail-value">
                                         <span
-                                            class="status-badge <?php echo $job['JOBSTATUS'] == 'Active' ? 'badge-active' : 'badge-inactive'; ?>">
+                                            class="badge <?php echo $job['JOBSTATUS'] == 'Active' ? 'badge-active' : 'badge-inactive'; ?>">
                                             <?php echo htmlspecialchars($job['JOBSTATUS']); ?>
                                         </span>
                                     </div>
