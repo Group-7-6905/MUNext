@@ -4,11 +4,14 @@
 <?php 
 require 'include/phpcode.php';
 require '../include/toast.php';
+require_once '../include/email-functions.php';
+
 
 // ==================== HANDLE VERIFICATION ACTIONS ====================
 if (isset($_POST['action']) && isset($_POST['company_id'])) {
     $companyId = mysqli_real_escape_string($con, $_POST['company_id']);
     $action = mysqli_real_escape_string($con, $_POST['action']);
+    $userid = isset($_POST['userid']) ? (int)$_POST['userid'] : 0;
     
     switch ($action) {
         case 'approve':
@@ -23,6 +26,24 @@ if (isset($_POST['action']) && isset($_POST['company_id'])) {
                 $ip = getClientIP();
                 mysqli_stmt_bind_param($logStmt, "is", $session_id, $ip);
                 mysqli_stmt_execute($logStmt);
+                
+                // Get employer details for email
+                    $detailsQuery = "SELECT u.EMAIL, u.FNAME, u.ONAME, c.COMPANYNAME 
+                                    FROM tblusers u
+                                    LEFT JOIN tblcompany c ON u.USERID = c.USERID
+                                    WHERE u.USERID = ?";
+                    $detailsStmt = mysqli_prepare($con, $detailsQuery);
+                    mysqli_stmt_bind_param($detailsStmt, "i", $userid);
+                    mysqli_stmt_execute($detailsStmt);
+                    $detailsResult = mysqli_stmt_get_result($detailsStmt);
+                    
+                    if ($details = mysqli_fetch_assoc($detailsResult)) {
+                        $employerName = $details['FNAME'] . ' ' . $details['ONAME'];
+                        $companyName = $details['COMPANYNAME'] ?? 'Your Company';
+                        
+                        // Send approval email
+                        sendCompanyApprovedEmail($con, $details['EMAIL'], $companyName, $employerName);
+                    }
                 
                 Toast::success("Company approved successfully!");
             } else {
@@ -42,6 +63,24 @@ if (isset($_POST['action']) && isset($_POST['company_id'])) {
                 $ip = getClientIP();
                 mysqli_stmt_bind_param($logStmt, "is", $session_id, $ip);
                 mysqli_stmt_execute($logStmt);
+
+                 // Get employer details for email
+                    $detailsQuery = "SELECT u.EMAIL, u.FNAME, u.ONAME, c.COMPANYNAME 
+                                    FROM tblusers u
+                                    LEFT JOIN tblcompany c ON u.USERID = c.USERID
+                                    WHERE u.USERID = ?";
+                    $detailsStmt = mysqli_prepare($con, $detailsQuery);
+                    mysqli_stmt_bind_param($detailsStmt, "i", $userid);
+                    mysqli_stmt_execute($detailsStmt);
+                    $detailsResult = mysqli_stmt_get_result($detailsStmt);
+                    
+                    if ($details = mysqli_fetch_assoc($detailsResult)) {
+                        $employerName = $details['FNAME'] . ' ' . $details['ONAME'];
+                        $companyName = $details['COMPANYNAME'] ?? 'Your Company';
+                        
+                        // Send approval email
+                        sendCompanyRejectedEmail($con, $details['EMAIL'], $companyName, $employerName);
+                    }
                 
                 Toast::warning("Company rejected!");
             } else {
@@ -404,6 +443,8 @@ $countriesResult = mysqli_query($con, $countriesQuery);
                                                     onsubmit="return confirm('Approve this company?')">
                                                     <input type="hidden" name="company_id"
                                                         value="<?php echo $company['COMPANYID']; ?>">
+                                                    <input type="hidden" name="userid"
+                                                        value="<?php echo $company['USERID']; ?>">
                                                     <input type="hidden" name="action" value="approve">
                                                     <button type="submit" class="btn-action btn-approve"
                                                         title="Approve">
@@ -417,6 +458,8 @@ $countriesResult = mysqli_query($con, $countriesQuery);
                                                     onsubmit="return confirm('Mark as requiring more information?')">
                                                     <input type="hidden" name="company_id"
                                                         value="<?php echo $company['COMPANYID']; ?>">
+                                                    <input type="hidden" name="userid"
+                                                        value="<?php echo $company['USERID']; ?>">
                                                     <input type="hidden" name="action" value="request_info">
                                                     <button type="submit" class="btn-action btn-info"
                                                         title="Request More info">
@@ -430,6 +473,8 @@ $countriesResult = mysqli_query($con, $countriesQuery);
                                                     onsubmit="return confirm('Reject this company registration?')">
                                                     <input type="hidden" name="company_id"
                                                         value="<?php echo $company['COMPANYID']; ?>">
+                                                    <input type="hidden" name="userid"
+                                                        value="<?php echo $company['USERID']; ?>">
                                                     <input type="hidden" name="action" value="reject">
                                                     <button type="submit" class="btn-action btn-reject" title="Reject">
                                                         <i class="lni lni-close"></i>
