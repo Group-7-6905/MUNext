@@ -24,3 +24,5 @@
     });
 })();
 </script>
+
+<?php unset($_SESSION['toast']); ?>
