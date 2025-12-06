@@ -317,10 +317,9 @@ if (!empty($_GET['type'])) {
                                 </span>
                                 <?php endif ?>
                             </div>
-                            <div class="job_grid_thumb mb-3 pt-5 px-3">
+
+                            <div class="job_grid_thumb mb-3 pt-5 px-3 text-center">
                                 <a href="job-detail.php?jobid=<?php echo $JOBID ?>" class="d-block text-center m-auto">
-                                    <!-- <img src="./<?php echo $COMPANYLOGO ?>"
-                                        class="img-fluid" width="70" alt="" /> -->
                                     <?php if (!empty($COMPANYLOGO)): ?>
                                     <img src="<?php echo htmlspecialchars($COMPANYLOGO); ?>" alt="Company Logo"
                                         class="company-logo-col"
@@ -329,7 +328,6 @@ if (!empty($_GET['type'])) {
                                     <div class="company-logo-placeholder-col"
                                         style="<?php echo !empty($COMPANYLOGO) ? 'display:none;' : ''; ?>">
                                         <span><?php echo strtoupper(substr($COMPANYNAME, 0, 1)); ?></span>
-
                                     </div>
                                 </a>
                             </div>
@@ -390,7 +388,7 @@ if (!empty($_GET['type'])) {
 
                             <?php
 							$count = 0;
-							$query = "SELECT * from tblcompany ORDER BY COMPANYID DESC" or die(mysqli_error($con));
+							$query = "SELECT * from tblcompany WHERE COMPANYSTATUS = 'Active' ORDER BY COMPANYID DESC" or die(mysqli_error($con));
 
 							$run = mysqli_query($con, $query);
 							while ($row = mysqli_fetch_array($run)) {
