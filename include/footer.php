@@ -387,4 +387,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!-- Render Toast from Session -->
-<?php  echo Toast::render(); ?>
+<?php  echo Toast::render(); 
+
+unset($_SESSION['toast']);?>

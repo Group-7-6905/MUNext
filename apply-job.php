@@ -23,9 +23,11 @@ $jobResult = mysqli_stmt_get_result($stmt);
 $job = mysqli_fetch_assoc($jobResult);
 
 if (!$job) {
-    $_SESSION['error_msg'] = "Job not found or is no longer available.";
+    // $_SESSION['error_msg'] = "Job not found or is no longer available.";
     header("Location: job-list-v1.php");
     exit();
+}else{
+    $_SESSION['error_msg'] = '';
 }
 
 
@@ -45,7 +47,7 @@ include "include/helper.php";
 
         <!-- Main Content -->
         <section class="bg-light py-5 position-relative">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="application-container">
 
                     <!-- Job Header -->
@@ -58,7 +60,7 @@ include "include/helper.php";
                     </div>
 
                     <!-- Alert Messages -->
-                    <?php if (isset($_SESSION['error_msg'])): ?>
+                    <?php if (!empty($_SESSION['error_msg'])): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="lni lni-cross-circle"></i> <?php echo $_SESSION['error_msg']; ?>
                         <button type="button" class="close" data-dismiss="alert">
@@ -74,38 +76,38 @@ include "include/helper.php";
 
                             <div class="step active" data-step="1">
                                 <div class="step-circle">1</div>
-                                <div class="step-label">Your Info</div>
+                                <div class="step-label mt-4">Your Info</div>
                             </div>
 
                             <div class="step" data-step="2">
                                 <div class="step-circle">2</div>
-                                <div class="step-label">Resume</div>
+                                <div class="step-label mt-4">Resume</div>
                             </div>
 
                             <?php if ($totalQuestions > 0): ?>
                             <div class="step" data-step="3">
                                 <div class="step-circle">3</div>
-                                <div class="step-label">Screening</div>
+                                <div class="step-label mt-4">Screening</div>
                             </div>
 
                             <div class="step" data-step="4">
                                 <div class="step-circle">4</div>
-                                <div class="step-label">Cover Letter</div>
+                                <div class="step-label mt-4">Cover Letter</div>
                             </div>
 
                             <div class="step" data-step="5">
                                 <div class="step-circle">5</div>
-                                <div class="step-label">Review</div>
+                                <div class="step-label mt-4">Review</div>
                             </div>
                             <?php else: ?>
                             <div class="step" data-step="3">
                                 <div class="step-circle">3</div>
-                                <div class="step-label">Cover Letter</div>
+                                <div class="step-label mt-4">Cover Letter</div>
                             </div>
 
                             <div class="step" data-step="4">
                                 <div class="step-circle">4</div>
-                                <div class="step-label">Review</div>
+                                <div class="step-label mt-4">Review</div>
                             </div>
                             <?php endif; ?>
                         </div>

@@ -37,6 +37,10 @@ if (!empty($_GET['jobid'])) {
 	$isActive = ($row['JOBSTATUS'] == 'Active');
 	$isFilled = ($row['JOBSTATUS'] == 'Filled');
 
+    if(!$isActive){
+	    header('location: job-list-v1.php');
+    }
+
     $isExpired = strtotime($row['DEADLINE']) < time();
     $daysUntilDeadline = ceil((strtotime($row['DEADLINE']) - time()) / 86400);
     
@@ -58,7 +62,7 @@ if (!empty($_GET['jobid'])) {
 	$COMPANYSPECIALISM = $rowcomp['COMPANYSPECIALISM'];
 	$COMPANYLOGO = $rowcomp['COMPANYLOGO'];
 } else {
-	header('location: job-search-v1.php');
+	header('location: job-list-v1.php');
 }
 
 
@@ -471,7 +475,7 @@ setTimeout(function() {
                         </div>
                     </div>
                     <!---Sidebar--->
-                    <?php } elseif (((empty($APPLICANTPHOTO)) || (empty($DEGREE)) || (empty($CITY)) || (empty($ADDRESS)) || (empty($SKILLS)) || (empty($LinkedIn_link)))) {
+                    <?php } elseif (((empty($ABOUTME)) || (empty($DEGREE)) || (empty($CITY)) || (empty($ADDRESS)) || (empty($SKILLS)))) {
 
                         if ($_SESSION['role'] == 'Applicant') {
 					?>

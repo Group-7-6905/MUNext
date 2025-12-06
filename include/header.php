@@ -101,7 +101,7 @@
                     <li class="add-listing theme-bg">
 
                         <a href="./job-list-v1.php">
-                            <i class="lni lni-circle-plus mr-1"></i> Apply a Job
+                            <i class="lni lni-circle-plus mr-1"></i> Apply Job
                         </a>
 
 
@@ -118,7 +118,7 @@
                     <li class="add-listing theme-bg">
 
                         <a href="./login.php">
-                            <i class="lni lni-circle-plus mr-1"></i> Apply a Job
+                            <i class="lni lni-circle-plus mr-1"></i> Apply Job
                         </a>
 
 
