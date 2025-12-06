@@ -4,6 +4,8 @@
 <?php 
 require 'include/phpcode.php';
 require '../include/toast.php';
+require_once '../include/email-functions.php';
+
 
 
 // ==================== HANDLE JOB ACTIONS ====================
@@ -26,7 +28,31 @@ if (isset($_POST['action'])) {
                     $ip = getClientIP();
                     mysqli_stmt_bind_param($logStmt, "is", $session_id, $ip);
                     mysqli_stmt_execute($logStmt);
+
+
+                     // Get employer details for email
+                    $detailsQuery = "SELECT 
+                                    j.*, 
+                                    u.EMAIL, u.FNAME, u.ONAME, c.COMPANYNAME 
+                                    FROM tbljob j
+                                    LEFT JOIN tblusers u ON j.EMPLOYERID = u.USERID
+                                    LEFT JOIN tblcompany c ON j.EMPLOYERID = c.USERID
+                                    WHERE j.JOBID = ?";
+                    $detailsStmt = mysqli_prepare($con, $detailsQuery);
+                    mysqli_stmt_bind_param($detailsStmt, "i", $jobid);
+                    mysqli_stmt_execute($detailsStmt);
+                    $detailsResult = mysqli_stmt_get_result($detailsStmt);
                     
+                    if ($details = mysqli_fetch_assoc($detailsResult)) {
+                        $employerName = $details['FNAME'] . ' ' . $details['ONAME'];
+                        $companyName = $details['COMPANYNAME'] ?? 'Your Company';
+                        $companyEmail = $details['EMAIL'] ?? $details['COMPANYEMAIL'];
+                        $jobTitle = $details['JOBTITLE'] ?? 'Job Title';
+                        
+                        // Send approval email
+                         sendJobPostedEmail($con, $employerEmail, $employerName, $jobTitle, $jobId);
+                    }
+                   
                     Toast::success('Job approved successfully!');
                 } else {
                     Toast::error('Failed to approve job.');
