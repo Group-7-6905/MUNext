@@ -36,7 +36,7 @@ if (isset($_POST['applicationstatus']) && isset($_POST['jobapplicationid'])) {
     $applicationId = (int)$_POST['jobapplicationid'];
     
     // Verify ownership
-    $verifyQuery = "SELECT ja.ID FROM tbljobapplication ja
+    $verifyQuery = "SELECT ja.ID, ja.APPLICANTID FROM tbljobapplication ja
                     INNER JOIN tbljob j ON ja.JOBID = j.JOBID
                     WHERE ja.ID = ? AND j.EMPLOYERID = ?";
     $stmtVerify = mysqli_prepare($con, $verifyQuery);
@@ -49,7 +49,33 @@ if (isset($_POST['applicationstatus']) && isset($_POST['jobapplicationid'])) {
         mysqli_stmt_bind_param($stmtUpdate, "si", $newStatus, $applicationId);
         
         if (mysqli_stmt_execute($stmtUpdate)) {
+
+
+            // Get applicant details for email
+            $detailsQuery = "SELECT ja.ID, ja.APPLICANTID,
+                    u.FNAME, u.ONAME, u.EMAIL, j.JOBTITLE
+                    FROM tbljobapplication ja
+                    INNER JOIN tblusers u ON ja.APPLICANTID = u.USERID
+                    INNER JOIN tbljob j ON ja.JOBID = j.JOBID
+                    WHERE ja.ID = ?";
+            $detailsStmt = mysqli_prepare($con, $detailsQuery);
+            mysqli_stmt_bind_param($detailsStmt, "i", $applicationId);
+            mysqli_stmt_execute($detailsStmt);
+            $detailsResult = mysqli_stmt_get_result($detailsStmt);
+            
+            if ($details = mysqli_fetch_assoc($detailsResult)) {
+                $applicantName = $details['FNAME'] . ' ' . $details['ONAME'];
+                $applicantEmail = $details['EMAIL'] ?? '';
+                $jobTitle = $details['JOBTITLE'] ?? '';
+
+
+                 // Send job application confirmation to Applicant
+                  sendApplicationStatusEmail($con, $applicantEmail, $applicantName, $jobTitle, $newStatus, $companyName??'Company', $applicationId);
+            }
+
+
             $_SESSION['success_msg'] = "Application status updated to $newStatus successfully!";
+            
         } else {
             $_SESSION['error_msg'] = "Failed to update status.";
         }
