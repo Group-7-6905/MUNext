@@ -250,12 +250,18 @@ $recentJobs = mysqli_stmt_get_result($recentJobsStmt);
     </div>
     <div style="margin-top: 10px;">
         <?php
-        $statusClass = 'status-active';
+        $statusClass = 'status-secondary';
         $status = $company['COMPANYSTATUS'];
         if ($status == 'Pending') {
             $statusClass = 'status-pending';
         } elseif ($status == 'Suspended') {
             $statusClass = 'status-suspended';
+        } elseif ($status == 'Active') {
+            $statusClass = 'status-active';
+        } elseif ($status == 'Rejected') {
+            $statusClass = 'bg-danger text-light';
+        }elseif ($status == 'Info Required') {
+            $statusClass = 'badge-info';
         }
         ?>
         <span class="status-badge <?php echo $statusClass; ?>">
@@ -436,12 +442,18 @@ $recentJobs = mysqli_stmt_get_result($recentJobsStmt);
                     <td><?php echo number_format($job['application_count']); ?></td>
                     <td>
                         <?php
-                        $jobStatusClass = 'status-active';
+                        $jobStatusClass = 'status-secondary';
                         $jobStatus = $job['JOBSTATUS'];
                         if ($jobStatus == 'Pending') {
-                            $jobStatusClass = 'status-pending';
+                            $statusClass = 'status-pending';
+                        } elseif ($jobStatus == 'Active') {
+                            $statusClass = 'status-active';
                         } elseif ($jobStatus == 'Suspended' || $jobStatus == 'Inactive') {
                             $jobStatusClass = 'status-suspended';
+                        } elseif ($jobStatus == 'Rejected') {
+                            $statusClass = 'bg-danger text-light';
+                        }elseif ($jobStatus == 'Info Required') {
+                            $statusClass = 'badge-info';
                         }
                         ?>
                         <span class="status-badge <?php echo $jobStatusClass; ?>">
