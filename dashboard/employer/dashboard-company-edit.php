@@ -29,7 +29,7 @@ if (!empty($_GET['companyid'])) {
    $COMPANYYEAR = $row['COMPANYYEAR'] ?? '';
    $COMPANYAWARDDESC  = $row['COMPANYAWARDDESC'] ?? '';
    $COMPANYLOGO = $row['COMPANYLOGO'] ?? '';
-   $COMPANYWEBSITE = $rowcompanyid['COMPANYWEBSITE'] ?? '';
+   $COMPANYWEBSITE = $row['COMPANYWEBSITE'] ?? 'ddf';
 
 
 //////////////////////Get Company Details Ends//////////////////////
@@ -595,7 +595,7 @@ if (!empty($_GET['companyid'])) {
 
                                                 <div class="col-xl-6 col-lg-6 col-md-6">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Website UR</label>
+                                                        <label class="text-dark ft-medium">Website URL</label>
                                                         <input type="url" class="form-control"
                                                             value="<?php echo $COMPANYWEBSITE ?>"
                                                             placeholder="https://example.com" name="websiteURL" />
@@ -616,19 +616,26 @@ if (!empty($_GET['companyid'])) {
                                                     value="<?php echo $COMPANYLOGO ?>">
                                                 <div
                                                     class="dash_auth_thumb rounded p-1 border d-inline-flex mx-auto mb-3">
+                                                    <?php if (!empty($COMPANYLOGO)):?>
                                                     <img src="<?php echo $path.$COMPANYLOGO ?>" class="img-fluid"
                                                         width="100" alt="" />
+                                                    <?php else: ?>
+                                                    <div class="custom-file avater_uploads mb-2">
+                                                        <label class="custom-file-label" for="customFile"><i
+                                                                class="fa fa-logo"></i>COMPANY LOGO</label>
+                                                    </div>
+                                                    <?php endif; ?>
                                                 </div>
 
                                                 <div class="col-xl-12 col-lg-12 col-md-12">
                                                     <label class="text-dark ft-medium">Company Logo</label>
                                                     <div class="form-group custom-file">
 
-                                                        <input type="file" class="custom-file-input" id="customFile"
-                                                            accept=".png, .jpg,.jpeg,.gif,.bmp,.svg"" value="" name="
-                                                            image" />
-                                                        <label class="custom-file-label" for="customFile">Choose
-                                                            file</label>
+                                                        <input type="file" name="image" class="custom-file-input"
+                                                            id="customFile"
+                                                            accept=".png, .jpg,.jpeg,.gif,.bmp,.svg"" value=""  />
+                                                        <label class=" custom-file-label" for="customFile">Choose
+                                                        file</label>
                                                     </div>
                                                 </div>
 
