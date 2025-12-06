@@ -252,7 +252,7 @@ function timeago($date) {
 
                 <div class="dashboard-widg-bar d-block">
                     <!-- Success/Error Messages -->
-                    <?php if (isset($_SESSION['success_msg'])): ?>
+                    <?php if (!empty($_SESSION['success_msg'])): ?>
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i class="lni lni-checkmark-circle"></i> <?php echo $_SESSION['success_msg']; ?>
                         <button type="button" class="close" data-dismiss="alert">
@@ -261,7 +261,7 @@ function timeago($date) {
                     </div>
                     <?php unset($_SESSION['success_msg']); endif; ?>
 
-                    <?php if (isset($_SESSION['error_msg'])): ?>
+                    <?php if (!empty($_SESSION['error_msg'])): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="lni lni-cross-circle"></i> <?php echo $_SESSION['error_msg']; ?>
                         <button type="button" class="close" data-dismiss="alert">
@@ -375,6 +375,8 @@ function timeago($date) {
                                     $daysUntilDeadline = ceil((strtotime($job['DEADLINE']) - time()) / 86400);
 
                                     $SAVED_DATE = $job['SAVED_DATE']??'';
+
+                                    
                                 ?>
 
                             <div class="job-card">
@@ -490,23 +492,12 @@ function timeago($date) {
 
                                     <!-- Actions -->
                                     <div class="col-lg-2 col-md-2 col-6 text-center mt-4">
-                                        <div class="d-flex justify-content-center mb-2">
-                                            <a href="<?php echo $path?>job-detail.php?jobid=<?php echo $jobId; ?>"
-                                                class="action-btn text-info bg-light-info mr-2" title="View Job">
-                                                <i class="lni lni-eye"></i>
-                                            </a>
 
-                                            <a href="?type=delete&bookmarkedid=<?php echo $bookmarkId; ?>"
-                                                class="action-btn text-danger bg-light-danger" title="Remove from Saved"
-                                                onclick="return confirm('Remove this job from your saved list?');">
-                                                <i class="lni lni-trash-can"></i>
-                                            </a>
-                                        </div>
 
                                         <?php if ($isActive && !$isApplied && !$isExpired): ?>
                                         <a href="<?php echo $path?>job-detail.php?jobid=<?php echo $jobId; ?>#apply"
-                                            class="btn btn-apply btn-block">
-                                            <i class="lni lni-checkmark-circle"></i> Apply Now
+                                            class="btn btn-outline text-white rounded small theme-bg btn-sm btn-block">
+                                            <i class="lni lni-telegram mr-1"></i> Apply Now
                                         </a>
                                         <?php elseif ($isApplied): ?>
                                         <a href="dashboard-applied-jobs.php"
@@ -518,6 +509,16 @@ function timeago($date) {
                                             Deadline Passed
                                         </button>
                                         <?php endif; ?>
+
+                                        <div class="d-flex justify-content-center mt-2">
+
+                                            <a href="?type=delete&bookmarkedid=<?php echo $bookmarkId; ?>"
+                                                class="btn btn-outline-danger rounded small btn-sm btn-block"
+                                                title="Remove from Saved"
+                                                onclick="return confirm('Remove this job from your saved list?');">
+                                                <i class="lni lni-trash-can"></i> Remove
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -581,7 +582,7 @@ function timeago($date) {
                                     <i class="lni lni-reload"></i> Clear Filters
                                 </a>
                                 <?php else: ?>
-                                <a href="browse-jobs.php" class="btn btn-outline-secondary mt-3 pt-4">
+                                <a href="<?php echo $path?>browse-jobs.php" class="btn btn-outline-secondary mt-3 pt-4">
                                     <i class="lni lni-search"></i> Browse Jobs
                                 </a>
                                 <?php endif; ?>
@@ -590,6 +591,7 @@ function timeago($date) {
                         </div>
                     </div>
                 </div>
+                <div class="h-150"></div>
 
                 <?php include 'footer.php' ?>
             </div>
