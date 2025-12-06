@@ -30,3 +30,5 @@
     min-height: 50px;
 }
 </style>
+
+<?php unset($_SESSION['toast']); ?>
