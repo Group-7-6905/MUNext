@@ -19,13 +19,6 @@
 <body>
 
     <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
-    <!-- <div class="preloader"></div> -->
-
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
     <div id="main-wrapper">
 
         <!-- ============================================================== -->
@@ -34,11 +27,6 @@
         <?php include 'header.php' ?>
 
         <div class="clearfix"></div>
-        <!-- ============================================================== -->
-        <!-- Top header  -->
-        <!-- ============================================================== -->
-
-        <!-- ======================= dashboard Detail ======================== -->
 
 
         <div class="dashboard-wrap bg-light">
@@ -79,19 +67,19 @@
                                 <div class="_dashboard_content_body py-3 px-3">
                                     <form class="row" method="post" enctype="multipart/form-data">
                                         <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                                            <?php
-											if (isset($APPLICANTPHOTO)) { ?>
-                                            <div class="jb-list01-thumb ml-2">
-                                                <img src="<?php echo $path.$APPLICANTPHOTO ?>" class="" width="90"
-                                                    alt="Profile" />
+                                            <?php if (!empty($APPLICANTPHOTO)): ?>
+                                            <div class="jb-list01-thumb">
+                                                <img src="<?php echo $path.$APPLICANTPHOTO ?>"
+                                                    class="custom-file avater_uploads img-fluid" width="90" alt=""
+                                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
                                             </div>
-                                            <?php } else { ?>
+                                            <?php else: ?>
                                             <div class="custom-file avater_uploads">
-                                                <!-- <input type="file" class="custom-file-input" id="customFile" name="image"> -->
                                                 <label class="custom-file-label" for="customFile"><i
                                                         class="fa fa-user"></i></label>
                                             </div>
-                                            <?php } ?><br>
+                                            <?php endif ?></php>
+                                            <br>
 
                                             <div class="col-xl-12 col-lg-12 col-md-12">
                                                 <label class="text-dark ft-medium">Image Profile</label>
@@ -110,7 +98,8 @@
 
                                                 <div class="col-xl-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">First Name</label>
+                                                        <label class="text-dark ft-medium">First Name <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="text" class="form-control rounded"
                                                             placeholder="First Name" name="FName"
                                                             value="<?php if (!empty($FNAME)) echo $FNAME; ?>">
@@ -118,7 +107,8 @@
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Other Names</label>
+                                                        <label class="text-dark ft-medium">Other Names <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="text" class="form-control rounded"
                                                             placeholder="Other Names" name="OName"
                                                             value="<?php if (!empty($ONAME)) echo $ONAME; ?>">
@@ -126,14 +116,16 @@
                                                 </div>
                                                 <div class="col-xl-12 col-lg-12 col-12">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Email</label>
+                                                        <label class="text-dark ft-medium">Email <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="email" class="form-control rounded" name="email"
                                                             value="<?php if (!empty($EMAIL)) echo $EMAIL; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Professional Title</label>
+                                                        <label class="text-dark ft-medium">Professional Title <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="text" class="form-control rounded"
                                                             placeholder="e.g. Web Designer" name="job_title" required
                                                             value="<?php if (!empty($JOBTITLE)) echo $JOBTITLE; ?>">
@@ -141,7 +133,8 @@
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Job category</label>
+                                                        <label class="text-dark ft-medium">Job category <span
+                                                                class="text-danger">*</span></label>
                                                         <select class="form-control rounded" name="job_categoryid"
                                                             required>
                                                             <?php if (!empty($JOBCATEGORYID)) { ?>
@@ -169,7 +162,8 @@
                                                 </div>
                                                 <div class="col-xl-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Phone Number</label>
+                                                        <label class="text-dark ft-medium">Phone Number <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="number" class="form-control rounded"
                                                             placeholder="Phone Number" name="phoneno" required
                                                             value="<?php if (!empty($CONTACTNO)) echo $CONTACTNO; ?>">
@@ -178,7 +172,8 @@
 
                                                 <div class="col-xl-6 col-lg-6">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Gender</label>
+                                                        <label class="text-dark ft-medium">Gender <span
+                                                                class="text-danger">*</span></label>
                                                         <select class="form-control rounded" name="sex" required>
 
                                                             <?php if (!empty($SEX)) { ?><option selected hidden>
@@ -193,7 +188,8 @@
 
                                                 <div class="col-12">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Date Of Birth</label>
+                                                        <label class="text-dark ft-medium">Date Of Birth <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="date" class="form-control rounded"
                                                             placeholder="dd-mm-yyyy" name="dob" required
                                                             value="<?php if (!empty($BIRTHDATE)) echo $BIRTHDATE; ?>">
@@ -202,7 +198,8 @@
 
                                                 <div class="col-xl-12 col-lg-12">
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">About Me</label>
+                                                        <label class="text-dark ft-medium">About Me <span
+                                                                class="text-danger">*</span></label>
                                                         <textarea name="about_me" class="form-control with-light"
                                                             placeholder="You can write about your years of experience, industry, or skills. People also talk about their achievements or previous job experience"
                                                             required><?php if (!empty($ABOUTME)) echo $ABOUTME; ?></textarea>
@@ -262,7 +259,8 @@
                                         <div class="row">
                                             <div class="col-xl-6 col-lg-6 col-md-12">
                                                 <div class="form-group">
-                                                    <label class="text-dark ft-medium">Country</label>
+                                                    <label class="text-dark ft-medium">Country <span
+                                                            class="text-danger">*</span></label>
                                                     <select id="country" name="country" class="form-control" required>
                                                         <?php if (!empty($COUNTRY)) { ?> <option
                                                             value="<?php echo $COUNTRY; ?>" hidden>
@@ -533,7 +531,8 @@
                                             </div>
                                             <div class="col-xl-6 col-lg-6 col-md-12">
                                                 <div class="form-group">
-                                                    <label class="text-dark ft-medium">City</label>
+                                                    <label class="text-dark ft-medium">City <span
+                                                            class="text-danger">*</span></label>
                                                     <input type="text" class="form-control rounded" placeholder="City"
                                                         name="city" required value="<?php if (!empty($CITY)) {
 																																															echo $CITY;
@@ -543,7 +542,8 @@
 
                                             <div class="col-xl-12 col-lg-12 col-md-12">
                                                 <div class="form-group">
-                                                    <label class="text-dark ft-medium">Full Address</label>
+                                                    <label class="text-dark ft-medium">Full Address <span
+                                                            class="text-danger">*</span></label>
                                                     <input type="text" class="form-control rounded"
                                                         placeholder="#10 Marke Juger, SBI Road" name="address" required
                                                         value="<?php if (!empty($ADDRESS)) {
@@ -579,8 +579,7 @@
                                                 <div class="form-group">
                                                     <label class="text-dark ft-medium">Facebook</label>
                                                     <input type="text" class="form-control rounded"
-                                                        placeholder="https://www.facebook.com/" name="fb" required
-                                                        value="<?php if (!empty($FB_link)) {
+                                                        placeholder="https://www.facebook.com/" name="fb" value="<?php if (!empty($FB_link)) {
 																																																					echo $FB_link;
 																																																				} ?>">
                                                 </div>
@@ -596,8 +595,7 @@
                                                 <div class="form-group">
                                                     <label class="text-dark ft-medium">LinkedIn</label>
                                                     <input type="text" class="form-control rounded"
-                                                        placeholder="https://www.linkedin.com/" name="lin" required
-                                                        value="<?php if (!empty($LinkedIn_link)) {
+                                                        placeholder="https://www.linkedin.com/" name="lin" value="<?php if (!empty($LinkedIn_link)) {
 																																																						echo $LinkedIn_link;
 																																																					} ?>">
                                                 </div>
@@ -633,7 +631,7 @@
                     </form>
                     <hr>
 
-                    <?php if (!((empty($COUNTRY) || (empty($CITY)) || (empty($ADDRESS)) || (empty($FB_link)) || (empty($LinkedIn_link))))) {
+                    <?php if (!((empty($COUNTRY) || (empty($CITY)) || (empty($ADDRESS))))) {
 						?>
                     <!-- Add Education -->
                     <form method="post">
@@ -654,13 +652,15 @@
                                                 <div class="gray rounded p-3 mb-3 position-relative">
                                                     <!-- <button class="aps-clone"><i class="fas fa-times"></i></button> -->
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">School Name</label>
+                                                        <label class="text-dark ft-medium">School Name <span
+                                                                class="text-danger">*</span></label>
                                                         <input type="text" class="form-control rounded"
                                                             placeholder="School Name" name="schl_name" required
                                                             value="<?php if (!empty($SCHOOLNAME)) echo $SCHOOLNAME ?>">
                                                     </div>
                                                     <div class="form-group">
-                                                        <label class="text-dark ft-medium">Qualification</label>
+                                                        <label class="text-dark ft-medium">Qualification <span
+                                                                class="text-danger">*</span></label>
                                                         <!-- <input type="text" class="form-control rounded" placeholder="Qualification Title" name="qualification" required> -->
                                                         <select class="custom-select rounded" name="qualification"
                                                             required>
@@ -681,7 +681,8 @@
                                                     <!-- <div class="form-row">
 															<div class="col-6">
 																<div class="form-group">
-																	<label class="text-dark ft-medium">Start Date</label>
+																	<label class="text-dark ft-medium">Start Date <span
+                                                                class="text-danger">*</span></label>
 																	<input type="date" class="form-control rounded" placeholder="dd-mm-yyyy" name="schl_startdate" required>
 																</div>
 															</div>
