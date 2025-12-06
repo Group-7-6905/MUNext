@@ -5,11 +5,6 @@
 require 'include/phpcode.php';
 unset($result); // Clear any $result from phpcode.php
 
-// Security: Ensure user is logged in as employer
-if (!isset($session_id) || empty($session_id)) {
-    header("Location: employer-login.php");
-    exit();
-}
 
 $employerID = $session_id;
 
@@ -35,7 +30,7 @@ if (isset($_GET['type']) && $_GET['type'] == 'delete' && isset($_GET['id'])) {
         mysqli_stmt_bind_param($stmtDelQues, "i", $jobId);
         mysqli_stmt_execute($stmtDelQues);
         
-        $deleteBookmarks = "DELETE FROM tblbookmarkresume WHERE JOBID = ?";
+        $deleteBookmarks = "DELETE FROM tblbookmarkresume WHERE JOBAPPLICATIONID IN (SELECT ID FROM tbljobapplication WHERE JOBID = ?)";
         $stmtDelBm = mysqli_prepare($con, $deleteBookmarks);
         mysqli_stmt_bind_param($stmtDelBm, "i", $jobId);
         mysqli_stmt_execute($stmtDelBm);
@@ -581,7 +576,7 @@ $stats = mysqli_fetch_assoc($statsResult);
                                     <i class="lni lni-reload"></i> Clear Filters
                                 </a>
                                 <?php else: ?>
-                                <a href="dashboard-post-job.php" class="btn theme-bg text-white mt-3">
+                                <a href="dashboard-post-job.php" class="btn btn-outline-secondary mt-3 pt-4">
                                     <i class="lni lni-plus"></i> Post Your First Job
                                 </a>
                                 <?php endif; ?>
