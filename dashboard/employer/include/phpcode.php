@@ -4,10 +4,472 @@ $msg = '';
 $msg2='';
 
 $path = "../../";
+ date_default_timezone_set('America/St_Johns');
 
 // ==================== GET SITE SETTINGS ====================
 require '../settings-manager.php';
-//////////////////////////////////////////////////////////////////
+
+// ==================== EMAIL FUNCTIONS ====================
+require_once $path."include/email-functions.php";
+
+
+
+
+
+
+
+/**
+ * ==================== LOGIN HISTORY HELPER FUNCTIONS ====================
+ * This file contains functions to track and manage user login history
+ * Functions include: recording logins, getting client info, parsing user agent
+ */
+
+// ==================== GET CLIENT IP ADDRESS ====================
+function getClientIP() {
+    $ipaddress = '';
+    
+    if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } elseif (isset($_SERVER['HTTP_X_FORWARDED'])) {
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+    } elseif (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
+        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+    } elseif (isset($_SERVER['HTTP_FORWARDED'])) {
+        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+    } elseif (isset($_SERVER['REMOTE_ADDR'])) {
+        $ipaddress = $_SERVER['REMOTE_ADDR'];
+    } else {
+        $ipaddress = 'UNKNOWN';
+    }
+    
+    // Validate IP address
+    if (filter_var($ipaddress, FILTER_VALIDATE_IP) === false) {
+        $ipaddress = 'UNKNOWN';
+    }
+    
+    return $ipaddress;
+}
+
+// ==================== GET USER AGENT ====================
+function getUserAgent() {
+    return isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : 'Unknown';
+}
+
+// ==================== PARSE USER AGENT FOR BROWSER ====================
+function getBrowserInfo($user_agent) {
+    $browser = 'Unknown Browser';
+    
+    $browser_array = array(
+        '/msie/i'      => 'Internet Explorer',
+        '/firefox/i'   => 'Firefox',
+        '/safari/i'    => 'Safari',
+        '/chrome/i'    => 'Chrome',
+        '/edge/i'      => 'Edge',
+        '/opera/i'     => 'Opera',
+        '/netscape/i'  => 'Netscape',
+        '/maxthon/i'   => 'Maxthon',
+        '/konqueror/i' => 'Konqueror',
+        '/mobile/i'    => 'Mobile Browser'
+    );
+    
+    foreach ($browser_array as $regex => $value) {
+        if (preg_match($regex, $user_agent)) {
+            $browser = $value;
+            break;
+        }
+    }
+    
+    return $browser;
+}
+
+// ==================== PARSE USER AGENT FOR OPERATING SYSTEM ====================
+function getOperatingSystem($user_agent) {
+    $os_platform = 'Unknown OS';
+    
+    $os_array = array(
+        '/windows nt 10/i'      => 'Windows 10',
+        '/windows nt 6.3/i'     => 'Windows 8.1',
+        '/windows nt 6.2/i'     => 'Windows 8',
+        '/windows nt 6.1/i'     => 'Windows 7',
+        '/windows nt 6.0/i'     => 'Windows Vista',
+        '/windows nt 5.2/i'     => 'Windows Server 2003/XP x64',
+        '/windows nt 5.1/i'     => 'Windows XP',
+        '/windows xp/i'         => 'Windows XP',
+        '/windows nt 5.0/i'     => 'Windows 2000',
+        '/windows me/i'         => 'Windows ME',
+        '/win98/i'              => 'Windows 98',
+        '/win95/i'              => 'Windows 95',
+        '/win16/i'              => 'Windows 3.11',
+        '/macintosh|mac os x/i' => 'Mac OS X',
+        '/mac_powerpc/i'        => 'Mac OS 9',
+        '/linux/i'              => 'Linux',
+        '/ubuntu/i'             => 'Ubuntu',
+        '/iphone/i'             => 'iPhone',
+        '/ipod/i'               => 'iPod',
+        '/ipad/i'               => 'iPad',
+        '/android/i'            => 'Android',
+        '/blackberry/i'         => 'BlackBerry',
+        '/webos/i'              => 'Mobile'
+    );
+    
+    foreach ($os_array as $regex => $value) {
+        if (preg_match($regex, $user_agent)) {
+            $os_platform = $value;
+            break;
+        }
+    }
+    
+    return $os_platform;
+}
+
+// ==================== DETECT DEVICE TYPE ====================
+function getDeviceType($user_agent) {
+    $device = 'Desktop';
+    
+    if (preg_match('/mobile|android|kindle|silk|midp|phone|blackberry/i', $user_agent)) {
+        $device = 'Mobile';
+    } elseif (preg_match('/tablet|ipad|playbook/i', $user_agent)) {
+        $device = 'Tablet';
+    }
+    
+    return $device;
+}
+
+// ==================== RECORD LOGIN HISTORY ====================
+function recordLoginHistory($con, $userid, $username, $email, $usertype, $status = 'Success', $failure_reason = null) {
+    // Get client information
+    $ip_address = getClientIP();
+    $user_agent = getUserAgent();
+    $browser = getBrowserInfo($user_agent);
+    $os = getOperatingSystem($user_agent);
+    $device = getDeviceType($user_agent);
+    $session_id = session_id();
+    
+    // If userid is 0 (user not found), set it to NULL
+    $userid_value = ($userid == 0) ? null : $userid;
+    
+    // Insert login history record
+    if ($userid_value === null) {
+        // For failed attempts where user doesn't exist, use NULL for USERID
+        $query = "INSERT INTO tbl_login_history 
+                  (USERID, USERNAME, EMAIL, USERTYPE, LOGIN_TIME, IP_ADDRESS, USER_AGENT, 
+                   BROWSER, DEVICE, OPERATING_SYSTEM, LOGIN_STATUS, FAILURE_REASON, SESSION_ID) 
+                  VALUES (NULL, ?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        $stmt = mysqli_prepare($con, $query);
+        
+        if ($stmt) {
+            mysqli_stmt_bind_param(
+                $stmt, 
+                "sssssssssss", 
+                $username, 
+                $email, 
+                $usertype, 
+                $ip_address, 
+                $user_agent, 
+                $browser, 
+                $device, 
+                $os, 
+                $status, 
+                $failure_reason, 
+                $session_id
+            );
+            
+            $result = mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+            
+            return $result;
+        }
+    } else {
+        // For valid users, include USERID
+        $query = "INSERT INTO tbl_login_history 
+                  (USERID, USERNAME, EMAIL, USERTYPE, LOGIN_TIME, IP_ADDRESS, USER_AGENT, 
+                   BROWSER, DEVICE, OPERATING_SYSTEM, LOGIN_STATUS, FAILURE_REASON, SESSION_ID) 
+                  VALUES (?, ?, ?, ?, NOW(), ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        $stmt = mysqli_prepare($con, $query);
+        
+        if ($stmt) {
+            mysqli_stmt_bind_param(
+                $stmt, 
+                "isssssssssss", 
+                $userid_value, 
+                $username, 
+                $email, 
+                $usertype, 
+                $ip_address, 
+                $user_agent, 
+                $browser, 
+                $device, 
+                $os, 
+                $status, 
+                $failure_reason, 
+                $session_id
+            );
+            
+            $result = mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+            
+            return $result;
+        }
+    }
+    
+    return false;
+}
+
+// ==================== RECORD LOGOUT ====================
+function recordLogout($con, $userid) {
+    $session_id = session_id();
+    
+    // Update the most recent active login session with logout time
+    $query = "UPDATE tbl_login_history 
+              SET LOGOUT_TIME = NOW(), IS_ACTIVE = 0 
+              WHERE USERID = ? AND SESSION_ID = ? AND LOGOUT_TIME IS NULL 
+              ORDER BY LOGIN_TIME DESC LIMIT 1";
+    
+    $stmt = mysqli_prepare($con, $query);
+    
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "is", $userid, $session_id);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        
+        return $result;
+    }
+    
+    return false;
+}
+
+// ==================== GET USER LOGIN HISTORY ====================
+function getUserLoginHistory($con, $userid, $limit = 10) {
+    $query = "SELECT * FROM tbl_login_history 
+              WHERE USERID = ? 
+              ORDER BY LOGIN_TIME DESC 
+              LIMIT ?";
+    
+    $stmt = mysqli_prepare($con, $query);
+    
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "ii", $userid, $limit);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        $history = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $history[] = $row;
+        }
+        
+        mysqli_stmt_close($stmt);
+        return $history;
+    }
+    
+    return [];
+}
+
+// ==================== GET FAILED LOGIN ATTEMPTS ====================
+function getFailedLoginAttempts($con, $userid = null, $hours = 24, $ip_address = null) {
+    // If no userid provided, check by IP address for failed attempts
+    if ($userid === null && $ip_address !== null) {
+        $query = "SELECT COUNT(*) as failed_count 
+                  FROM tbl_login_history 
+                  WHERE IP_ADDRESS = ? 
+                  AND LOGIN_STATUS = 'Failed' 
+                  AND LOGIN_TIME >= DATE_SUB(NOW(), INTERVAL ? HOUR)";
+        
+        $stmt = mysqli_prepare($con, $query);
+        
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "si", $ip_address, $hours);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $row = mysqli_fetch_assoc($result);
+            mysqli_stmt_close($stmt);
+            
+            return $row['failed_count'];
+        }
+    } elseif ($userid !== null) {
+        $query = "SELECT COUNT(*) as failed_count 
+                  FROM tbl_login_history 
+                  WHERE USERID = ? 
+                  AND LOGIN_STATUS = 'Failed' 
+                  AND LOGIN_TIME >= DATE_SUB(NOW(), INTERVAL ? HOUR)";
+        
+        $stmt = mysqli_prepare($con, $query);
+        
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "ii", $userid, $hours);
+            mysqli_stmt_execute($stmt);
+            $result = mysqli_stmt_get_result($stmt);
+            $row = mysqli_fetch_assoc($result);
+            mysqli_stmt_close($stmt);
+            
+            return $row['failed_count'];
+        }
+    }
+    
+    return 0;
+}
+
+// ==================== CHECK FOR SUSPICIOUS ACTIVITY ====================
+function checkSuspiciousActivity($con, $userid) {
+    // Check for multiple failed attempts in last hour
+    $failed_attempts = getFailedLoginAttempts($con, $userid, 1);
+    
+    if ($failed_attempts >= 5) {
+        return [
+            'is_suspicious' => true,
+            'reason' => 'Multiple failed login attempts detected',
+            'failed_count' => $failed_attempts
+        ];
+    }
+    
+    // Check for logins from different locations in short time
+    $query = "SELECT DISTINCT IP_ADDRESS 
+              FROM tbl_login_history 
+              WHERE USERID = ? 
+              AND LOGIN_TIME >= DATE_SUB(NOW(), INTERVAL 1 HOUR) 
+              AND LOGIN_STATUS = 'Success'";
+    
+    $stmt = mysqli_prepare($con, $query);
+    
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "i", $userid);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        $ip_count = mysqli_num_rows($result);
+        mysqli_stmt_close($stmt);
+        
+        if ($ip_count >= 3) {
+            return [
+                'is_suspicious' => true,
+                'reason' => 'Multiple logins from different IP addresses',
+                'ip_count' => $ip_count
+            ];
+        }
+    }
+    
+    return ['is_suspicious' => false];
+}
+
+// ==================== CHECK IP RATE LIMITING ====================
+function checkIPRateLimit($con, $ip_address, $minutes = 15, $max_attempts = 10) {
+    $query = "SELECT COUNT(*) as attempt_count 
+              FROM tbl_login_history 
+              WHERE IP_ADDRESS = ? 
+              AND LOGIN_STATUS = 'Failed' 
+              AND LOGIN_TIME >= DATE_SUB(NOW(), INTERVAL ? MINUTE)";
+    
+    $stmt = mysqli_prepare($con, $query);
+    
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "si", $ip_address, $minutes);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        mysqli_stmt_close($stmt);
+        
+        return $row['attempt_count'] >= $max_attempts;
+    }
+    
+    return false;
+}
+
+// ==================== GET ACTIVE SESSIONS ====================
+function getActiveSessions($con, $userid) {
+    $query = "SELECT * FROM tbl_login_history 
+              WHERE USERID = ? 
+              AND IS_ACTIVE = 1 
+              AND LOGOUT_TIME IS NULL 
+              ORDER BY LOGIN_TIME DESC";
+    
+    $stmt = mysqli_prepare($con, $query);
+    
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "i", $userid);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        
+        $sessions = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $sessions[] = $row;
+        }
+        
+        mysqli_stmt_close($stmt);
+        return $sessions;
+    }
+    
+    return [];
+}
+
+// ==================== TERMINATE SESSION ====================
+function terminateSession($con, $login_id) {
+    $query = "UPDATE tbl_login_history 
+              SET LOGOUT_TIME = NOW(), IS_ACTIVE = 0 
+              WHERE LOGIN_ID = ?";
+    
+    $stmt = mysqli_prepare($con, $query);
+    
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "i", $login_id);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        
+        return $result;
+    }
+    
+    return false;
+}
+
+// ==================== CLEAN OLD LOGIN HISTORY ====================
+function cleanOldLoginHistory($con, $days = 90) {
+    // Delete login history older than specified days
+    $query = "DELETE FROM tbl_login_history 
+              WHERE LOGIN_TIME < DATE_SUB(NOW(), INTERVAL ? DAY)";
+    
+    $stmt = mysqli_prepare($con, $query);
+    
+    if ($stmt) {
+        mysqli_stmt_bind_param($stmt, "i", $days);
+        $result = mysqli_stmt_execute($stmt);
+        mysqli_stmt_close($stmt);
+        
+        return $result;
+    }
+    
+    return false;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -55,52 +517,75 @@ $COMPANYEMAIL      = $rowcompany['COMPANYEMAIL']      ?? '';
 
 if (isset($_POST['add_company'])) {
 
-   $name = mysqli_real_escape_string($con, trim($_POST['name']));
-   $email = mysqli_real_escape_string($con, trim($_POST['email']));
-   $contact = mysqli_real_escape_string($con, trim($_POST['contact']))?? '';
-   $industry = mysqli_real_escape_string($con, trim($_POST['industry']));
-   $specialism = mysqli_real_escape_string($con, trim($_POST['specialism']));
-   $country = mysqli_real_escape_string($con, trim($_POST['country']));
-   $city = mysqli_real_escape_string($con, trim($_POST['city']));
-   $address = mysqli_real_escape_string($con, trim($_POST['address']));
-   $about = mysqli_real_escape_string($con, trim($_POST['about']));
-   $award = mysqli_real_escape_string($con, trim($_POST['award']))?? '';
-   $award_year = mysqli_real_escape_string($con, trim($_POST['award_year']))?? '';
-   $award_disc = mysqli_real_escape_string($con, trim($_POST['award_disc']))?? '';
-   $websiteURL = mysqli_real_escape_string($con, trim($_POST['websiteURL'])) ?? '';
+   $name = trim($_POST['name']);
+   $email = trim($_POST['email']);
+   $contact = trim($_POST['contact'])?? '';
+   $industry = trim($_POST['industry']);
+   $specialism = trim($_POST['specialism']);
+   $country = trim($_POST['country']);
+   $city = trim($_POST['city']);
+   $address = trim($_POST['address']);
+   $about = trim($_POST['about']);
+   $award = trim($_POST['award'])?? '';
+   $award_year = trim($_POST['award_year'])?? '';
+   $award_disc = trim($_POST['award_disc'])?? '';
+   $websiteURL = trim($_POST['websiteURL']) ?? '';
 
 
-   $image = $_FILES['image']['name'];
-   $target = $path . "company_logo/" . basename($image);
-   $image_url = "company_logo/" . $image;
+   $companyStatus = autoApproveCompanies() ? 'Active' : 'Pending';
 
-   if ($_FILES["image"]["size"] > 500000) {
-      $msg = "<div style='color:red'>File is too large!</div>";
-   } else {
+    $image_path = $COMPANYLOGO ?? ''; // Keep existing if no new upload
 
-      $query = "INSERT INTO tblcompany 
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+        $image_name = $_FILES['image']['name'];
+        $image_tmp = $_FILES['image']['tmp_name'];
+        $image_ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
+        $allowed_ext = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
+        
+        if (in_array($image_ext, $allowed_ext)) {
+            $new_image_name = 'company_' . $session_id . '_' . time() . '.' . $image_ext;
+            $upload_path = 'company_logo/' . $new_image_name;
+            $target = $path . "company_logo/" . basename($new_image_name);
+            
+
+            
+            // Create directory if it doesn't exist
+            if (!file_exists('../../company_logo')) {
+                mkdir('../../company_logo', 0777, true);
+            }
+            
+            if (move_uploaded_file($image_tmp, $target)) {
+                $image_path = $upload_path;
+            }
+        }
+    }
+
+     $stmt = $con->prepare("INSERT INTO tblcompany 
                 (USERID, COMPANYNAME, COMPANYADDRESS, COMPANYWEBSITE, COMPANYCONTACTNO, COMPANYSTATUS, 
                  COMPANYABOUT, COMPANYEMAIL, COMPANYINDUSTRY, COMPANYSPECIALISM, 
                  COMPANYCOUNTRY, COMPANYCITY, COMPANYAWARD, COMPANYYEAR, 
-                 COMPANYAWARDDESC, COMPANYLOGO) 
-                VALUES 
-                ('$session_id', '$name', '$address', '$websiteURL', '$contact', 'Active', '$about', 
-                 '$email', '$industry', '$specialism', '$country', '$city', '$award', 
-                 '$award_year', '$award_disc', '$image_url')";
+                 COMPANYAWARDDESC, COMPANYLOGO, DATEREGISTERED) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())");
+                         
+      $stmt->bind_param("isssssssssssssss", $session_id, $name, $address, $websiteURL, $contact, $companyStatus, $about, $email, $industry, $specialism, $country, $city, $award, $award_year, $award_disc, $image_path);
+                
 
-      $result = mysqli_query($con, $query);
+      // $result = mysqli_query($con, $query);
 
-      if ($result && move_uploaded_file($_FILES['image']['tmp_name'], $target)) {
-         echo "<script>alert('Company Added!')</script>";
+      if ($stmt->execute()) {
+         $msg = '<div class="alert alert-success">✅ Profile data saved successfully!</div>';
          header('location: ./company-detail.php?companyid=' . mysqli_insert_id($con));
          exit();
       } else {
-         $msg = "<div style='color:red'>Error occurred...!</div>";
-         echo mysqli_error($con);
+          $msg = '<div class="alert alert-danger">❌ Error: ' . mysqli_error($con) . '</div>';
       }
-   }
+     $stmt->close();
+
+   
 }
 /////////////////////////Add company ends/////////////////////////
+
+
 
 
 
@@ -110,70 +595,85 @@ if (isset($_POST['add_company'])) {
 // $msg = '';
 
 if (isset($_POST['edit_company'])) {
-
-   $name = mysqli_real_escape_string($con, trim($_POST['name']));
-   $email = mysqli_real_escape_string($con, trim($_POST['email']));
-   $contact = mysqli_real_escape_string($con, trim($_POST['contact']))?? '';
-   $industry = mysqli_real_escape_string($con, trim($_POST['industry']));
-   $specialism = mysqli_real_escape_string($con, trim($_POST['specialism']));
-   $country = mysqli_real_escape_string($con, trim($_POST['country']));
-   $city = mysqli_real_escape_string($con, trim($_POST['city']));
-   $address = mysqli_real_escape_string($con, trim($_POST['address']));
-   $about = mysqli_real_escape_string($con, trim($_POST['about']));
-   $award = mysqli_real_escape_string($con, trim($_POST['award']))?? '';
-   $award_year = mysqli_real_escape_string($con, trim($_POST['award_year']))?? '';
-   $award_disc = mysqli_real_escape_string($con, trim($_POST['award_disc']))?? '';
-
-   $websiteURL = mysqli_real_escape_string($con, trim($_POST['websiteURL'])) ?? '';
    
-   $companyid = mysqli_real_escape_string($con, trim($_POST['companyid']));
+   $companyidquery = "SELECT * from tblcompany WHERE USERID = '$session_id'";
+   $resultcompanyid = mysqli_query($con, $companyidquery);
+   $rowcompanyid = mysqli_fetch_array($resultcompanyid);
+   $COMPANYLOGO = $rowcompanyid['COMPANYLOGO'] ?? '';
+
+   $name = trim($_POST['name'])?? '';
+   $email = trim($_POST['email'])?? '';
+   $contact = trim($_POST['contact'])?? '';
+   $industry = trim($_POST['industry'])?? '';
+   $specialism = trim($_POST['specialism'])?? '';
+   $country = trim($_POST['country'])?? '';
+   $city = trim($_POST['city'])?? '';
+   $address = trim($_POST['address'])?? '';
+   $about = trim($_POST['about'])?? '';
+   $award = trim($_POST['award'])?? '';
+   $award_year = trim($_POST['award_year'])?? '';
+   $award_disc = trim($_POST['award_disc'])?? '';
+
+   $websiteURL = trim($_POST['websiteURL']) ?? '';
+   $companyid = trim($_POST['companyid'])?? '';
    
    
+   $companyStatus = autoApproveCompanies() ? 'Active' : 'Pending';
+   
+    $image_path = $COMPANYLOGO ?? ''; // Keep existing if no new upload
 
-   if(empty($_FILES['image']['name'])){
-      $image_url = mysqli_real_escape_string($con, trim($_POST['COMPANYLOGO']));
-   }else{
-      $image = $_FILES['image']['name'];
-      $target = $path . "company_logo/" . basename($image);
-      $image_url = "company_logo/" . $image;
+    if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+        $image_name = $_FILES['image']['name'];
+        $image_tmp = $_FILES['image']['tmp_name'];
+        $image_ext = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
+        $allowed_ext = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
+        
+        if (in_array($image_ext, $allowed_ext)) {
+            $new_image_name = 'company_' . $session_id . '_' . time() . '.' . $image_ext;
+            $upload_path = 'company_logo/' . $new_image_name;
+            $target = $path . "company_logo/" . basename($new_image_name);
+            
 
-      if ($_FILES["image"]["size"] > 500000) {
-         $msg = "<div style='color:red'>File is too large!</div>";
-         goto end;
-      }
-      move_uploaded_file($_FILES['image']['tmp_name'], $target);
-   }
+            
+            // Create directory if it doesn't exist
+            if (!file_exists('../../company_logo')) {
+                mkdir('../../company_logo', 0777, true);
+            }
+            
+            if (move_uploaded_file($image_tmp, $target)) {
+                $image_path = $upload_path;
+            }
+        }
+    }
 
-   $query = "UPDATE tblcompany SET 
-         COMPANYNAME = '$name', 
-         COMPANYADDRESS = '$address', 
-         COMPANYCONTACTNO = '$contact', 
-         COMPANYABOUT = '$about', 
-         COMPANYEMAIL = '$email', 
-         COMPANYWEBSITE = '$websiteURL',
-         COMPANYINDUSTRY = '$industry', 
-         COMPANYSPECIALISM = '$specialism', 
-         COMPANYCOUNTRY = '$country', 
-         COMPANYCITY = '$city', 
-         COMPANYAWARD = '$award', 
-         COMPANYYEAR = '$award_year',
-         COMPANYAWARDDESC = '$award_disc',
-         COMPANYLOGO = '$image_url' 
-         WHERE COMPANYID = '$companyid' AND USERID = '$session_id'";
+   $stmt = $con->prepare("UPDATE tblcompany SET 
+         COMPANYNAME = ?, 
+         COMPANYADDRESS = ?, 
+         COMPANYCONTACTNO = ?, 
+         COMPANYABOUT = ?, 
+         COMPANYEMAIL = ?, 
+         COMPANYWEBSITE = ?,
+         COMPANYINDUSTRY = ?, 
+         COMPANYSPECIALISM = ?, 
+         COMPANYCOUNTRY = ?, 
+         COMPANYCITY = ?, 
+         COMPANYAWARD = ?, 
+         COMPANYYEAR = ?,
+         COMPANYAWARDDESC = ?,
+         COMPANYLOGO = ? 
+         WHERE COMPANYID = ? AND USERID = ?");
 
+$stmt->bind_param("ssssssssssssssii", $name, $address, $contact, $about, $email, $websiteURL, $industry, $specialism, $country, $city, $award, $award_year, $award_disc, $image_path, $companyid, $session_id);
          
-      $result = mysqli_query($con, $query);
-
-      if ($result) {
-         echo "<script>alert('Company Updated!')</script>";
-         header('location: ./company-detail.php?companyid=' . $companyid);
+      if ($stmt->execute()) { 
+         $msg = '<div class="alert alert-success">✅ Profile data saved successfully!</div>';
+         header('location: ./company-detail.php');
          exit();
-      } else {
-         $msg = "<div style='color:red'>Error occurred...!</div>";
-         echo mysqli_error($con);
-      }
-   }
-end:
+       } else {
+             $msg = '<div class="alert alert-danger">❌ Error: ' . mysqli_error($con) . '</div>';
+          }
+     $stmt->close();
+      } 
 /////////////////////////Edit company ends/////////////////////////
 
 
@@ -366,38 +866,38 @@ if (isset($_POST['change_password'])) {
 
 
 ///////////////////Change Application Status///////////////
-if (isset($_POST['applicationstatus'])) {
+// if (isset($_POST['applicationstatus'])) {
    
-   $applicationstatus = $_POST['applicationstatus'];
-   $jobID = $_POST['jobID'];
+//    $applicationstatus = $_POST['applicationstatus'];
+//    $jobID = $_POST['jobID'];
 
-   $query = "SELECT * from tbljob where JOBID ='$jobID' order by JOBID desc";
-   $result = mysqli_query($con, $query);
-   $row = mysqli_fetch_array($result);
-   $JOBTITLE = $row['JOBTITLE']  ?? '';
+//    $query = "SELECT * from tbljob where JOBID ='$jobID' order by JOBID desc";
+//    $result = mysqli_query($con, $query);
+//    $row = mysqli_fetch_array($result);
+//    $JOBTITLE = $row['JOBTITLE']  ?? '';
 
-   $userID = $_POST['userID'];
-   $jobapplicationid = $_POST['jobapplicationid'];
-   $TYPE = "Job Application";
-   $STATUS = "Unread";
-   $NOTE = "Job Application for (". $JOBTITLE. ") status has changed to ". $applicationstatus;
+//    $userID = $_POST['userID'];
+//    $jobapplicationid = $_POST['jobapplicationid'];
+//    $TYPE = "Job Application";
+//    $STATUS = "Unread";
+//    $NOTE = "Job Application for (". $JOBTITLE. ") status has changed to ". $applicationstatus;
 
-   $query = "UPDATE tbljobapplication SET APPLICATIONSTATUS = '$applicationstatus' WHERE ID = '$jobapplicationid' and JOBID = '$jobID'";
-   $result = mysqli_query($con, $query);
+//    $query = "UPDATE tbljobapplication SET APPLICATIONSTATUS = '$applicationstatus' WHERE ID = '$jobapplicationid' and JOBID = '$jobID'";
+//    $result = mysqli_query($con, $query);
 
-   $query = "INSERT INTO tblnotification (USERID, TYPE, TYPEID, STATUS, DATETIME, NOTE) VALUES ('$userID', '$TYPE', '$jobapplicationid', '$STATUS', now(), '$NOTE')" or die(mysqli_error($con));
+//    $query = "INSERT INTO tblnotification (USERID, TYPE, TYPEID, STATUS, DATETIME, NOTE) VALUES ('$userID', '$TYPE', '$jobapplicationid', '$STATUS', now(), '$NOTE')" or die(mysqli_error($con));
 
-   $result = mysqli_query($con, $query);
+//    $result = mysqli_query($con, $query);
 
-   if (($result)) {
+//    if (($result)) {
 
-      echo "<script>alert('Application $applicationstatus!')</script>";
+//       echo "<script>alert('Application $applicationstatus!')</script>";
 
-   } else {
-      $msg = "<div style='color:red'>Error occured...!</div>";
-      echo mysqli_error($con);
-   }
-}
+//    } else {
+//       $msg = "<div style='color:red'>Error occured...!</div>";
+//       echo mysqli_error($con);
+//    }
+// }
 
 
 
