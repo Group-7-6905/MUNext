@@ -2,7 +2,7 @@
 require 'session.php';
 $msg = '';
 $path='../';
-
+ date_default_timezone_set('America/St_Johns');
 
 
 

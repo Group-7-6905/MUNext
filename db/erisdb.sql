@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2025 at 12:30 AM
+-- Generation Time: Dec 04, 2025 at 09:57 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,17 @@ SET time_zone = "+00:00";
 --
 -- Database: `erisdb`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE PROCEDURE `cleanup_expired_tokens` ()   
+BEGIN
+    DELETE FROM tblpasswordreset WHERE EXPIRY < NOW();
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -58,7 +69,17 @@ CREATE TABLE `tblapplicants` (
 --
 
 INSERT INTO `tblapplicants` (`APPLICANTID`, `JOBCATEGORYID`, `JOBTITLE`, `EXCOMPANYNAME`, `EXJOBTITLE`, `USERID`, `FNAME`, `OTHERNAMES`, `FULLADDRESS`, `CITY`, `COUNTRY`, `SEX`, `BIRTHDATE`, `ABOUTME`, `USERNAME`, `EMAILADDRESS`, `CONTACTNO`, `DEGREE`, `SCHOOLNAME`, `SKILLS`, `APPLICANTPHOTO`, `FB_link`, `LinkedIn_link`) VALUES
-(1, 21, 'Web Developer', 'Dinconnect ICT Services', 'Web Developer', 321, 'Dom', 'Carl', '25 Albert Street', 'St. John', 'Canada', 'Male', '2025-09-30', 'Back-end & Frond-end developer. I have extensive experience in web development and specialty in PHP. I am passionate about collaborating with you to create something truly unique.', 'emeldo', 'emehchiemerie9@gmail.com', '70957684677', 'Master Degree', 'Memorial University ', 'PHP, Software Development, Web Developer', 'profile/WhatsApp Image 2025-03-05 at 00.23.58_d8771480.jpg', 'htttps://fb.com/', 'https://lindin.com/');
+(101, 5, 'Full Stack Developer', 'WebTech Solutions', 'Junior Developer', 5001, 'Emma', 'Johnson', '45 Patrick Street', 'St. Johns', 'Canada', 'Female', '1998-03-15', 'Passionate full-stack developer with 2 years of experience in React and Node.js. Love building scalable web applications.', 'ejohnson', 'emma.johnson@email.com', '7095552001', 'Bachelor Degree', 'Memorial University', 'React, Node.js, JavaScript, TypeScript, MongoDB, PostgreSQL, Git', '', 'https://fb.com/ejohnson', 'https://linkedin.com/in/emmajohnson'),
+(102, 15, 'Data Analyst', 'Analytics Corp', 'Data Intern', 5002, 'Noah', 'Williams', '78 Forest Road', 'St. Johns', 'Canada', 'Male', '1999-07-22', 'Detail-oriented data analyst skilled in Python, SQL, and data visualization. Experienced with Tableau and Power BI.', 'nwilliams', 'noah.williams@email.com', '7095552002', 'Bachelor Degree', 'Memorial University', 'Python, SQL, Tableau, Power BI, Excel, Statistics, Machine Learning', '', 'https://fb.com/nwilliams', 'https://linkedin.com/in/noahwilliams'),
+(103, 9, 'Marketing Coordinator', 'BrandWorks', 'Marketing Assistant', 5003, 'Olivia', 'Martinez', '92 Churchill Avenue', 'St. Johns', 'Canada', 'Female', '1997-11-08', 'Creative marketing professional with expertise in digital marketing, content creation, and social media management.', 'omartinez', 'olivia.martinez@email.com', '7095552003', 'Bachelor Degree', 'Memorial University', 'Digital Marketing, SEO, Content Writing, Social Media, Google Analytics, Canva', '', 'https://fb.com/omartinez', 'https://linkedin.com/in/oliviamartinez'),
+(104, 14, 'UX/UI Designer', 'PixelPerfect Studio', 'Junior Designer', 5004, 'Liam', 'Anderson', '156 Empire Avenue', 'St. Johns', 'Canada', 'Male', '1998-05-19', 'Creative UX/UI designer focused on creating intuitive and beautiful user experiences. Proficient in Figma and Adobe Creative Suite.', 'landerson', 'liam.anderson@email.com', '7095552004', 'Bachelor Degree', 'Memorial University', 'Figma, Adobe XD, Sketch, Photoshop, Illustrator, User Research, Prototyping', '', 'https://fb.com/landerson', 'https://linkedin.com/in/liamanderson'),
+(105, 18, 'Financial Analyst', 'Capital Investments', 'Financial Intern', 5005, 'Ava', 'Taylor', '234 Topsail Road', 'St. Johns', 'Canada', 'Female', '1999-01-25', 'Analytical finance professional with strong skills in financial modeling, forecasting, and investment analysis.', 'ataylor', 'ava.taylor@email.com', '7095552005', 'Bachelor Degree', 'Memorial University', 'Financial Modeling, Excel, Bloomberg, Financial Analysis, Risk Management', '', 'https://fb.com/ataylor', 'https://linkedin.com/in/avataylor'),
+(106, 12, 'Network Administrator', 'NetSolutions Ltd', 'IT Support', 5006, 'Ethan', 'Thomas', '567 Blackmarsh Road', 'St. Johns', 'Canada', 'Male', '1997-09-12', 'Experienced network administrator with expertise in Cisco, network security, and system administration.', 'ethomas', 'ethan.thomas@email.com', '7095552006', 'Bachelor Degree', 'Memorial University', 'Cisco, Network Security, Windows Server, Linux, TCP/IP, Firewall Configuration', '', 'https://fb.com/ethomas', 'https://linkedin.com/in/ethanthomas'),
+(107, 6, 'Content Writer', 'WordSmith Agency', 'Junior Writer', 5007, 'Sophia', 'Jackson', '890 Merrymeeting Road', 'St. Johns', 'Canada', 'Female', '1998-12-03', 'Creative content writer specializing in blog posts, website copy, and technical documentation. Published 200+ articles.', 'sjackson', 'sophia.jackson@email.com', '7095552007', 'Bachelor Degree', 'Memorial University', 'Content Writing, Copywriting, SEO Writing, WordPress, Editing, Research', '', 'https://fb.com/sjackson', 'https://linkedin.com/in/sophiajackson'),
+(108, 13, 'Civil Engineer', 'BuildRight Construction', 'Junior Engineer', 5008, 'Mason', 'White', '123 Old Placentia Road', 'St. Johns', 'Canada', 'Male', '1997-04-28', 'Civil engineering graduate with experience in structural design, project management, and AutoCAD.', 'mwhite', 'mason.white@email.com', '7095552008', 'Bachelor Degree', 'Memorial University', 'AutoCAD, Civil 3D, Structural Analysis, Project Management, Construction Management', '', 'https://fb.com/mwhite', 'https://linkedin.com/in/masonwhite'),
+(109, 16, 'Customer Service Representative', 'ServicePro', 'Customer Support', 5009, 'Isabella', 'Harris', '456 Logy Bay Road', 'St. Johns', 'Canada', 'Female', '1999-06-14', 'Customer-focused professional with excellent communication skills and 1 year of experience in customer service.', 'iharris', 'isabella.harris@email.com', '7095552009', 'Associate Degree', 'College of North Atlantic', 'Customer Service, Communication, Problem Solving, CRM Software, Conflict Resolution', '', 'https://fb.com/iharris', 'https://linkedin.com/in/isabellaharris'),
+(110, 17, 'Administrative Assistant', 'Office Solutions', 'Office Clerk', 5010, 'Lucas', 'Martin', '789 Columbus Drive', 'St. Johns', 'Canada', 'Male', '1998-08-30', 'Organized administrative professional with strong organizational and multitasking skills. Proficient in Microsoft Office Suite.', 'lmartin', 'lucas.martin@email.com', '7095552010', 'Associate Degree', 'College of North Atlantic', 'Microsoft Office, Data Entry, Scheduling, Office Management, Communication', '', 'https://fb.com/lmartin', 'https://linkedin.com/in/lucasmartin'),
+(118, 3, 'Associate', 'MacDonald', 'Web Developer', 321, 'Dominic', 'Carl', '549 Newfoundland Drive', 'St. John\'s', 'Canada', 'Male', '2004-12-04', 'About me\'sdgh', 'emeldo', 'emehchiemerie9@gmail.com', '1234567890', 'P.H.D.', 'Memorial University', 'PHP, Software Development, Web Developer, MSQL, HTML, WordPress, TailWind', 'profile/applicant_321_1764823564.png', '', '');
 
 -- --------------------------------------------------------
 
@@ -73,6 +94,15 @@ CREATE TABLE `tblattachmentfile` (
   `FILE_NAME` varchar(90) NOT NULL,
   `FILE_LOCATION` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `tblattachmentfile`
+--
+
+INSERT INTO `tblattachmentfile` (`ID`, `APPLICANTID`, `JOBID`, `FILE_NAME`, `FILE_LOCATION`) VALUES
+(1, 4, 12, 'Alex_CV_latest.pdf', 'uploads/resumes/4_12_cv.pdf'),
+(2, 5, 13, 'Betty_Resume.docx', 'uploads/resumes/5_13_resume.docx'),
+(3, 4, 14, 'Alex_Portfolio.zip', 'uploads/portfolios/4_14_port.zip');
 
 -- --------------------------------------------------------
 
@@ -111,6 +141,28 @@ CREATE TABLE `tblbookmarkjob` (
   `DATETIME` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `tblbookmarkjob`
+--
+
+INSERT INTO `tblbookmarkjob` (`ID`, `APPLICANTID`, `JOBID`, `DATETIME`) VALUES
+(401, 101, 214, '2025-02-15 10:00:00'),
+(402, 101, 203, '2025-02-15 10:30:00'),
+(403, 102, 201, '2025-02-16 09:00:00'),
+(404, 102, 205, '2025-02-16 09:30:00'),
+(405, 103, 209, '2025-02-17 14:00:00'),
+(406, 104, 207, '2025-02-18 11:00:00'),
+(407, 104, 201, '2025-02-18 11:30:00'),
+(408, 105, 214, '2025-02-19 10:00:00'),
+(409, 106, 214, '2025-02-20 13:00:00'),
+(410, 107, 206, '2025-02-21 09:00:00'),
+(411, 107, 215, '2025-02-21 09:30:00'),
+(412, 108, 201, '2025-02-22 10:00:00'),
+(413, 109, 210, '2025-02-23 14:00:00'),
+(414, 110, 215, '2025-02-24 11:00:00'),
+(415, 101, 215, '2025-02-25 10:00:00'),
+(417, 5013, 214, '2025-12-02 19:55:28');
+
 -- --------------------------------------------------------
 
 --
@@ -125,6 +177,27 @@ CREATE TABLE `tblbookmarkresume` (
   `DATETIME` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `tblbookmarkresume`
+--
+
+INSERT INTO `tblbookmarkresume` (`ID`, `USERID`, `JOBAPPLICATIONID`, `JOBRESUMEID`, `DATETIME`) VALUES
+(501, 4001, 301, 0, '2025-02-17 10:00:00'),
+(502, 4001, 316, 0, '2025-02-27 11:00:00'),
+(503, 4002, 317, 0, '2025-02-28 10:00:00'),
+(504, 4003, 303, 0, '2025-02-18 10:00:00'),
+(505, 4003, 320, 0, '2025-03-03 12:00:00'),
+(506, 4003, 325, 0, '2025-03-08 11:00:00'),
+(507, 4004, 310, 0, '2025-02-22 14:00:00'),
+(508, 4004, 326, 0, '2025-03-09 11:00:00'),
+(509, 4005, 309, 0, '2025-02-21 11:00:00'),
+(510, 4005, 324, 0, '2025-03-07 10:00:00'),
+(511, 4006, 305, 0, '2025-02-19 15:00:00'),
+(512, 4006, 311, 0, '2025-02-23 10:00:00'),
+(513, 4007, 307, 0, '2025-02-20 12:00:00'),
+(514, 4007, 322, 0, '2025-03-05 11:00:00'),
+(515, 4008, 316, 0, '2025-02-27 11:30:00');
+
 -- --------------------------------------------------------
 
 --
@@ -133,12 +206,14 @@ CREATE TABLE `tblbookmarkresume` (
 
 CREATE TABLE `tblcompany` (
   `COMPANYID` int(11) NOT NULL,
+  `USERID` int(11) NOT NULL,
   `COMPANYNAME` varchar(90) NOT NULL,
   `COMPANYADDRESS` varchar(90) NOT NULL,
   `COMPANYCONTACTNO` varchar(30) NOT NULL,
   `COMPANYSTATUS` varchar(90) NOT NULL,
   `COMPANYABOUT` text NOT NULL,
   `COMPANYEMAIL` varchar(50) NOT NULL,
+  `COMPANYWEBSITE` text NOT NULL,
   `COMPANYINDUSTRY` varchar(50) NOT NULL,
   `COMPANYSPECIALISM` varchar(50) NOT NULL,
   `COMPANYCOUNTRY` varchar(50) NOT NULL,
@@ -146,64 +221,28 @@ CREATE TABLE `tblcompany` (
   `COMPANYAWARD` varchar(20) NOT NULL,
   `COMPANYYEAR` varchar(10) NOT NULL,
   `COMPANYAWARDDESC` text NOT NULL,
-  `COMPANYLOGO` blob NOT NULL
+  `COMPANYLOGO` varchar(225) NOT NULL,
+  `DATEREGISTERED` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblcompany`
 --
 
-INSERT INTO `tblcompany` (`COMPANYID`, `COMPANYNAME`, `COMPANYADDRESS`, `COMPANYCONTACTNO`, `COMPANYSTATUS`, `COMPANYABOUT`, `COMPANYEMAIL`, `COMPANYINDUSTRY`, `COMPANYSPECIALISM`, `COMPANYCOUNTRY`, `COMPANYCITY`, `COMPANYAWARD`, `COMPANYYEAR`, `COMPANYAWARDDESC`, `COMPANYLOGO`) VALUES
-(1, 'Nasdaq', '18 Hebron Way, St. John', '8773689986', 'Active', 'Financial Crime Management Technology for Canadian Financial Institutions', 'info@verafin.com', 'Finance', 'Accounting', 'Canada', 'St. Johns', 'N/A', '2025', 'N/A', 0x636f6d70616e795f6c6f676f2f4e41534441515f4c6f676f2e7376672e706e67),
-(2, 'ScotiaBank', 'St. John', '78576337485', 'Active', 'Earn up to $700 when you bundle an eligible banking package, savings account, and registered account', 'info@scotiabank.com', 'Finance', 'Accounting', 'Canada', 'St. John', 'N/A', '2025', 'N/A', 0x636f6d70616e795f6c6f676f2f73636f74696162616e6b2d6c6f676f2d7265642d6465736b746f702d32303070782e737667),
-(3, 'RBC Royalbank', 'St. John', '7089574856', 'Active', 'Explore the personal banking services and products available from RBC Royal Bank to help you manage your finances, buy a home, invest and more.', 'info@rbcroyalbank.com', 'Finance', 'Public Sector', 'Canada', 'St. John', 'N/A', '2025', 'N/A', 0x636f6d70616e795f6c6f676f2f7262632d6c6f676f2d736869656c642e737667),
-(4, 'ColabSoftware', '484 Torbay', '758475834', 'Active', ' Deliver better products, faster.', 'info@colabsoftware', 'IT & Software', 'Accounting', 'Select Country', 'St. John', 'N/A', '2025', 'N/A', 0x636f6d70616e795f6c6f676f2f436f4c61622d4c6f676f2d5247422d7765622d66756c6c2d636f6c6f75722e77656270);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tblemployees`
---
-
-CREATE TABLE `tblemployees` (
-  `INCID` int(11) NOT NULL,
-  `EMPLOYEEID` varchar(30) NOT NULL,
-  `FNAME` varchar(50) NOT NULL,
-  `LNAME` varchar(50) NOT NULL,
-  `MNAME` varchar(50) NOT NULL,
-  `ADDRESS` varchar(90) NOT NULL,
-  `BIRTHDATE` date NOT NULL,
-  `BIRTHPLACE` varchar(90) NOT NULL,
-  `AGE` int(11) NOT NULL,
-  `SEX` varchar(30) NOT NULL,
-  `CIVILSTATUS` varchar(30) NOT NULL,
-  `TELNO` varchar(40) NOT NULL,
-  `EMP_EMAILADDRESS` varchar(90) NOT NULL,
-  `CELLNO` varchar(30) NOT NULL,
-  `POSITION` varchar(50) NOT NULL,
-  `WORKSTATS` varchar(90) NOT NULL,
-  `EMPPHOTO` varchar(255) NOT NULL,
-  `EMPUSERNAME` varchar(90) NOT NULL,
-  `EMPPASSWORD` varchar(125) NOT NULL,
-  `DATEHIRED` date NOT NULL,
-  `COMPANYID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tblfeedback`
---
-
-CREATE TABLE `tblfeedback` (
-  `FEEDBACKID` int(11) NOT NULL,
-  `APPLICANTID` int(11) NOT NULL,
-  `ADMINID` int(11) NOT NULL,
-  `SENTBY` int(11) NOT NULL,
-  `FEEDBACK` text NOT NULL,
-  `DATETIME` datetime NOT NULL,
-  `STATUS` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+INSERT INTO `tblcompany` (`COMPANYID`, `USERID`, `COMPANYNAME`, `COMPANYADDRESS`, `COMPANYCONTACTNO`, `COMPANYSTATUS`, `COMPANYABOUT`, `COMPANYEMAIL`, `COMPANYWEBSITE`, `COMPANYINDUSTRY`, `COMPANYSPECIALISM`, `COMPANYCOUNTRY`, `COMPANYCITY`, `COMPANYAWARD`, `COMPANYYEAR`, `COMPANYAWARDDESC`, `COMPANYLOGO`, `DATEREGISTERED`) VALUES
+(6, 2749, 'Ms. Brooke Ledner LTD', 'Newfoundland Drive', '', 'Active', 'Checcccckkkkkkiiinnnnngggggggg', 'admin@BrookeLedner.com', 'http://localhost/munext', 'IT & Software', 'Accounting', 'Canada', 'St. John\'s', '', '', '', 'company_logo/Adobe Express - file (7).png', NULL),
+(101, 4001, 'TechCorp Solutions', '123 Water Street', '7095551001', 'Active', 'Leading software development company specializing in cloud solutions and enterprise applications. We help businesses transform digitally.', 'info@techcorp.ca', 'http://www.techcorp.ca', 'IT & Software', 'Cloud Services', 'Canada', 'St. Johns', '', '', '', '', '2025-01-15 10:00:00'),
+(102, 4002, 'InnovateSoft Inc', '456 Duckworth Street', '7095551002', 'Active', 'Innovative software solutions for modern businesses. Specializing in AI and machine learning applications.', 'contact@innovatesoft.ca', 'http://www.innovatesoft.ca', 'IT & Software', 'Software Development', 'Canada', 'St. Johns', '', '', '', 'company_logo/InnovateSoft Inc.jpeg', '2025-01-18 11:30:00'),
+(103, 4003, 'DataDynamics Ltd', '789 George Street', '7095551003', 'Active', 'Data analytics and business intelligence firm helping companies make data-driven decisions.', 'hello@datadynamics.ca', 'http://www.datadynamics.ca', 'IT & Software', 'Data Science', 'Canada', 'St. Johns', '', '', '', 'company_logo/Data-Dynamics-Logo.png', '2025-01-20 14:15:00'),
+(104, 4004, 'CloudNine Technologies', '321 Harbour Drive', '7095551004', 'Active', 'Cloud infrastructure and DevOps solutions provider. Making cloud migration seamless and secure.', 'support@cloudnine.ca', 'http://www.cloudnine.ca', 'IT & Software', 'Cloud Infrastructure', 'Canada', 'St. Johns', '', '', '', 'company_logo/CloudNine Technologies.jpg', '2025-01-22 09:45:00'),
+(105, 4005, 'FinancePro Solutions', '654 Elizabeth Avenue', '7095551005', 'Active', 'Financial technology solutions for modern banking and investment management. Trusted by 500+ institutions.', 'info@financepro.ca', 'http://www.financepro.ca', 'Financial Services & Software', 'FinTech', 'Canada', 'St. Johns', '', '', '', 'company_logo/FinancePro Solutions.png', '2025-01-25 16:20:00'),
+(106, 4006, 'MarketMaster Agency', '987 Torbay Road', '7095551006', 'Active', 'Digital marketing agency specializing in social media, SEO, and content marketing strategies.', 'hello@marketmaster.ca', 'http://www.marketmaster.ca', 'Sales and Marketing', 'Digital Marketing', 'Canada', 'St. Johns', '', '', '', '', '2025-01-28 10:30:00'),
+(107, 4007, 'DesignHub Creative', '147 Military Road', '7095551007', 'Active', 'Award-winning design studio creating beautiful brands and digital experiences.', 'creative@designhub.ca', 'http://www.designhub.ca', 'Design and Creative', 'Graphic Design', 'Canada', 'St. Johns', '', '', '', 'company_logo/DesignHub.jpeg', '2025-02-01 13:00:00'),
+(108, 4008, 'HealthTech Innovations', '258 Newfoundland Drive', '7095551008', 'Active', 'Healthcare technology company developing innovative patient care solutions and medical software.', 'info@healthtech.ca', 'http://www.healthtech.ca', 'IT & Software', 'Healthcare Technology', 'Canada', 'St. Johns', '', '', '', 'company_logo/6751_Healthtech Innovations.jpg', '2025-02-03 15:45:00'),
+(109, 4009, 'EduLearn Platform', '369 Portugal Cove Road', '7095551009', 'Pending', 'E-learning platform providing quality online courses and educational resources.', 'contact@edulearn.ca', 'http://www.edulearn.ca', 'IT & Software', 'EdTech', 'Canada', 'St. Johns', '', '', '', '', '2025-02-05 11:20:00'),
+(110, 4010, 'GreenEnergy Systems', '741 Kenmount Road', '7095551010', 'Active', 'Renewable energy solutions and sustainable power systems for residential and commercial properties.', 'info@greenenergy.ca', 'http://www.greenenergy.ca', 'Engineering and Architecture', 'Renewable Energy', 'Canada', 'St. Johns', '', '', '', 'company_logo/Green-Energy-Solutions-Logo.jpg', '2025-02-08 09:00:00'),
+(111, 5012, 'NexMentor', '44 rotary dr', '4168222760', 'Active', 'AI Engineer & AWS Solutions Architect with hands-on experience building, deploying, and troubleshooting cloud-native applications as a student and early-career engineer. Work spans AWS services, Python, and AI Engineering, with exposure to DevOps practices.?', 'waynettomas@gmail.com', 'https:/www.12nets.com', 'Cybersecurity', 'Cloud Computing & DevOps', 'Canada', 'st johns', '', '', '', 'company_logo/mentor.jpg', '2025-12-04 03:29:21'),
+(117, 5014, 'Dimconnect ICT', 'Newfoundland Drive', '1234567890', 'Active', 'Digital marketing agency specializing in social media, SEO, and content marketing strategies.', 'Dim@gmail.com', 'https://dimconnect.com', 'Computer Hardware & Networking', 'Software Engineering', 'Canada', 'St. John\'s, Newfoundland & Labrador', '', '', '', 'company_logo/company_5014_1764831685.png', '2025-12-04 03:31:25');
 
 -- --------------------------------------------------------
 
@@ -214,6 +253,7 @@ CREATE TABLE `tblfeedback` (
 CREATE TABLE `tbljob` (
   `JOBID` int(11) NOT NULL,
   `COMPANYID` int(11) NOT NULL,
+  `EMPLOYERID` int(11) NOT NULL,
   `WORKPLACE_POLICY` varchar(50) NOT NULL,
   `JOBTITLE` varchar(90) NOT NULL,
   `JOBCATEGORYID` int(11) NOT NULL,
@@ -233,12 +273,23 @@ CREATE TABLE `tbljob` (
 -- Dumping data for table `tbljob`
 --
 
-INSERT INTO `tbljob` (`JOBID`, `COMPANYID`, `WORKPLACE_POLICY`, `JOBTITLE`, `JOBCATEGORYID`, `SALARY`, `JOBTYPE`, `QUALIFICATION`, `JOBDESCRIPTION`, `PREFEREDSEX`, `CAREERLEVEL`, `WORKEXPERIENCE`, `DEADLINE`, `JOBSTATUS`, `DATEPOSTED`) VALUES
-(1, 2, 'On-site', 'Account Manager', 1, 0, 'Full Time', 'Master Degree', 'Account management job', 'Male', 'Team leader', '3 Years', '2025-11-01', 'Vacancy', '2025-10-23 02:35:49'),
-(2, 3, 'On-site', 'Sales Attendant', 2, 0, 'Full Time', 'B.Sc', 'Sales attendant and account keeping', 'Both', 'Manager', '4 Years', '2025-11-05', 'Vacancy', '2025-10-23 02:37:47'),
-(3, 4, 'Hybrid', 'Senior Software Developer', 21, 20, 'Part Time', 'B.Sc', 'Senior software developer for the development and management of web applications', 'Both', 'Not Necessary', '2 Years', '2025-11-08', 'Vacancy', '2025-10-23 02:39:51'),
-(4, 3, 'On-site', 'Account Executive', 3, 0, 'Full Time', 'Master Degree', 'Account executive for financial analysis & modeling', 'Both', 'Manager', '2 Years', '2025-11-15', 'Vacancy', '2025-10-23 02:42:12'),
-(5, 1, 'On-site', 'Analyst', 3, 30, 'Full Time', 'B.Sc', 'Financial Analysis and Modeling ', 'Both', 'Team leader', '4 Years', '2025-11-07', 'Vacancy', '2025-10-23 04:44:58');
+INSERT INTO `tbljob` (`JOBID`, `COMPANYID`, `EMPLOYERID`, `WORKPLACE_POLICY`, `JOBTITLE`, `JOBCATEGORYID`, `SALARY`, `JOBTYPE`, `QUALIFICATION`, `JOBDESCRIPTION`, `PREFEREDSEX`, `CAREERLEVEL`, `WORKEXPERIENCE`, `DEADLINE`, `JOBSTATUS`, `DATEPOSTED`) VALUES
+(201, 101, 4001, 'Hybrid', 'Senior Full Stack Developer', 5, 85000, 'Full Time', 'Bachelor Degree', 'We are seeking an experienced Full Stack Developer to join our growing team. You will work on building scalable web applications using React, Node.js, and cloud technologies. Strong problem-solving skills and experience with modern development practices are essential.', 'Both', 'Mid-Senior Level', '3-5 Years', '2025-03-15', 'Active', '2025-02-01 09:00:00'),
+(202, 101, 4001, 'Remote', 'Junior Backend Developer', 5, 55000, 'Full Time', 'Bachelor Degree', 'Looking for a motivated Junior Backend Developer to work with our development team. You will be working with Node.js, Express, and databases. Great learning opportunity with mentorship provided.', 'Both', 'Entry Level', '0-1 Years', '2026-01-01', 'Active', '2025-02-03 10:30:00'),
+(203, 102, 4002, 'On-site', 'Machine Learning Engineer', 15, 95000, 'Full Time', 'Master Degree', 'Join our AI team to develop cutting-edge machine learning solutions. Experience with Python, TensorFlow, and deep learning is required. You will work on exciting projects in computer vision and NLP.', 'Both', 'Mid-Senior Level', '3-5 Years', '2025-12-25', 'Active', '2025-02-02 11:00:00'),
+(204, 103, 4003, 'Hybrid', 'Data Analyst', 15, 65000, 'Full Time', 'Bachelor Degree', 'We need a Data Analyst to help us analyze business data and create insightful reports. Strong SQL skills and experience with Tableau or Power BI required. You will work closely with stakeholders to drive data-driven decisions.', 'Both', 'Entry Level', '1-2 Years', '2025-12-20', 'Active', '2025-02-04 14:00:00'),
+(205, 104, 4004, 'Remote', 'DevOps Engineer', 5, 80000, 'Full Time', 'Bachelor Degree', 'Experienced DevOps Engineer needed to manage our cloud infrastructure. Must have experience with AWS, Docker, Kubernetes, and CI/CD pipelines. Automation and monitoring skills are essential.', 'Both', 'Mid-Senior Level', '3-5 Years', '2025-12-22', 'Active', '2025-02-05 09:30:00'),
+(206, 105, 4005, 'On-site', 'Financial Analyst', 18, 70000, 'Full Time', 'Bachelor Degree', 'Looking for a Financial Analyst to join our finance team. You will be responsible for financial modeling, forecasting, and analysis. CFA or relevant certification is a plus.', 'Both', 'Entry Level', '1-3 Years', '2025-03-28', 'Active', '2025-02-06 10:00:00'),
+(207, 106, 4006, 'Hybrid', 'Digital Marketing Specialist', 9, 58000, 'Full Time', 'Bachelor Degree', 'We are hiring a Digital Marketing Specialist to manage our social media, SEO, and content marketing campaigns. Experience with Google Analytics and social media platforms required.', 'Both', 'Entry Level', '1-2 Years', '2025-12-05', 'Active', '2025-02-07 11:30:00'),
+(208, 106, 4006, 'Remote', 'Content Marketing Manager', 9, 75000, 'Full Time', 'Bachelor Degree', 'Senior Content Marketing Manager needed to lead our content strategy. You will manage a team of writers and create engaging content across multiple channels. 5+ years of experience required.', 'Both', 'Manager', '5+ Years', '2025-12-07', 'Active', '2025-02-08 13:00:00'),
+(209, 107, 4007, 'On-site', 'Senior UX/UI Designer', 14, 72000, 'Full Time', 'Bachelor Degree', 'Seeking a talented UX/UI Designer to create beautiful and intuitive user experiences. Must be proficient in Figma, have a strong portfolio, and understand user-centered design principles.', 'Both', 'Mid-Senior Level', '3-5 Years', '2025-12-15', 'Active', '2025-02-09 10:00:00'),
+(210, 107, 4007, 'Hybrid', 'Graphic Designer', 14, 50000, 'Full Time', 'Bachelor Degree', 'Junior Graphic Designer needed to create visual content for clients. Experience with Adobe Creative Suite required. Fresh graduates with strong portfolios are encouraged to apply.', 'Both', 'Entry Level', '0-2 Years', '2025-11-28', 'Active', '2025-02-10 14:30:00'),
+(211, 108, 4008, 'Hybrid', 'Software Developer (Healthcare)', 5, 78000, 'Full Time', 'Bachelor Degree', 'Join our healthcare technology team to build innovative patient care solutions. Experience with HIPAA compliance and healthcare systems is a plus. Strong programming skills in Java or C# required.', 'Both', 'Mid-Senior Level', '2-4 Years', '2025-12-27', 'Active', '2025-02-11 09:00:00'),
+(212, 109, 4009, 'Remote', 'Instructional Designer', 6, 60000, 'Full Time', 'Bachelor Degree', 'Looking for an Instructional Designer to create engaging online courses. Experience with e-learning platforms and content creation tools required. Background in education preferred.', 'Both', 'Entry Level', '1-3 Years', '2026-12-22', 'Active', '2025-02-12 11:00:00'),
+(213, 110, 4010, 'On-site', 'Renewable Energy Engineer', 13, 82000, 'Full Time', 'Bachelor Degree', 'Civil/Electrical Engineer needed for renewable energy projects. Experience with solar or wind energy systems preferred. You will work on sustainable energy solutions.', 'Both', 'Mid-Senior Level', '3-5 Years', '2025-12-12', 'Active', '2025-02-13 10:30:00'),
+(214, 104, 4004, 'Hybrid', 'Cloud Solutions Architect', 5, 105000, 'Full Time', 'Master Degree', 'Senior Cloud Architect needed to design and implement enterprise cloud solutions. AWS/Azure certifications required. You will lead cloud migration projects.', 'Both', 'Senior Manager', '5+ Years', '2025-12-20', 'Active', '2025-02-14 15:00:00'),
+(215, 103, 4003, 'Remote', 'Business Intelligence Analyst', 15, 68000, 'Full Time', 'Bachelor Degree', 'BI Analyst needed to develop dashboards and reports. Experience with SQL, Python, and visualization tools required. You will work with stakeholders to identify business insights.', 'Both', 'Entry Level', '1-3 Years', '2025-11-18', 'Active', '2025-02-15 13:30:00'),
+(216, 111, 5012, 'On-site', 'Associate', 10, 0, 'Full Time or Part Time', 'BPharma & Above', 'mkirewapgmr', 'Both', 'Beginner', '2 Years', '2026-04-12', 'Active', '2025-12-02 18:38:39');
 
 -- --------------------------------------------------------
 
@@ -250,19 +301,50 @@ CREATE TABLE `tbljobapplication` (
   `ID` int(11) NOT NULL,
   `APPLICANTID` int(11) NOT NULL,
   `JOBID` int(11) NOT NULL,
-  `RESUME_FILE` varchar(255) NOT NULL,
   `APPLICATIONSTATUS` varchar(20) NOT NULL,
-  `APPLICATIONDATE` datetime NOT NULL,
-  `SCORE` int(11) NOT NULL
+  `DATEAPPLIED` datetime NOT NULL,
+  `SCREENINGSCORE` int(11) DEFAULT 0,
+  `SCREENPASSED` tinyint(1) DEFAULT NULL,
+  `COVERLETTER` text DEFAULT NULL,
+  `RESUME` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbljobapplication`
 --
 
-INSERT INTO `tbljobapplication` (`ID`, `APPLICANTID`, `JOBID`, `RESUME_FILE`, `APPLICATIONSTATUS`, `APPLICATIONDATE`, `SCORE`) VALUES
-(1, 321, 4, 'resumes_cv/CV-linda.pdf', 'Pending', '2025-10-23 04:36:00', 0),
-(2, 321, 1, 'resumes_cv/Resume_LINDA.pdf', 'Pending', '2025-10-23 17:20:44', 0);
+INSERT INTO `tbljobapplication` (`ID`, `APPLICANTID`, `JOBID`, `APPLICATIONSTATUS`, `DATEAPPLIED`, `SCREENINGSCORE`, `SCREENPASSED`, `COVERLETTER`, `RESUME`) VALUES
+(301, 101, 201, 'Shortlisted', '2025-02-16 10:00:00', 20, 1, 'Dear Hiring Manager, I am excited to apply for the Senior Full Stack Developer position. With 3 years of experience in React and Node.js, I have developed multiple scalable web applications. I am passionate about clean code and best practices.', 'resume_5001_201_1708081200.pdf'),
+(302, 101, 202, 'Pending', '2025-02-16 11:00:00', 0, NULL, 'I am interested in the Junior Backend Developer role as I am looking to grow my backend development skills.', 'resume_5001_202_1708084800.pdf'),
+(303, 102, 204, 'Interview', '2025-02-17 09:30:00', 15, 1, 'Dear Team, I am applying for the Data Analyst position. My experience with SQL, Python, and Tableau makes me a strong candidate. I have successfully delivered insights that drove business growth.', 'resume_5002_204_1708164600.pdf'),
+(304, 102, 215, 'Pending', '2025-02-17 10:00:00', 10, 1, 'I am very interested in the Business Intelligence Analyst role. My analytical skills and experience with data visualization tools would be valuable to your team.', 'resume_5002_215_1708166400.pdf'),
+(305, 103, 207, 'Shortlisted', '2025-02-18 14:30:00', 15, 1, 'Dear MarketMaster Team, I am excited to apply for the Digital Marketing Specialist position. I have 2 years of experience managing social media campaigns and SEO optimization. I increased engagement by 150% in my previous role.', 'resume_5003_207_1708269000.pdf'),
+(306, 103, 208, 'Rejected', '2025-02-18 15:00:00', 0, 0, 'I am applying for the Content Marketing Manager position. While I have 2 years of experience, I am eager to take on a leadership role.', 'resume_5003_208_1708270800.pdf'),
+(307, 104, 209, 'Interview', '2025-02-19 11:00:00', 20, 1, 'Dear DesignHub, I am thrilled to apply for the Senior UX/UI Designer position. My portfolio showcases 4 years of experience creating user-centered designs. I specialize in Figma and have led multiple successful design projects.', 'resume_5004_209_1708344000.pdf'),
+(308, 104, 210, 'Pending', '2025-02-19 11:30:00', 0, NULL, 'I am interested in the Graphic Designer position. As a recent graduate, I have a strong portfolio and am proficient in Adobe Creative Suite.', 'resume_5004_210_1708345800.pdf'),
+(309, 105, 206, 'Shortlisted', '2025-02-20 10:00:00', 10, 1, 'Dear FinancePro Team, I am applying for the Financial Analyst position. My background in financial modeling and forecasting, combined with my analytical skills, makes me an ideal candidate. I am pursuing my CFA Level 1.', 'resume_5005_206_1708426800.pdf'),
+(310, 106, 205, 'Pending', '2025-02-21 13:00:00', 25, 1, 'Dear CloudNine, I am excited to apply for the DevOps Engineer position. I have 3 years of experience with AWS, Docker, and Kubernetes. I have successfully managed CI/CD pipelines and cloud infrastructure.', 'resume_5006_205_1708524000.pdf'),
+(311, 107, 207, 'Pending', '2025-02-22 09:00:00', 15, 1, 'Dear MarketMaster, I am a passionate content writer with 2 years of experience. I would love to contribute to your digital marketing campaigns with engaging content.', 'resume_5007_207_1708596000.pdf'),
+(312, 107, 208, 'Pending', '2025-02-22 09:30:00', 0, 0, 'I am applying for the Content Marketing Manager position. While my experience is in content writing, I am eager to grow into a management role.', 'resume_5007_208_1708597800.pdf'),
+(313, 108, 213, 'Shortlisted', '2025-02-23 10:30:00', 10, 1, 'Dear GreenEnergy, I am excited to apply for the Renewable Energy Engineer position. As a civil engineer with experience in sustainable design, I am passionate about green energy solutions.', 'resume_5008_213_1708686600.pdf'),
+(314, 109, 207, 'Pending', '2025-02-24 14:00:00', 15, 1, 'Dear Hiring Team, I am applying for the Digital Marketing Specialist role. I have strong communication skills and 1 year of experience in social media management.', 'resume_5009_207_1708786800.pdf'),
+(315, 110, 202, 'Pending', '2025-02-25 11:00:00', 0, NULL, 'I am interested in the Junior Backend Developer position. As a recent graduate, I am eager to learn and contribute to your development team.', 'resume_5010_202_1708862400.pdf'),
+(316, 101, 211, 'Interview', '2025-02-26 10:00:00', 5, 1, 'Dear HealthTech, I am applying for the Software Developer position. While I do not have healthcare experience, I am a fast learner and excited about healthcare technology.', 'resume_5001_211_1708945200.pdf'),
+(317, 102, 203, 'Rejected', '2025-02-27 09:00:00', 10, 0, 'Dear InnovateSoft, I am interested in the Machine Learning Engineer position. I have a Bachelor degree and 1 year of experience with Python and machine learning basics.', 'resume_5002_203_1709028000.pdf'),
+(318, 103, 206, 'Pending', '2025-02-28 13:30:00', 10, 1, 'I am applying for the Financial Analyst role. My marketing background has given me strong analytical skills that translate well to finance.', 'resume_5003_206_1709131800.pdf'),
+(319, 104, 211, 'Pending', '2025-03-01 10:00:00', 5, 1, 'Dear HealthTech, I am interested in the Software Developer position. My design background helps me create user-friendly healthcare applications.', 'resume_5004_211_1709204400.pdf'),
+(320, 105, 204, 'Pending', '2025-03-02 11:30:00', 15, 1, 'Dear DataDynamics, I am applying for the Data Analyst position. My finance background and SQL skills make me well-suited for this role.', 'resume_5005_204_1709294400.pdf'),
+(321, 106, 201, 'Pending', '2025-03-03 14:00:00', 0, 0, 'I am applying for the Senior Full Stack Developer position. While I have network administration experience, I have been learning web development.', 'resume_5006_201_1709388000.pdf'),
+(322, 107, 210, 'Shortlisted', '2025-03-04 10:30:00', 0, NULL, 'Dear DesignHub, I am excited to apply for the Graphic Designer position. My writing background helps me create compelling visual stories.', 'resume_5007_210_1709464200.pdf'),
+(323, 108, 214, 'Rejected', '2025-03-05 13:00:00', 0, 0, 'Dear CloudNine, I am interested in the Cloud Solutions Architect position. While I have civil engineering background, I have been studying cloud technologies.', 'resume_5008_214_1709559600.pdf'),
+(324, 109, 206, 'Pending', '2025-03-06 09:30:00', 10, 1, 'Dear FinancePro, I am applying for the Financial Analyst position. My customer service background has developed my analytical and communication skills.', 'resume_5009_206_1709632200.pdf'),
+(325, 110, 204, 'Pending', '2025-03-07 11:00:00', 15, 1, 'Dear DataDynamics, I am interested in the Data Analyst role. My administrative experience with Excel and data management translates well to this position.', 'resume_5010_204_1709722800.pdf'),
+(326, 101, 205, 'Pending', '2025-03-08 10:00:00', 25, 1, 'Dear CloudNine, I am applying for the DevOps Engineer position. My full-stack experience has given me exposure to cloud technologies and CI/CD.', 'resume_5001_205_1709805600.pdf'),
+(327, 102, 209, 'Pending', '2025-03-09 14:30:00', 0, 0, 'Dear DesignHub, I am interested in the Senior UX/UI Designer position. While my background is in data, I have a passion for design.', 'resume_5002_209_1709905800.pdf'),
+(328, 103, 201, 'Pending', '2025-03-10 10:00:00', 0, 0, 'Dear TechCorp, I am applying for the Senior Full Stack Developer position. My marketing experience has exposed me to web technologies.', 'resume_5003_201_1709978400.pdf'),
+(329, 105, 215, 'Interview', '2025-03-11 13:00:00', 10, 1, 'Dear DataDynamics, I am excited to apply for the Business Intelligence Analyst position. My finance background combined with my interest in data makes me a strong candidate.', 'resume_5005_215_1710162000.pdf'),
+(330, 106, 211, 'Pending', '2025-03-12 11:30:00', 5, 1, 'Dear HealthTech, I am applying for the Software Developer position. My network administration background has given me strong technical skills.', 'resume_5006_211_1710244200.pdf'),
+(332, 321, 214, 'Pending', '2025-12-04 01:57:30', 20, 1, 'Dear, hellooooo', 'resume_321_214_1764826050.pdf');
 
 -- --------------------------------------------------------
 
@@ -296,60 +378,6 @@ INSERT INTO `tbljobcategory` (`ID`, `CATEGORY`) VALUES
 (16, 'Customer Service'),
 (17, 'Admin Support'),
 (18, 'Accounting & Consulting');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbljobregistration`
---
-
-CREATE TABLE `tbljobregistration` (
-  `REGISTRATIONID` int(11) NOT NULL,
-  `COMPANYID` int(11) NOT NULL,
-  `JOBID` int(11) NOT NULL,
-  `APPLICANTID` int(11) NOT NULL,
-  `APPLICANT` varchar(90) NOT NULL,
-  `REGISTRATIONDATE` date NOT NULL,
-  `REMARKS` varchar(255) NOT NULL DEFAULT 'Pending',
-  `FILEID` varchar(30) DEFAULT NULL,
-  `PENDINGAPPLICATION` tinyint(1) NOT NULL DEFAULT 1,
-  `HVIEW` tinyint(1) NOT NULL DEFAULT 1,
-  `DATETIMEAPPROVED` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbljobscreening_ques`
---
-
-CREATE TABLE `tbljobscreening_ques` (
-  `id` int(11) NOT NULL,
-  `job_id` int(11) NOT NULL,
-  `question_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `tbljobscreening_ques`
---
-
-INSERT INTO `tbljobscreening_ques` (`id`, `job_id`, `question_id`) VALUES
-(52, 4, 5),
-(53, 4, 4),
-(54, 4, 2),
-(58, 5, 2),
-(59, 5, 4),
-(60, 5, 5),
-(63, 3, 5),
-(64, 3, 4),
-(65, 6, 5),
-(66, 6, 4),
-(67, 6, 2),
-(68, 7, 5),
-(69, 7, 4),
-(70, 8, 5),
-(71, 8, 4),
-(72, 8, 2);
 
 -- --------------------------------------------------------
 
@@ -397,6 +425,54 @@ INSERT INTO `tbljobsubcategory` (`ID`, `CATEGORYID`, `SUBCATEGORY`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tblmessages`
+--
+
+CREATE TABLE `tblmessages` (
+  `ID` int(11) NOT NULL,
+  `SENDER_ID` int(11) NOT NULL,
+  `RECIPIENT_ID` int(11) NOT NULL,
+  `MESSAGE` text NOT NULL,
+  `DATEPOSTED` datetime DEFAULT current_timestamp(),
+  `IS_READ` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblmessages`
+--
+
+INSERT INTO `tblmessages` (`ID`, `SENDER_ID`, `RECIPIENT_ID`, `MESSAGE`, `DATEPOSTED`, `IS_READ`) VALUES
+(1, 321, 4004, 'Hello', '2025-12-04 01:59:13', 0),
+(2, 321, 4004, 'Chatting to checkup on my application', '2025-12-04 02:00:01', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblnewsletter`
+--
+
+CREATE TABLE `tblnewsletter` (
+  `ID` int(11) NOT NULL,
+  `EMAIL` varchar(255) NOT NULL,
+  `STATUS` enum('Active','Unsubscribed') DEFAULT 'Active',
+  `SUBSCRIBE_DATE` timestamp NOT NULL DEFAULT current_timestamp(),
+  `UNSUBSCRIBE_DATE` timestamp NULL DEFAULT NULL,
+  `IP_ADDRESS` varchar(45) DEFAULT NULL,
+  `USER_AGENT` text DEFAULT NULL,
+  `VERIFICATION_TOKEN` varchar(100) DEFAULT NULL,
+  `IS_VERIFIED` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblnewsletter`
+--
+
+INSERT INTO `tblnewsletter` (`ID`, `EMAIL`, `STATUS`, `SUBSCRIBE_DATE`, `UNSUBSCRIBE_DATE`, `IP_ADDRESS`, `USER_AGENT`, `VERIFICATION_TOKEN`, `IS_VERIFIED`) VALUES
+(5, 'emehchiemerie9@gmail.com', 'Active', '2025-11-13 03:19:41', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'cdd302984229b7e88cda97dffedc4141235382bde1a20bf3f83e5845b8fe989e', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tblnotification`
 --
 
@@ -410,221 +486,136 @@ CREATE TABLE `tblnotification` (
   `NOTE` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `tblscreening`
+-- Dumping data for table `tblnotification`
 --
 
-CREATE TABLE `tblscreening` (
-  `id` int(11) NOT NULL,
-  `q_title` varchar(200) NOT NULL,
-  `question` text NOT NULL,
-  `opt_A` varchar(50) NOT NULL,
-  `opt_B` varchar(50) NOT NULL,
-  `opt_C` varchar(50) NOT NULL,
-  `opt_D` varchar(50) NOT NULL,
-  `opt_E` varchar(50) NOT NULL,
-  `status` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `tblscreening`
---
-
-INSERT INTO `tblscreening` (`id`, `q_title`, `question`, `opt_A`, `opt_B`, `opt_C`, `opt_D`, `opt_E`, `status`) VALUES
-(6, 'Programing', 'Which of the following languages is more suited to a structured program?', 'PL/1', 'FORTRAN', 'BASIC', 'PASCAL', 'None of the above.', 'Active'),
-(7, 'Computer System', 'The brain of any computer system is?', 'ALU', 'Memory', 'CPU', 'Control unit', 'None of the above', 'Active'),
-(8, 'Computer System', 'A computer assisted method for the recording and analyzing of existing or hypothetical systems is?', 'Data transmission', 'Data flow', 'Data capture', 'Data processing', 'None of the above', 'Active'),
-(9, 'Computer Generation', 'What difference does the 5th generation computer have from other generation computers?', 'Technological advancement', 'Scientific code', 'Object Oriented Programming', 'All of the above', 'None of the above', 'Active'),
-(10, 'Programing Language', 'Which of the following computer language is used for artificial intelligence?', 'FORTRAN', 'PROLOG', 'C', 'COBOL', 'None of the above', 'Active'),
-(11, 'Programing', 'A technique used by codes to convert an analog signal into a digital bit stream is known as', 'Pulse code modulation', 'Pulse stretcher', 'Query processing', 'Queue management', 'None of the above', 'Active'),
-(12, 'Computer System', 'An optical input device that interprets pencil marks on paper media is?', 'O.M.R', 'Punch card reader', 'Optical scanners', 'Magnetic tape', 'None of the above', 'Active'),
-(13, 'Programing', 'Most important advantage of an IC is its?', 'Easy replacement in case of Circuit failure', 'Extremely high reliability', 'Reduced cost', 'Low power consumption', 'None of the above', 'Active'),
-(14, 'Programing', 'Data division is the third division of a _____ program.', 'COBOL', 'BASIC', 'PASCAL', 'FORTH', 'None of the above', 'Active'),
-(15, 'Programing Language', 'Which language was devised by Dr. Seymour Aubrey Papert?', 'APL', 'COBOL', 'LOGO', 'FORTRAN', 'None of the above', 'Active'),
-(16, 'Computer System', 'As compared to diskettes, the hard disks are?', 'More expensive', 'More portable', 'Less rigid', 'Slowly accessed', 'None of the above', 'Active'),
-(17, 'Computer System', 'What is the name given to the molecular-scale computer?', 'Femtocomputer', 'Nanocomputer', 'Supercomputer', 'Microcomputer', 'None of the above', 'Active'),
-(18, 'Computer System', 'Who is considered the FATHER of the minicomputer and one of the founder fathers of the modern computer industry world-wide?', 'George Tate', 'Kenneth H. Olsen', 'Seymour Cray', 'Basic Pascal', 'None of the above', 'Active'),
-(19, 'Computer System', 'The first microprocessors produced by Intel Corpn. and Texas Instruments were used primarily to control small', 'Microwave ovens', 'Washing machines', 'Calculators', 'Personal computers', 'Robotics', 'Active'),
-(20, 'Computer System', 'Which printer uses a combination of laser-beam & electro photographic techniques.', 'Laser printers', 'Dot-Matrix', 'Line printer', 'Daisy wheel', 'None of the above', 'Active'),
-(21, 'Computer System', 'The access method used for cassette tape is?', 'Direct', 'Random', 'Sequential', 'All of the above', 'None of the above', 'Active'),
-(22, 'Data Struture', 'The arranging of data in a logical sequence is called:?', 'Sorting', 'Classifying', 'Reproducing', 'Summarizing', 'None of the above', 'Active'),
-(23, 'Programing Language', 'Who is the creator of the PASCAL language?', 'Niklaus Wirth', 'Dijkstra', 'Donald Knuth', 'Basic Pascal', 'None of the above', 'Active'),
-(24, 'Computer System', 'When was punched-card equipment used for the first time to process the British census?', '1910', '1907', '1911', '1914', 'None of the above', 'Active'),
-(25, 'Computer System', 'A hashing scheme is used with?', 'Sequential file organization', 'Direct file organization', 'Indexed sequential file organization', 'Partitioned file organization', 'None of the above', 'Active'),
-(26, 'Computer History', 'What was the total number of UNIVAC-I sold eventually and by which company?', '30, British Tabulating Machine Co. (BTM)', '40, International Business Machines (IBM)', '48, Remington Rand', '40, International Computer Ltd. (ICL)', 'None of the above', 'Active'),
-(27, 'Computer Software', 'A file containing relatively permanent data is?', 'Random file', 'Transaction file', 'Master file', 'Sequential file', 'None of the above', 'Active'),
-(28, 'Computer Networking', 'Communication that involves computers, establishing a link through the telephone system is called?', 'Teleprocessing', 'Microprocessing', 'Telecommunications', 'All of the above', 'None of the above', 'Active'),
-(29, 'Computer Hardware', 'Dot-matrix is a type of?', 'Tape', 'Printer', 'Disk', 'Bus', 'None of the above', 'Active'),
-(30, 'Computer Hardware', 'Which kind of devices allows the user to add components and capabilities to a computer system?', 'System boards', 'Storage devices', 'Input devices', 'Output devices', 'Expansion slots', 'Active'),
-(31, 'Digital Design', 'When an input electrical signal A=10100 is applied to a NOT gate, its output signal is?', '01011', '10001', '10101', '00101', 'None of the above', 'Active'),
-(32, 'Computer History', 'The first practical commercial typewriter was invented in 1867 in the United States by', 'Christopher Latham Sholes', 'Carlos Glidden', 'Samuel Soule', 'All of the above', 'None of the above', 'Active'),
-(33, 'Computer System', 'What is meant by quad-density (QD) diskette?', 'It is double-sided disk', 'It is double density disk', 'It has double the number of tracks per inch', 'All of the above', 'None of the above', 'Active'),
-(34, 'Computer System', 'Large computer system typically uses:?', 'Line printers', 'Ink-jet printers', 'Dot-matrix printers', 'Daisy wheel printers', 'None of the above', 'Active'),
-(35, 'Computer Generation', 'First generation computers are characterised by?', 'Vaccum tubes and magnetic drum', 'Minicomputers', 'Magnetic tape and transistors', 'All of the above', 'None of the above', 'Active'),
-(36, 'Computer Generation', 'A typical modern computer uses?', 'LSI chips', 'Vacuum tubes', 'Valves', 'All of the above', 'None of the above', 'Active'),
-(37, 'Computer Generation', 'ENIAC (Electronic Numerical Integrator and Calculator) had huge advantage over Mark I because it used electronic valves in place of the electromagnetic switches. In the beginning, ENIAC was used for calculating the path of artillery shells. For which other was weapon design was it utilized?', 'Hydrogen bomb', 'Atom bomb', 'Missile', 'Fighter aircraft', 'None of the above', 'Active'),
-(38, 'Computer History', 'Who was the father of Punched Card Processing?', 'J Presper Eckert', 'Charles Babbage', 'Dr. Herman Hollerith', 'Blaise Pascal', 'None of the above', 'Active'),
-(39, 'Computer History', 'When did Hewlett-Packard Inc. Introduce its first HP-110 laptop computer?', '1984', '1986', '1990', '1995', 'None of the above', 'Active'),
-(40, 'Programing Language', 'The computer program language which is widely used in computer science and engineering and also in business is?', 'COBOL', 'FORTRAN', 'PASCAL', 'LISP', 'None of the above', 'Active'),
-(41, 'Computer System', 'Which of the following bus types are used by the Apple Macintosh computer?', 'ISA', 'NuBus', 'EISA', 'MCA', 'PCI Bus', 'Active'),
-(42, 'Data Struture', 'When the time to establish link is large and the size of data is small, the preferred mode of data transfer is?', 'Circuit switching', 'Packet switching', 'Time division multiplexing', 'All of the above', 'None of the above', 'Active'),
-(43, 'Computer Programing', 'Group of instructions that directs a computer is called?', 'Storage', 'Memory', 'Logic', 'Program', 'None of the above', 'Active'),
-(44, 'Computer System', 'A computer-controlled device for training exercises that duplicates the work environment is a:?', 'Simulator', 'Duplicator', 'Trainer', 'COM device', 'None of the above', 'Active'),
-(45, 'Computer System', 'Which of the following is not an output device of a computer?', 'Printer', 'keyboard', 'VDU', 'CRT screen', 'All of the above', 'Active'),
-(46, 'System Design', 'In negative logic, the logic state 1 corresponds to?', 'Negative voltage', 'Zero voltage', 'More negative voltage', 'Lower voltage level', 'None of the above', 'Active'),
-(47, 'Computer System', 'Which of the following is a part of the Central Processing Unit?', 'Printer', 'Keyboard', 'Mouse', 'Arithmetic Logic Unit', 'None of the above', 'Active'),
-(48, 'Computer System', 'The least expensive OCR units can read?', 'Hand printed numbers', 'Machine printed numbers', 'Marks', 'Handwriting', 'None of the above', 'Active'),
-(49, 'Computer System', 'The input unit of a computer?', 'Feeds data to the CPU or memory', 'Retrieves data from CPU', 'Directs all other units', 'All of the above', 'None of the above', 'Active'),
-(50, 'Computer Organisation', 'File specification books are created primarily for the use of?', 'Systems analysts', 'Programmers', 'Operators', 'Managers', 'None of the above', 'Active'),
-(51, 'Computer Oparation', 'Which of the following is usually a special one-time operation that must be completed over a limited time period?', 'Batch', 'Patch', 'Project', 'Word', 'None of the above', 'Active'),
-(52, 'Computer Architecture', 'A device or system not directly connected to the CPU is?', 'On-line', 'Keyboard', 'Memory', 'Off-line', 'None of the above', 'Active'),
-(53, 'Computer System', 'The microprocessor of a computer cannot operate on any information if that information is not in its.?', 'Secondary storage', 'Main storage', 'ALU', 'Logic unit', 'None of the above', 'Active'),
-(54, 'Compiler Construction', 'A device which converts human readable data into machine language is?', 'Card reader', 'Card punch', 'Punched paper tape', 'Character reader', 'None of the above', 'Active'),
-(55, 'Digital Design', 'What digits are representative of all binary numbers?', '0', '1', 'Both (a) and (b)', '3', 'None of the above', 'Active');
+INSERT INTO `tblnotification` (`ID`, `USERID`, `TYPE`, `TYPEID`, `STATUS`, `DATETIME`, `NOTE`) VALUES
+(1, 4004, 'Message', 1, 'Unread', '2025-12-04 01:59:13', 'New message from Dominic Carl (message id: 1)'),
+(2, 4004, 'Message', 2, 'Unread', '2025-12-04 02:00:01', 'New message from Dominic Carl (message id: 2)');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblscreening_answer`
+-- Table structure for table `tblpasswordreset`
 --
 
-CREATE TABLE `tblscreening_answer` (
-  `id` int(11) NOT NULL,
-  `question_id` int(11) NOT NULL,
-  `ideal_ans_opt` varchar(11) NOT NULL,
-  `ideal_ans` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `tblscreening_answer`
---
-
-INSERT INTO `tblscreening_answer` (`id`, `question_id`, `ideal_ans_opt`, `ideal_ans`) VALUES
-(1, 6, 'D', 'PASCAL'),
-(2, 7, 'C', 'CPU'),
-(3, 8, 'B', 'Data flow'),
-(4, 9, 'A', 'Technological advancement'),
-(5, 10, 'C', 'C'),
-(6, 11, 'A', 'Pulse code modulation'),
-(7, 12, 'A', 'O.M.R'),
-(8, 13, 'B', 'Extremely high reliability'),
-(9, 14, 'A', 'COBOL'),
-(10, 15, 'C', 'LOGO'),
-(11, 16, 'A', 'More expensive'),
-(12, 17, 'B', 'Nanocomputer'),
-(13, 18, 'B', 'Kenneth H. Olsen'),
-(14, 19, 'C', 'Calculators'),
-(15, 20, 'A', 'Laser printers'),
-(16, 21, 'C', 'Sequential'),
-(17, 22, 'A', 'Sorting'),
-(18, 23, 'A', 'Niklaus Wirth'),
-(19, 24, 'C', '1911'),
-(20, 25, 'B', 'Direct file organization'),
-(21, 26, 'C', '48, Remington Rand'),
-(22, 27, 'C', 'Master file'),
-(23, 28, 'C', 'Telecommunications'),
-(24, 29, 'B', 'Printer'),
-(25, 30, 'E', 'Expansion slots'),
-(26, 31, 'A', '01011'),
-(27, 32, 'D', 'All of the above'),
-(28, 33, 'D', 'All of the above'),
-(29, 34, 'A', 'Line printers'),
-(30, 35, 'A', 'Vaccum tubes and magnetic drum'),
-(31, 36, 'A', 'LSI chips'),
-(32, 37, 'A', 'Hydrogen bomb'),
-(33, 38, 'C', 'Dr. Herman Hollerith'),
-(34, 39, 'A', '1984'),
-(35, 40, 'C', 'PASCAL'),
-(36, 41, 'B', 'NuBus'),
-(37, 42, 'B', 'Packet switching'),
-(38, 43, 'D', 'Program'),
-(39, 44, 'A', 'Simulator'),
-(40, 45, 'B', 'keyboard'),
-(41, 46, 'D', 'Lower voltage level'),
-(42, 47, 'D', 'Arithmetic Logic Unit'),
-(43, 48, 'C', 'Marks'),
-(44, 49, 'A', 'Feeds data to the CPU or memory'),
-(45, 50, 'B', 'Programmers'),
-(46, 51, 'C', 'Project'),
-(47, 52, 'D', 'Off-line'),
-(48, 53, 'B', 'Main storage'),
-(49, 54, 'D', 'Character reader'),
-(50, 55, 'C', 'Both (a) and (b)');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tblscreening_qa`
---
-
-CREATE TABLE `tblscreening_qa` (
+CREATE TABLE `tblpasswordreset` (
   `ID` int(11) NOT NULL,
-  `JOBAPPLICATION_ID` int(11) NOT NULL,
-  `APPLICANTID` int(11) NOT NULL,
-  `JOBID` int(11) NOT NULL,
-  `QUESTION_ID` int(11) NOT NULL,
-  `APPLICANT_ANSWER` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+  `USERID` int(11) NOT NULL,
+  `EMAIL` varchar(255) NOT NULL,
+  `TOKEN` varchar(255) NOT NULL,
+  `EXPIRY` datetime NOT NULL,
+  `CREATED_AT` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tblscreening_qa`
+-- Dumping data for table `tblpasswordreset`
 --
 
-INSERT INTO `tblscreening_qa` (`ID`, `JOBAPPLICATION_ID`, `APPLICANTID`, `JOBID`, `QUESTION_ID`, `APPLICANT_ANSWER`) VALUES
-(1, 15, 2745, 4, 21, 'C'),
-(2, 15, 2745, 4, 17, 'C'),
-(3, 15, 2745, 4, 45, 'B'),
-(4, 15, 2745, 4, 9, 'A'),
-(5, 15, 2745, 4, 31, 'A'),
-(6, 15, 2745, 4, 32, 'A'),
-(7, 15, 2745, 4, 30, 'E'),
-(8, 15, 2745, 4, 13, 'B'),
-(9, 15, 2745, 4, 35, 'A'),
-(10, 15, 2745, 4, 14, 'D'),
-(11, 16, 2745, 3, 38, 'B'),
-(12, 16, 2745, 3, 15, 'C'),
-(13, 16, 2745, 3, 26, 'C'),
-(14, 16, 2745, 3, 19, 'E'),
-(15, 16, 2745, 3, 40, 'C'),
-(16, 16, 2745, 3, 9, 'B'),
-(17, 16, 2745, 3, 41, 'C'),
-(18, 16, 2745, 3, 21, 'B'),
-(19, 16, 2745, 3, 24, 'A'),
-(20, 16, 2745, 3, 29, 'D'),
-(21, 17, 321, 6, 21, 'C'),
-(22, 17, 321, 6, 29, 'B'),
-(23, 17, 321, 6, 38, 'E'),
-(24, 17, 321, 6, 22, 'C'),
-(25, 17, 321, 6, 36, 'D'),
-(26, 17, 321, 6, 45, 'D'),
-(27, 17, 321, 6, 52, 'D'),
-(28, 17, 321, 6, 33, 'C'),
-(29, 17, 321, 6, 11, 'C'),
-(30, 17, 321, 6, 30, 'C');
+INSERT INTO `tblpasswordreset` (`ID`, `USERID`, `EMAIL`, `TOKEN`, `EXPIRY`, `CREATED_AT`) VALUES
+(1, 321, 'emehchiemerie9@gmail.com', 'f661511c79843fe7cae0e94681b6c636671282c382dae5f652714cee9bacdf2d', '2025-12-01 08:23:13', '2025-12-01 05:38:50');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tblscreening_score`
+-- Table structure for table `tblscreeninganswers`
 --
 
-CREATE TABLE `tblscreening_score` (
-  `id` int(11) NOT NULL,
-  `jobapp_id` int(11) NOT NULL,
-  `score` varchar(10) NOT NULL,
-  `total_ques` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+CREATE TABLE `tblscreeninganswers` (
+  `ANSWERID` int(11) NOT NULL,
+  `APPLICATIONID` int(11) NOT NULL,
+  `QUESTIONID` int(11) NOT NULL,
+  `USERID` int(11) NOT NULL,
+  `JOBID` int(11) NOT NULL,
+  `ANSWER` text NOT NULL,
+  `SCORE` int(11) DEFAULT 0,
+  `ANSWEREDAT` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `tblscreening_score`
+-- Dumping data for table `tblscreeninganswers`
 --
 
-INSERT INTO `tblscreening_score` (`id`, `jobapp_id`, `score`, `total_ques`) VALUES
-(1, 15, '7', '10'),
-(2, 16, '3', '10'),
-(3, 17, '3', '10');
+INSERT INTO `tblscreeninganswers` (`ANSWERID`, `APPLICATIONID`, `QUESTIONID`, `USERID`, `JOBID`, `ANSWER`, `SCORE`, `ANSWEREDAT`) VALUES
+(401, 301, 201, 5001, 201, 'Yes', 10, '2025-02-16 10:00:00'),
+(402, 301, 202, 5001, 201, 'Yes', 10, '2025-02-16 10:00:00'),
+(403, 303, 206, 5002, 204, 'Yes', 10, '2025-02-17 09:30:00'),
+(404, 303, 207, 5002, 204, 'Tableau', 5, '2025-02-17 09:30:00'),
+(405, 304, 220, 5002, 215, 'Yes', 10, '2025-02-17 10:00:00'),
+(406, 305, 211, 5003, 207, '1-2 years', 5, '2025-02-18 14:30:00'),
+(407, 305, 212, 5003, 207, 'Yes', 10, '2025-02-18 14:30:00'),
+(408, 307, 214, 5004, 209, 'Yes', 10, '2025-02-19 11:00:00'),
+(409, 307, 215, 5004, 209, 'Yes', 10, '2025-02-19 11:00:00'),
+(410, 309, 210, 5005, 206, 'No', 0, '2025-02-20 10:00:00'),
+(411, 310, 208, 5006, 205, 'Yes', 15, '2025-02-21 13:00:00'),
+(412, 310, 209, 5006, 205, 'Yes', 10, '2025-02-21 13:00:00'),
+(413, 311, 211, 5007, 207, '1-2 years', 5, '2025-02-22 09:00:00'),
+(414, 311, 212, 5007, 207, 'Yes', 10, '2025-02-22 09:00:00'),
+(415, 313, 217, 5008, 213, 'Yes', 10, '2025-02-23 10:30:00'),
+(416, 314, 211, 5009, 207, '0-1 years', 5, '2025-02-24 14:00:00'),
+(417, 314, 212, 5009, 207, 'Yes', 10, '2025-02-24 14:00:00'),
+(418, 316, 216, 5001, 211, 'No', 0, '2025-02-26 10:00:00'),
+(419, 317, 204, 5002, 203, 'No', 0, '2025-02-27 09:00:00'),
+(420, 317, 205, 5002, 203, 'Bachelor Degree', 0, '2025-02-27 09:00:00'),
+(421, 318, 210, 5003, 206, 'No', 0, '2025-02-28 13:30:00'),
+(422, 319, 216, 5004, 211, 'No', 0, '2025-03-01 10:00:00'),
+(423, 320, 206, 5005, 204, 'Yes', 10, '2025-03-02 11:30:00'),
+(424, 320, 207, 5005, 204, 'Power BI', 5, '2025-03-02 11:30:00'),
+(425, 324, 210, 5009, 206, 'No', 0, '2025-03-06 09:30:00'),
+(426, 325, 206, 5010, 204, 'Yes', 10, '2025-03-07 11:00:00'),
+(427, 325, 207, 5010, 204, 'Power BI', 5, '2025-03-07 11:00:00'),
+(428, 326, 208, 5001, 205, 'Yes', 15, '2025-03-08 10:00:00'),
+(429, 326, 209, 5001, 205, 'Yes', 10, '2025-03-08 10:00:00'),
+(430, 329, 220, 5005, 215, 'Yes', 10, '2025-03-11 13:00:00'),
+(431, 331, 218, 321, 214, 'Yes', 20, '2025-12-04 05:19:07'),
+(432, 331, 219, 321, 214, '1-2 years', 0, '2025-12-04 05:19:07'),
+(433, 332, 218, 321, 214, 'Yes', 20, '2025-12-04 05:27:30'),
+(434, 332, 219, 321, 214, '3-4 years', 0, '2025-12-04 05:27:30');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblscreeningquestions`
+--
+
+CREATE TABLE `tblscreeningquestions` (
+  `QUESTIONID` int(11) NOT NULL,
+  `JOBID` int(11) NOT NULL,
+  `QUESTION` text NOT NULL,
+  `QUESTIONTYPE` enum('yes_no','multiple_choice','text','number','date') DEFAULT 'text',
+  `OPTIONS` text DEFAULT NULL,
+  `ISREQUIRED` tinyint(1) DEFAULT 1,
+  `CORRECTANSWER` varchar(255) DEFAULT NULL,
+  `POINTS` int(11) DEFAULT 0,
+  `CREATEDAT` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tblscreeningquestions`
+--
+
+INSERT INTO `tblscreeningquestions` (`QUESTIONID`, `JOBID`, `QUESTION`, `QUESTIONTYPE`, `OPTIONS`, `ISREQUIRED`, `CORRECTANSWER`, `POINTS`, `CREATEDAT`) VALUES
+(201, 201, 'Do you have at least 3 years of experience with React?', 'yes_no', '[\"Yes\",\"No\"]', 1, 'Yes', 10, '2025-02-01 09:00:00'),
+(202, 201, 'Are you proficient in Node.js and Express?', 'yes_no', '[\"Yes\",\"No\"]', 1, 'Yes', 10, '2025-02-01 09:00:00'),
+(203, 202, 'What is your preferred backend framework?', 'multiple_choice', '[\"Express.js\",\"Django\",\"Spring Boot\",\"Laravel\"]', 1, 'Express.js', 5, '2025-02-03 10:30:00'),
+(204, 203, 'Do you have experience with TensorFlow or PyTorch?', 'yes_no', '[\"Yes\",\"No\"]', 1, 'Yes', 15, '2025-02-02 11:00:00'),
+(205, 203, 'What is your highest level of education?', 'multiple_choice', '[\"Bachelor Degree\",\"Master Degree\",\"PhD\"]', 1, 'Master Degree', 10, '2025-02-02 11:00:00'),
+(206, 204, 'Are you proficient in SQL?', 'yes_no', '[\"Yes\",\"No\"]', 1, 'Yes', 10, '2025-02-04 14:00:00'),
+(207, 204, 'Which data visualization tool do you prefer?', 'multiple_choice', '[\"Tableau\",\"Power BI\",\"Looker\",\"QlikView\"]', 1, '', 5, '2025-02-04 14:00:00'),
+(208, 205, 'Do you have AWS certification?', 'yes_no', '[\"Yes\",\"No\"]', 1, 'Yes', 15, '2025-02-05 09:30:00'),
+(209, 205, 'Are you experienced with Kubernetes?', 'yes_no', '[\"Yes\",\"No\"]', 1, 'Yes', 10, '2025-02-05 09:30:00'),
+(210, 206, 'Do you have a CFA certification?', 'yes_no', '[\"Yes\",\"No\"]', 0, '', 5, '2025-02-06 10:00:00'),
+(211, 207, 'How many years of digital marketing experience do you have?', 'multiple_choice', '[\"0-1 years\",\"1-2 years\",\"2-3 years\",\"3+ years\"]', 1, '', 5, '2025-02-07 11:30:00'),
+(212, 207, 'Are you experienced with Google Analytics?', 'yes_no', '[\"Yes\",\"No\"]', 1, 'Yes', 10, '2025-02-07 11:30:00'),
+(213, 208, 'Do you have experience managing a content team?', 'yes_no', '[\"Yes\",\"No\"]', 1, 'Yes', 15, '2025-02-08 13:00:00'),
+(214, 209, 'Are you proficient in Figma?', 'yes_no', '[\"Yes\",\"No\"]', 1, 'Yes', 10, '2025-02-09 10:00:00'),
+(215, 209, 'Do you have a design portfolio you can share?', 'yes_no', '[\"Yes\",\"No\"]', 1, 'Yes', 10, '2025-02-09 10:00:00'),
+(216, 211, 'Do you have experience with healthcare software?', 'yes_no', '[\"Yes\",\"No\"]', 0, '', 5, '2025-02-11 09:00:00'),
+(217, 213, 'Are you familiar with solar energy systems?', 'yes_no', '[\"Yes\",\"No\"]', 1, '', 10, '2025-02-13 10:30:00'),
+(218, 214, 'Do you hold AWS Solutions Architect certification?', 'yes_no', '[\"Yes\",\"No\"]', 1, 'Yes', 20, '2025-02-14 15:00:00'),
+(219, 214, 'How many years of cloud architecture experience do you have?', 'multiple_choice', '[\"1-2 years\",\"3-4 years\",\"5-7 years\",\"8+ years\"]', 1, '5-7 years', 10, '2025-02-14 15:00:00'),
+(220, 215, 'Are you proficient in Python for data analysis?', 'yes_no', '[\"Yes\",\"No\"]', 1, 'Yes', 10, '2025-02-15 13:30:00');
 
 -- --------------------------------------------------------
 
@@ -634,24 +625,214 @@ INSERT INTO `tblscreening_score` (`id`, `jobapp_id`, `score`, `total_ques`) VALU
 
 CREATE TABLE `tblusers` (
   `USERID` int(30) NOT NULL,
-  `IDN` varchar(30) NOT NULL,
   `FNAME` varchar(40) NOT NULL,
   `ONAME` varchar(200) NOT NULL,
   `EMAIL` varchar(50) NOT NULL,
+  `PHONE` text DEFAULT NULL,
   `USERNAME` varchar(90) NOT NULL,
   `PASS` varchar(90) NOT NULL,
-  `ROLE` varchar(30) NOT NULL
+  `ROLE` varchar(30) NOT NULL,
+  `USERSTATUS` varchar(20) DEFAULT NULL,
+  `DATEUPDATED` datetime DEFAULT NULL,
+  `DATECREATED` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblusers`
 --
 
-INSERT INTO `tblusers` (`USERID`, `IDN`, `FNAME`, `ONAME`, `EMAIL`, `USERNAME`, `PASS`, `ROLE`) VALUES
-(228, '', 'Admin', 'Manager', 'admin@gmail.com', 'admin', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Administrator'),
-(321, '', 'Dom', 'Carl', 'emehchiemerie9@gmail.com', 'emeldo', '$2y$10$6u.ZUBDOBuQZ4K2GzFjD3.Z8e.StDKKCpeuoodzOFeyXX74A.NJ92', 'Applicant'),
-(2749, '11', 'James', 'Cletus', 'emelcarl2023@gmail.com', 'emelcarl2023', '$2y$10$4r2eYwzVBwTSnGM4B8MJ5u/.Wrjxqk2oYpCn30cmWIMM/r5cRpUnC', 'Applicant'),
-(2757, '16', 'demo', 'testing', 'demo@gmail.com', 'demo', '$2y$10$QFbUsQ//d3vKO2SFFR3LGeUAmj99MAYS6x2w73NeUDPL3ISMN.Gg6', 'Applicant');
+INSERT INTO `tblusers` (`USERID`, `FNAME`, `ONAME`, `EMAIL`, `PHONE`, `USERNAME`, `PASS`, `ROLE`, `USERSTATUS`, `DATEUPDATED`, `DATECREATED`) VALUES
+(228, 'Admin', 'Manager', 'admin@gmail.com', '0779787777', 'admin', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Admin', 'Active', '2025-11-29 18:18:15', NULL),
+(321, 'Dominic', 'Carl', 'emehchiemerie9@gmail.com', '', 'emeldo', '$2y$10$6u.ZUBDOBuQZ4K2GzFjD3.Z8e.StDKKCpeuoodzOFeyXX74A.NJ92', 'Applicant', 'Active', '2025-11-17 01:02:57', NULL),
+(2749, 'James', 'Cletus', 'emelcarl2023@gmail.com', '', 'emelcarl2023', '$2y$10$4r2eYwzVBwTSnGM4B8MJ5u/.Wrjxqk2oYpCn30cmWIMM/r5cRpUnC', 'Employer', 'Active', NULL, NULL),
+(4001, 'Sarah', 'Mitchell', 'sarah.mitchell@techcorp.ca', '7095551001', 'smitchell', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Active', NULL, '2025-01-15 10:00:00'),
+(4002, 'James', 'Patterson', 'james.p@innovatesoft.ca', '7095551002', 'jpatterson', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Active', NULL, '2025-01-18 11:30:00'),
+(4003, 'Emily', 'Rodriguez', 'emily.r@datadynamics.ca', '7095551003', 'erodriguez', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Active', NULL, '2025-01-20 14:15:00'),
+(4004, 'Michael', 'Chen', 'michael.chen@cloudnine.ca', '7095551004', 'mchen', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Active', NULL, '2025-01-22 09:45:00'),
+(4005, 'Lisa', 'Thompson', 'lisa.t@financepro.ca', '7095551005', 'lthompson', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Active', NULL, '2025-01-25 16:20:00'),
+(4006, 'David', 'Wilson', 'david.w@marketmaster.ca', '7095551006', 'dwilson', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Active', NULL, '2025-01-28 10:30:00'),
+(4007, 'Rachel', 'Lee', 'rachel.lee@designhub.ca', '7095551007', 'rlee', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Active', NULL, '2025-02-01 13:00:00'),
+(4008, 'Thomas', 'Brown', 'thomas.b@healthtech.ca', '7095551008', 'tbrown', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Active', NULL, '2025-02-03 15:45:00'),
+(4009, 'Jennifer', 'Davis', 'jennifer.d@edulearn.ca', '7095551009', 'jdavis', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Pending', NULL, '2025-02-05 11:20:00'),
+(4010, 'Robert', 'Garcia', 'robert.g@greenenergy.ca', '7095551010', 'rgarcia', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Active', NULL, '2025-02-08 09:00:00'),
+(5001, 'Emma', 'Johnson', 'emma.johnson@email.com', '7095552001', 'ejohnson', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Applicant', 'Active', NULL, '2025-01-10 08:00:00'),
+(5002, 'Noah', 'Williams', 'noah.williams@email.com', '7095552002', 'nwilliams', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Applicant', 'Active', NULL, '2025-01-12 09:30:00'),
+(5003, 'Olivia', 'Martinez', 'olivia.martinez@email.com', '7095552003', 'omartinez', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Applicant', 'Active', NULL, '2025-01-14 10:15:00'),
+(5004, 'Liam', 'Anderson', 'liam.anderson@email.com', '7095552004', 'landerson', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Applicant', 'Active', NULL, '2025-01-16 11:45:00'),
+(5005, 'Ava', 'Taylor', 'ava.taylor@email.com', '7095552005', 'ataylor', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Applicant', 'Active', NULL, '2025-01-18 14:20:00'),
+(5006, 'Ethan', 'Thomas', 'ethan.thomas@email.com', '7095552006', 'ethomas', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Applicant', 'Active', NULL, '2025-01-20 16:00:00'),
+(5007, 'Sophia', 'Jackson', 'sophia.jackson@email.com', '7095552007', 'sjackson', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Applicant', 'Active', NULL, '2025-01-22 12:30:00'),
+(5008, 'Mason', 'White', 'mason.white@email.com', '7095552008', 'mwhite', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Applicant', 'Active', NULL, '2025-01-24 15:45:00'),
+(5009, 'Isabella', 'Harris', 'isabella.harris@email.com', '7095552009', 'iharris', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Applicant', 'Active', NULL, '2025-01-26 13:00:00'),
+(5010, 'Lucas', 'Martin', 'lucas.martin@email.com', '7095552010', 'lmartin', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Applicant', 'Active', NULL, '2025-01-28 10:30:00'),
+(5011, 'Joshua', 'Oseimobor', 'joshuaoseimobor@gmail.com', NULL, 'joseimobor24', '$2y$10$f5XHuzuMPim8oQEOITtbKe8jFgNN9LRsjtHZ0QlInGwTd2uLjjO42', 'Applicant', 'Active', NULL, '2025-12-02 18:24:27'),
+(5012, 'Joshua', 'Oseimobor', 'joshuasemo.abu@gmail.com', NULL, 'joseimobor247', '$2y$10$v6WIRpWESqSif0XwsXNueuHxN6pfMzri/8uO2OvP0iYO2rIRxygfW', 'Employer', 'Active', NULL, '2025-12-02 18:33:29'),
+(5013, 'Akefar', 'Islam', 'akefari@mun.ca', NULL, 'Akefar', '$2y$10$cvU5ZMAE9E6nHRO2UuifzeopxeXQfqGKztV8uvTauNb94AowzDtG.', 'Applicant', 'Active', NULL, '2025-12-02 19:33:38'),
+(5014, 'DimEmployer', 'Checking', 'dim@gmail.com', NULL, 'dim', '$2y$10$5k4MlKujKC0aMZAlXePD1Ov8Scs2JESZkvnPjMXq.Fdv81aWdfIKS', 'Employer', 'Active', NULL, '2025-12-04 02:22:21');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_activity_log`
+--
+
+CREATE TABLE `tbl_activity_log` (
+  `ACTIVITY_ID` int(11) NOT NULL,
+  `USERID` int(11) NOT NULL,
+  `ACTION` varchar(100) NOT NULL,
+  `DESCRIPTION` text DEFAULT NULL,
+  `IP_ADDRESS` varchar(45) DEFAULT NULL,
+  `USER_AGENT` text DEFAULT NULL,
+  `CREATED_AT` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `tbl_activity_log`
+--
+
+INSERT INTO `tbl_activity_log` (`ACTIVITY_ID`, `USERID`, `ACTION`, `DESCRIPTION`, `IP_ADDRESS`, `USER_AGENT`, `CREATED_AT`) VALUES
+(4, 228, 'SETTINGS_UPDATED', 'Admin updated email configuration', '2605:b100:b14:a8cf:c460:60b3:9f03:d0c2', NULL, '2025-12-02 17:28:05'),
+(5, 228, 'SETTINGS_UPDATED', 'Admin updated system configuration', '2605:b100:b14:a8cf:c460:60b3:9f03:d0c2', NULL, '2025-12-02 17:28:26'),
+(6, 228, 'LOGOUT', 'User logged out', '2605:b100:b14:a8cf:c460:60b3:9f03:d0c2', NULL, '2025-12-02 17:29:15'),
+(7, 228, 'LOGOUT', 'User logged out', '2605:b100:b14:a8cf:ad97:2bb2:7f8d:e66d', NULL, '2025-12-02 17:54:05'),
+(8, 5011, 'LOGOUT', 'User logged out', '209.205.254.14', NULL, '2025-12-02 18:31:09'),
+(9, 5011, 'LOGOUT', 'User logged out', '209.205.254.14', NULL, '2025-12-02 18:31:16'),
+(10, 5012, 'LOGOUT', 'User logged out', '209.205.254.14', NULL, '2025-12-02 18:41:11'),
+(11, 228, 'JOB_APPROVED', 'Admin approved a pending job posting', '209.205.254.14', NULL, '2025-12-02 18:45:06'),
+(12, 321, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 04:55:34'),
+(13, 321, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 04:56:33'),
+(14, 321, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 04:57:37'),
+(15, 321, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 05:41:48'),
+(16, 321, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 05:44:30'),
+(17, 2749, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 05:51:17'),
+(18, 5014, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 07:45:10'),
+(19, 228, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 07:57:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_email_templates`
+--
+
+CREATE TABLE `tbl_email_templates` (
+  `id` int(11) NOT NULL,
+  `template_key` varchar(100) NOT NULL,
+  `template_name` varchar(255) NOT NULL,
+  `subject` varchar(255) NOT NULL,
+  `body` text NOT NULL,
+  `variables` text DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_email_templates`
+--
+
+INSERT INTO `tbl_email_templates` (`id`, `template_key`, `template_name`, `subject`, `body`, `variables`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'welcome_email', 'Welcome Email', 'Welcome to MUNext - {{site_name}}', '<h2>Welcome {{user_name}}!</h2><p>Thank you for joining {{site_name}}. We\'re excited to have you on board.</p><p>You can now browse and apply for jobs that match your skills and interests.</p><p>Best regards,<br>The {{site_name}} Team</p>', '{{user_name}}, {{site_name}}, {{user_email}}', 1, '2025-11-23 17:28:05', '2025-11-23 17:28:05'),
+(2, 'job_application_received', 'Job Application Received', 'Application Received - {{job_title}}', '<h2>Application Received</h2><p>Dear {{applicant_name}},</p><p>Thank you for applying to the position of <strong>{{job_title}}</strong> at {{company_name}}.</p><p>Your application has been received and is currently under review. We will contact you if your profile matches our requirements.</p><p>Application ID: {{application_id}}</p><p>Best regards,<br>{{company_name}}</p>', '{{applicant_name}}, {{job_title}}, {{company_name}}, {{application_id}}', 1, '2025-11-23 17:28:05', '2025-11-23 17:28:05'),
+(3, 'application_status_update', 'Application Status Update', 'Application Status Update - {{job_title}}', '<h2>Application Status Update</h2><p>Dear {{applicant_name}},</p><p>Your application for <strong>{{job_title}}</strong> at {{company_name}} has been updated.</p><p><strong>New Status:</strong> {{application_status}}</p><p>Application ID: {{application_id}}</p><p>Best regards,<br>{{company_name}}</p>', '{{applicant_name}}, {{job_title}}, {{company_name}}, {{application_status}}, {{application_id}}', 1, '2025-11-23 17:28:05', '2025-11-29 17:00:09'),
+(4, 'new_application_alert', 'New Application Alert (Employer)', 'New Application - {{job_title}}', '<h2>New Application Received</h2><p>Dear {{company_name}},</p><p>A new application has been submitted for your job posting: <strong>{{job_title}}</strong></p><p><strong>Applicant:</strong> {{applicant_name}}<br><strong>Email:</strong> {{applicant_email}}<br><strong>Applied On:</strong> {{application_date}}</p><p>Login to your dashboard to review the application.</p><p>Best regards,<br>{{site_name}}</p>', '{{company_name}}, {{job_title}}, {{applicant_name}}, {{applicant_email}}, {{application_date}}, {{site_name}}', 1, '2025-11-23 17:28:05', '2025-11-23 17:28:05'),
+(5, 'job_approved', 'Job Posting Approved', 'Your Job Posting Has Been Approved', '<h2>Job Posting Approved</h2><p>Dear {{company_name}},</p><p>Great news! Your job posting for <strong>{{job_title}}</strong> has been approved and is now live on our platform.</p><p>You can view your posting and manage applications from your dashboard.</p><p>Best regards,<br>{{site_name}}</p>', '{{company_name}}, {{job_title}}, {{site_name}}', 1, '2025-11-23 17:28:05', '2025-11-23 17:28:05'),
+(6, 'company_approved', 'Company Registration Approved', 'Welcome to {{site_name}} - Company Approved', '<h2>Company Registration Approved</h2><p>Dear {{company_name}},</p><p>Congratulations! Your company registration has been approved.</p><p>You can now login to your dashboard and start posting jobs to find the best candidates.</p><p>Best regards,<br>{{site_name}}</p>', '{{company_name}}, {{site_name}}', 1, '2025-11-23 17:28:05', '2025-11-23 17:28:05'),
+(7, 'password_reset', 'Password Reset Request', 'Password Reset Request - {{site_name}}', '<h2>Password Reset Request</h2><p>Dear {{user_name}},</p><p>We received a request to reset your password for your {{site_name}} account.</p><p>Click the link below to reset your password:<br><a href=\"{{reset_link}}\">{{reset_link}}</a></p><p>This link will expire in 24 hours.</p><p>If you didn\'t request this, please ignore this email.</p><p>Best regards,<br>{{site_name}}</p>', '{{user_name}}, {{site_name}}, {{reset_link}}', 1, '2025-11-23 17:28:05', '2025-11-23 17:28:05');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_login_history`
+--
+
+CREATE TABLE `tbl_login_history` (
+  `LOGIN_ID` int(11) NOT NULL,
+  `USERID` int(11) DEFAULT NULL,
+  `USERNAME` varchar(100) DEFAULT NULL,
+  `EMAIL` varchar(150) DEFAULT NULL,
+  `USERTYPE` enum('Admin','Employer','Applicant') NOT NULL,
+  `LOGIN_TIME` datetime NOT NULL DEFAULT current_timestamp(),
+  `LOGOUT_TIME` datetime DEFAULT NULL,
+  `IP_ADDRESS` varchar(45) DEFAULT NULL,
+  `USER_AGENT` text DEFAULT NULL,
+  `BROWSER` varchar(100) DEFAULT NULL,
+  `DEVICE` varchar(100) DEFAULT NULL,
+  `OPERATING_SYSTEM` varchar(100) DEFAULT NULL,
+  `LOGIN_STATUS` enum('Success','Failed','Blocked') NOT NULL DEFAULT 'Success',
+  `FAILURE_REASON` varchar(255) DEFAULT NULL,
+  `SESSION_ID` varchar(255) DEFAULT NULL,
+  `LOCATION_COUNTRY` varchar(100) DEFAULT NULL,
+  `LOCATION_CITY` varchar(100) DEFAULT NULL,
+  `IS_ACTIVE` tinyint(1) DEFAULT 1,
+  `CREATED_AT` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `tbl_login_history`
+--
+
+INSERT INTO `tbl_login_history` (`LOGIN_ID`, `USERID`, `USERNAME`, `EMAIL`, `USERTYPE`, `LOGIN_TIME`, `LOGOUT_TIME`, `IP_ADDRESS`, `USER_AGENT`, `BROWSER`, `DEVICE`, `OPERATING_SYSTEM`, `LOGIN_STATUS`, `FAILURE_REASON`, `SESSION_ID`, `LOCATION_COUNTRY`, `LOCATION_CITY`, `IS_ACTIVE`, `CREATED_AT`) VALUES
+(1, 228, 'admin', 'admin@gmail.com', 'Admin', '2025-12-02 17:25:52', '2025-12-02 17:29:15', '2605:b100:b14:a8cf:c460:60b3:9f03:d0c2', 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Mobile Safari/537.36', 'Safari', 'Mobile', 'Linux', 'Success', NULL, '512ilid71mn1kklk2ib7qcle2i', NULL, NULL, 0, '2025-12-02 17:25:52'),
+(2, 5011, 'joseimobor24', 'joshuaoseimobor@gmail.com', 'Applicant', '2025-12-02 18:24:38', '2025-12-02 18:31:09', '209.205.254.14', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'tshu96c9rsqh7hed61ujduose9', NULL, NULL, 0, '2025-12-02 18:24:38'),
+(3, 5011, 'joseimobor24', 'joshuaoseimobor@gmail.com', 'Applicant', '2025-12-02 18:31:13', '2025-12-02 18:31:16', '209.205.254.14', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, '650s1htlh8iiibhuc5s18pcobs', NULL, NULL, 0, '2025-12-02 18:31:13'),
+(4, 5012, 'joseimobor247', 'joshuasemo.abu@gmail.com', 'Employer', '2025-12-02 18:33:39', '2025-12-02 18:41:11', '209.205.254.14', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'qq2ug5dsro47pc89neo34ijacm', NULL, NULL, 0, '2025-12-02 18:33:39'),
+(5, 228, 'admin', 'admin@gmail.com', 'Admin', '2025-12-02 18:41:51', NULL, '209.205.254.14', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Failed', 'Incorrect password', 'qq2ug5dsro47pc89neo34ijacm', NULL, NULL, 1, '2025-12-02 18:41:51'),
+(6, 228, 'admin', 'admin@gmail.com', 'Admin', '2025-12-02 18:42:03', NULL, '209.205.254.14', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'ppqvloun70shmfpcne9sdkbj7h', NULL, NULL, 1, '2025-12-02 18:42:03'),
+(7, 5013, 'Akefar', 'akefari@mun.ca', 'Applicant', '2025-12-02 19:51:49', NULL, '193.149.173.67', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'hts2o7ghfjehgvv361t14guj3l', NULL, NULL, 1, '2025-12-02 19:51:49'),
+(8, 321, 'emeldo', 'emehchiemerie9@gmail.com', 'Applicant', '2025-12-03 18:36:12', '2025-12-04 01:25:34', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'nig8kgtque73jpq7emtiq24fai', NULL, NULL, 0, '2025-12-03 22:06:12'),
+(16, 321, 'emeldo', 'emehchiemerie9@gmail.com', 'Applicant', '2025-12-04 01:25:41', '2025-12-04 01:26:33', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'afonnbdd2c02n033pbnpdv1kmf', NULL, NULL, 0, '2025-12-04 04:55:41'),
+(17, 321, 'emeldo', 'emehchiemerie9@gmail.com', 'Applicant', '2025-12-04 01:26:45', '2025-12-04 01:27:37', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'f76nsil01q4dcdd9ba5utl06tp', NULL, NULL, 0, '2025-12-04 04:56:45'),
+(18, 321, 'emeldo', 'emehchiemerie9@gmail.com', 'Applicant', '2025-12-04 01:27:42', '2025-12-04 02:11:48', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, '5ev5viaglfjevuveoimm697afh', NULL, NULL, 0, '2025-12-04 04:57:42'),
+(19, 321, 'emeldo', 'emehchiemerie9@gmail.com', 'Applicant', '2025-12-04 02:11:58', '2025-12-04 02:14:30', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'r2vm5gk133vpit9m187fd3pngo', NULL, NULL, 0, '2025-12-04 05:41:58'),
+(20, 2749, 'emelcarl2023', 'emelcarl2023@gmail.com', 'Employer', '2025-12-04 02:15:49', '2025-12-04 02:21:17', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'tvkad50fmu59i17hioe8br4ulo', NULL, NULL, 0, '2025-12-04 05:45:49'),
+(21, 5014, 'dim', 'dim@gmail.com', 'Employer', '2025-12-04 02:22:42', '2025-12-04 04:15:10', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'ts94pvp63j3h9bbld4jp2s3hvp', NULL, NULL, 0, '2025-12-04 05:52:42'),
+(22, 228, 'admin', 'admin@gmail.com', 'Admin', '2025-12-04 04:21:24', '2025-12-04 04:27:47', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, '6gsoj8t1hpdoem2sh75m29ratj', NULL, NULL, 0, '2025-12-04 07:51:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_settings`
+--
+
+CREATE TABLE `tbl_settings` (
+  `id` int(11) NOT NULL,
+  `setting_key` varchar(100) NOT NULL,
+  `setting_value` text DEFAULT NULL,
+  `setting_description` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_settings`
+--
+
+INSERT INTO `tbl_settings` (`id`, `setting_key`, `setting_value`, `setting_description`, `created_at`, `updated_at`) VALUES
+(1, 'site_name', 'MUNext', 'Name of the job portal', '2025-11-23 17:01:05', '2025-11-29 17:46:09'),
+(2, 'site_tagline', 'Memorial University Job Portal', 'Site tagline or slogan', '2025-11-23 17:01:05', '2025-11-23 17:01:05'),
+(3, 'site_email', 'info@munext.com', 'Primary contact email', '2025-11-23 17:01:05', '2025-11-23 17:01:05'),
+(4, 'site_phone', '1234567890', 'Contact phone number', '2025-11-23 17:01:05', '2025-11-23 17:19:14'),
+(5, 'site_address', 'ST JOHN, NL. CANADA', 'Physical address of organization', '2025-11-23 17:01:05', '2025-11-29 17:47:02'),
+(6, 'smtp_host', 'smtp.munext.ca', 'SMTP server hostname', '2025-11-23 17:01:05', '2025-12-01 00:51:14'),
+(7, 'smtp_port', '587', 'SMTP server port', '2025-11-23 17:01:05', '2025-11-23 17:01:05'),
+(8, 'smtp_username', 'support@munext.ca', 'SMTP account username', '2025-11-23 17:01:05', '2025-11-29 17:47:53'),
+(9, 'smtp_password', '@munext.ca', 'SMTP account password', '2025-11-23 17:01:05', '2025-11-29 17:47:53'),
+(10, 'smtp_from_email', 'noreply@munext.ca', 'Email address for outgoing emails', '2025-11-23 17:01:05', '2025-12-02 17:28:05'),
+(11, 'smtp_from_name', 'MUNext', 'Display name for outgoing emails', '2025-11-23 17:01:05', '2025-11-23 17:01:05'),
+(12, 'items_per_page', '10', 'Number of items per page in listings', '2025-11-23 17:01:05', '2025-11-29 17:54:13'),
+(13, 'maintenance_mode', '0', 'Enable/disable maintenance mode', '2025-11-23 17:01:05', '2025-11-30 03:32:48'),
+(14, 'user_registration', '1', 'Allow user registration', '2025-11-23 17:01:05', '2025-11-23 17:01:05'),
+(15, 'company_registration', '1', 'Allow company registration', '2025-11-23 17:01:05', '2025-11-23 17:01:05'),
+(16, 'auto_approve_jobs', '1', 'Auto-approve job postings', '2025-11-23 17:01:05', '2025-12-02 17:28:26'),
+(17, 'auto_approve_companies', '1', 'Auto-approve company registrations', '2025-11-23 17:01:05', '2025-12-02 17:28:26'),
+(24, 'notify_new_application', '1', NULL, '2025-11-29 16:30:28', '2025-11-29 16:58:56'),
+(25, 'notify_application_status', '1', NULL, '2025-11-29 16:30:28', '2025-11-29 16:30:28'),
+(26, 'notify_job_approved', '1', NULL, '2025-11-29 16:30:28', '2025-11-29 16:30:28'),
+(27, 'notify_company_approved', '1', NULL, '2025-11-29 16:30:28', '2025-11-29 16:30:28'),
+(28, 'notify_new_user', '1', NULL, '2025-11-29 16:30:28', '2025-11-29 16:30:28'),
+(141, 'maintenance_end_time', '', 'Estimated time when site will be back online', '2025-11-30 02:47:23', '2025-11-30 02:47:23'),
+(222, 'use_smtp', '0', 'Use SMTP (1) or PHP mail (0)', '2025-12-01 05:29:05', '2025-12-01 05:29:05'),
+(227, 'smtp_encryption', 'tls', 'Encryption type (tls/ssl)', '2025-12-01 05:31:11', '2025-12-01 05:31:11');
 
 --
 -- Indexes for dumped tables
@@ -694,19 +875,6 @@ ALTER TABLE `tblcompany`
   ADD PRIMARY KEY (`COMPANYID`);
 
 --
--- Indexes for table `tblemployees`
---
-ALTER TABLE `tblemployees`
-  ADD PRIMARY KEY (`INCID`),
-  ADD UNIQUE KEY `EMPLOYEEID` (`EMPLOYEEID`);
-
---
--- Indexes for table `tblfeedback`
---
-ALTER TABLE `tblfeedback`
-  ADD PRIMARY KEY (`FEEDBACKID`);
-
---
 -- Indexes for table `tbljob`
 --
 ALTER TABLE `tbljob`
@@ -725,21 +893,21 @@ ALTER TABLE `tbljobcategory`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `tbljobregistration`
---
-ALTER TABLE `tbljobregistration`
-  ADD PRIMARY KEY (`REGISTRATIONID`);
-
---
--- Indexes for table `tbljobscreening_ques`
---
-ALTER TABLE `tbljobscreening_ques`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tbljobsubcategory`
 --
 ALTER TABLE `tbljobsubcategory`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tblmessages`
+--
+ALTER TABLE `tblmessages`
+  ADD PRIMARY KEY (`ID`);
+
+--
+-- Indexes for table `tblnewsletter`
+--
+ALTER TABLE `tblnewsletter`
   ADD PRIMARY KEY (`ID`);
 
 --
@@ -749,34 +917,52 @@ ALTER TABLE `tblnotification`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `tblscreening`
+-- Indexes for table `tblpasswordreset`
 --
-ALTER TABLE `tblscreening`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tblscreening_answer`
---
-ALTER TABLE `tblscreening_answer`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tblscreening_qa`
---
-ALTER TABLE `tblscreening_qa`
+ALTER TABLE `tblpasswordreset`
   ADD PRIMARY KEY (`ID`);
 
 --
--- Indexes for table `tblscreening_score`
+-- Indexes for table `tblscreeninganswers`
 --
-ALTER TABLE `tblscreening_score`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `tblscreeninganswers`
+  ADD PRIMARY KEY (`ANSWERID`);
+
+--
+-- Indexes for table `tblscreeningquestions`
+--
+ALTER TABLE `tblscreeningquestions`
+  ADD PRIMARY KEY (`QUESTIONID`);
 
 --
 -- Indexes for table `tblusers`
 --
 ALTER TABLE `tblusers`
   ADD PRIMARY KEY (`USERID`);
+
+--
+-- Indexes for table `tbl_activity_log`
+--
+ALTER TABLE `tbl_activity_log`
+  ADD PRIMARY KEY (`ACTIVITY_ID`);
+
+--
+-- Indexes for table `tbl_email_templates`
+--
+ALTER TABLE `tbl_email_templates`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_login_history`
+--
+ALTER TABLE `tbl_login_history`
+  ADD PRIMARY KEY (`LOGIN_ID`);
+
+--
+-- Indexes for table `tbl_settings`
+--
+ALTER TABLE `tbl_settings`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -786,61 +972,37 @@ ALTER TABLE `tblusers`
 -- AUTO_INCREMENT for table `tblapplicants`
 --
 ALTER TABLE `tblapplicants`
-  MODIFY `APPLICANTID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `tblattachmentfile`
---
-ALTER TABLE `tblattachmentfile`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tblautonumbers`
---
-ALTER TABLE `tblautonumbers`
-  MODIFY `AUTOID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `APPLICANTID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
 --
 -- AUTO_INCREMENT for table `tblbookmarkjob`
 --
 ALTER TABLE `tblbookmarkjob`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=420;
 
 --
 -- AUTO_INCREMENT for table `tblbookmarkresume`
 --
 ALTER TABLE `tblbookmarkresume`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=516;
 
 --
 -- AUTO_INCREMENT for table `tblcompany`
 --
 ALTER TABLE `tblcompany`
-  MODIFY `COMPANYID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `tblemployees`
---
-ALTER TABLE `tblemployees`
-  MODIFY `INCID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tblfeedback`
---
-ALTER TABLE `tblfeedback`
-  MODIFY `FEEDBACKID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `COMPANYID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT for table `tbljob`
 --
 ALTER TABLE `tbljob`
-  MODIFY `JOBID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `JOBID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218;
 
 --
 -- AUTO_INCREMENT for table `tbljobapplication`
 --
 ALTER TABLE `tbljobapplication`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=333;
 
 --
 -- AUTO_INCREMENT for table `tbljobcategory`
@@ -849,60 +1011,96 @@ ALTER TABLE `tbljobcategory`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
--- AUTO_INCREMENT for table `tbljobregistration`
---
-ALTER TABLE `tbljobregistration`
-  MODIFY `REGISTRATIONID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `tbljobscreening_ques`
---
-ALTER TABLE `tbljobscreening_ques`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
-
---
 -- AUTO_INCREMENT for table `tbljobsubcategory`
 --
 ALTER TABLE `tbljobsubcategory`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
+-- AUTO_INCREMENT for table `tblmessages`
+--
+ALTER TABLE `tblmessages`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tblnewsletter`
+--
+ALTER TABLE `tblnewsletter`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `tblnotification`
 --
 ALTER TABLE `tblnotification`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `tblscreening`
+-- AUTO_INCREMENT for table `tblpasswordreset`
 --
-ALTER TABLE `tblscreening`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+ALTER TABLE `tblpasswordreset`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `tblscreening_answer`
+-- AUTO_INCREMENT for table `tblscreeninganswers`
 --
-ALTER TABLE `tblscreening_answer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+ALTER TABLE `tblscreeninganswers`
+  MODIFY `ANSWERID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=435;
 
 --
--- AUTO_INCREMENT for table `tblscreening_qa`
+-- AUTO_INCREMENT for table `tblscreeningquestions`
 --
-ALTER TABLE `tblscreening_qa`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
--- AUTO_INCREMENT for table `tblscreening_score`
---
-ALTER TABLE `tblscreening_score`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+ALTER TABLE `tblscreeningquestions`
+  MODIFY `QUESTIONID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
 
 --
 -- AUTO_INCREMENT for table `tblusers`
 --
 ALTER TABLE `tblusers`
-  MODIFY `USERID` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2758;
+  MODIFY `USERID` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5015;
+
+--
+-- AUTO_INCREMENT for table `tbl_activity_log`
+--
+ALTER TABLE `tbl_activity_log`
+  MODIFY `ACTIVITY_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- AUTO_INCREMENT for table `tbl_email_templates`
+--
+ALTER TABLE `tbl_email_templates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `tbl_login_history`
+--
+ALTER TABLE `tbl_login_history`
+  MODIFY `LOGIN_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `tbl_settings`
+--
+ALTER TABLE `tbl_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=228;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
+
+
+CREATE TABLE `tbl_email_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `recipient` varchar(255) NOT NULL,
+  `template_name` varchar(100) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `status` enum('sent','failed','pending') DEFAULT 'pending',
+  `sent_at` datetime DEFAULT NULL,
+  `error_message` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `recipient` (`recipient`),
+  KEY `status` (`status`),
+  KEY `sent_at` (`sent_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

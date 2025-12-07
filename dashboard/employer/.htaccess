@@ -1,0 +1,23 @@
+# Custom Error Pages
+ErrorDocument 404 /dashboard-404.php
+
+# Alternative: Redirect based on URL
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Redirect dashboard 404s
+    RewriteCond %{REQUEST_URI} ^/employer/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /employer/dashboard-404.php [L]
+    
+    RewriteCond %{REQUEST_URI} ^/applicants/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /applicants/dashboard-404.php [L]
+    
+    # Redirect other 404s
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule . /404.php [L]
+</IfModule>

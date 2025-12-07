@@ -3005,4 +3005,8 @@ input:disabled + .switch-slider {
 .shortlist-card {
   animation: slideIn 0.5s ease forwards;
 }
+
+.h-150 {
+  min-height: 10rem;
+}
 /*==================== JOB BOOKMARKED STYLES END ==================== */

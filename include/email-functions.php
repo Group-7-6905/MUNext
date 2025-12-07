@@ -34,7 +34,7 @@ function getEmailSettings($con) {
         'smtp_username' => '',
         'smtp_password' => '',
         'smtp_encryption' => 'tls',
-        'from_email' => 'noreply@munext.com',
+        'from_email' => 'noreply@munext.ca',
         'from_name' => 'MUNext',
         'site_name' => 'MUNext',
         'site_url' => '',
@@ -113,7 +113,8 @@ function getEmailHeaders($con) {
  * @return array|null Template data or null if not found
  */
 function getEmailTemplate($con, $templateName) {
-    $query = "SELECT * FROM tbl_email_templates WHERE template_name = ? AND is_active = 1 LIMIT 1";
+    // $query = "SELECT * FROM tbl_email_templates WHERE template_name = ? AND is_active = 1 LIMIT 1";
+    $query = "SELECT * FROM tbl_email_templates WHERE template_key = ? AND is_active = 1 LIMIT 1";
     $stmt = mysqli_prepare($con, $query);
     
     if (!$stmt) {
@@ -359,15 +360,22 @@ function sendTemplateEmail($con, $to, $templateName, $variables = array(), $opti
  * @param string $status Status (sent/failed)
  */
 function logEmail($con, $to, $templateName, $subject, $status) {
-    // Optional: Create tbl_email_log table to track sent emails
-    $query = "INSERT INTO tbl_email_log (recipient, template_name, subject, status, sent_at) 
-              VALUES (?, ?, ?, ?, NOW())";
+    // Check if tbl_email_log table exists
+    $tableCheck = mysqli_query($con, "SHOW TABLES LIKE 'tbl_email_log'");
     
-    $stmt = mysqli_prepare($con, $query);
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "ssss", $to, $templateName, $subject, $status);
-        mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
+    if (mysqli_num_rows($tableCheck) > 0) {
+        $query = "INSERT INTO tbl_email_log (recipient, template_name, subject, status, sent_at) 
+                  VALUES (?, ?, ?, ?, NOW())";
+        
+        $stmt = mysqli_prepare($con, $query);
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "ssss", $to, $templateName, $subject, $status);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+        }
+    } else {
+        // Log to file if table doesn't exist
+        error_log("Email {$status}: To: {$to}, Template: {$templateName}, Subject: {$subject}");
     }
 }
 
@@ -401,20 +409,20 @@ function sendPasswordResetEmail($con, $email, $name, $resetLink) {
  * @param string $userType User type (Applicant/Employer)
  * @return bool Success status
  */
-function sendWelcomeEmail($con, $email, $name, $userType) {
-    $variables = array(
-        'user_name' => $name,
-        'user_type' => $userType,
-        'login_url' => getEmailSettings($con)['site_url'] . '/login.php'
-    );
+// function sendWelcomeEmail($con, $email, $name, $userType) {
+//     $variables = array(
+//         'user_name' => $name,
+//         'user_type' => $userType,
+//         'login_url' => getEmailSettings($con)['site_url'] . '/login.php'
+//     );
     
-    $templateName = ($userType === 'Applicant') ? 'welcome_applicant' : 'welcome_employer';
+//     $templateName = ($userType === 'Applicant') ? 'welcome_applicant' : 'welcome_employer';
     
-    return sendTemplateEmail($con, $email, $templateName, $variables);
-}
+//     return sendTemplateEmail($con, $email, $templateName, $variables);
+// }
 
 /**
- * Send job application confirmation
+ * Send job application confirmation to Applicant
  * 
  * @param mysqli $con Database connection
  * @param string $email Applicant email
@@ -423,17 +431,17 @@ function sendWelcomeEmail($con, $email, $name, $userType) {
  * @param string $companyName Company name
  * @return bool Success status
  */
-function sendApplicationConfirmationEmail($con, $email, $applicantName, $jobTitle, $companyName) {
-    $variables = array(
-        'applicant_name' => $applicantName,
-        'job_title' => $jobTitle,
-        'company_name' => $companyName,
-        'application_date' => date('F j, Y'),
-        'dashboard_url' => getEmailSettings($con)['site_url'] . '/dashboard-applied-jobs.php'
-    );
+// function sendApplicationConfirmationEmail($con, $email, $applicantName, $jobTitle, $companyName) {
+//     $variables = array(
+//         'applicant_name' => $applicantName,
+//         'job_title' => $jobTitle,
+//         'company_name' => $companyName,
+//         'application_date' => date('F j, Y'),
+//         'dashboard_url' => getEmailSettings($con)['site_url'] . '/dashboard/applicant/dashboard-applied-jobs.php'
+//     );
     
-    return sendTemplateEmail($con, $email, 'application_confirmation', $variables);
-}
+//     return sendTemplateEmail($con, $email, 'application_confirmation', $variables);
+// }
 
 /**
  * Send application status update
@@ -445,19 +453,19 @@ function sendApplicationConfirmationEmail($con, $email, $applicantName, $jobTitl
  * @param string $status New status (Shortlisted/Rejected)
  * @return bool Success status
  */
-function sendApplicationStatusEmail($con, $email, $applicantName, $jobTitle, $status) {
-    $variables = array(
-        'applicant_name' => $applicantName,
-        'job_title' => $jobTitle,
-        'status' => $status,
-        'status_date' => date('F j, Y'),
-        'dashboard_url' => getEmailSettings($con)['site_url'] . '/dashboard-applied-jobs.php'
-    );
+// function sendApplicationStatusEmail($con, $email, $applicantName, $jobTitle, $status) {
+//     $variables = array(
+//         'applicant_name' => $applicantName,
+//         'job_title' => $jobTitle,
+//         'status' => $status,
+//         'status_date' => date('F j, Y'),
+//         'dashboard_url' => getEmailSettings($con)['site_url'] . '/dashboard-applied-jobs.php'
+//     );
     
-    $templateName = ($status === 'Shortlisted') ? 'application_shortlisted' : 'application_rejected';
+//     $templateName = ($status === 'Shortlisted') ? 'application_shortlisted' : 'application_rejected';
     
-    return sendTemplateEmail($con, $email, $templateName, $variables);
-}
+//     return sendTemplateEmail($con, $email, $templateName, $variables);
+// }
 
 /**
  * Send newsletter subscription confirmation
@@ -504,19 +512,19 @@ function sendUnsubscriptionEmail($con, $email) {
  * @param string $jobId Job ID
  * @return bool Success status
  */
-function sendJobPostedEmail($con, $email, $employerName, $jobTitle, $jobId) {
-    $siteUrl = getEmailSettings($con)['site_url'];
+// function sendJobPostedEmail($con, $email, $employerName, $jobTitle, $jobId) {
+//     $siteUrl = getEmailSettings($con)['site_url'];
     
-    $variables = array(
-        'employer_name' => $employerName,
-        'job_title' => $jobTitle,
-        'job_url' => $siteUrl . '/job-detail.php?jobid=' . $jobId,
-        'manage_url' => $siteUrl . '/dashboard-manage-jobs.php',
-        'post_date' => date('F j, Y')
-    );
+//     $variables = array(
+//         'employer_name' => $employerName,
+//         'job_title' => $jobTitle,
+//         'job_url' => $siteUrl . '/job-detail.php?jobid=' . $jobId,
+//         'manage_url' => $siteUrl . '/dashboard/employer/dashboard-manage-jobs.php',
+//         'post_date' => date('F j, Y')
+//     );
     
-    return sendTemplateEmail($con, $email, 'job_posted', $variables);
-}
+//     return sendTemplateEmail($con, $email, 'job_posted', $variables);
+// }
 
 /**
  * Send new application notification to employer
@@ -552,19 +560,19 @@ function sendNewApplicationEmail($con, $email, $employerName, $applicantName, $j
  * @param string $employerName Employer name
  * @return bool Success status
  */
-function sendCompanyApprovedEmail($con, $email, $companyName, $employerName) {
-    $siteUrl = getEmailSettings($con)['site_url'];
+// function sendCompanyApprovedEmail($con, $email, $companyName, $employerName) {
+//     $siteUrl = getEmailSettings($con)['site_url'];
     
-    $variables = array(
-        'employer_name' => $employerName,
-        'company_name' => $companyName,
-        'approval_date' => date('F j, Y'),
-        'login_url' => $siteUrl . '/employer-login.php',
-        'dashboard_url' => $siteUrl . '/employer-dashboard.php'
-    );
+//     $variables = array(
+//         'employer_name' => $employerName,
+//         'company_name' => $companyName,
+//         'approval_date' => date('F j, Y'),
+//         'login_url' => $siteUrl . '/employer-login.php',
+//         'dashboard_url' => $siteUrl . '/employer-dashboard.php'
+//     );
     
-    return sendTemplateEmail($con, $email, 'company_approved', $variables);
-}
+//     return sendTemplateEmail($con, $email, 'company_approved', $variables);
+// }
 
 /**
  * Send company account rejection notification
@@ -587,6 +595,83 @@ function sendCompanyRejectedEmail($con, $email, $companyName, $employerName, $re
     
     return sendTemplateEmail($con, $email, 'company_rejected', $variables);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+function sendWelcomeEmail($con, $email, $name, $userType) {
+    $variables = array(
+        'user_name' => $name,
+        'user_type' => $userType,
+        'user_email' => $email,
+        'login_url' => getEmailSettings($con)['site_url'] . '/login.php'
+    );
+    
+    // Use 'welcome_email' which exists in your database
+    return sendTemplateEmail($con, $email, 'welcome_email', $variables);
+}
+
+function sendApplicationConfirmationEmail($con, $email, $applicantName, $jobTitle, $companyName) {
+    $variables = array(
+        'applicant_name' => $applicantName,
+        'job_title' => $jobTitle,
+        'company_name' => $companyName,
+        'application_id' => '', // Add if available
+        'application_date' => date('F j, Y')
+    );
+    
+    // Use 'job_application_received' which exists in your database
+    return sendTemplateEmail($con, $email, 'job_application_received', $variables);
+}
+
+function sendApplicationStatusEmail($con, $email, $applicantName, $jobTitle, $status, $companyName, $applicationId) {
+    $variables = array(
+        'applicant_name' => $applicantName,
+        'job_title' => $jobTitle,
+        'company_name' => $companyName,
+        'application_status' => $status,
+        'application_id' => $applicationId,
+        'status_date' => date('F j, Y')
+    );
+    
+    // Use 'application_status_update' which exists in your database
+    return sendTemplateEmail($con, $email, 'application_status_update', $variables);
+}
+
+function sendJobPostedEmail($con, $email, $companyName, $jobTitle, $jobId) {
+    $siteUrl = getEmailSettings($con)['site_url'];
+    
+    $variables = array(
+        'company_name' => $companyName,
+        'job_title' => $jobTitle,
+        'job_url' => $siteUrl . '/job-detail.php?jobid=' . $jobId,
+        'post_date' => date('F j, Y')
+    );
+    
+    // Use 'job_approved' which exists in your database
+    return sendTemplateEmail($con, $email, 'job_approved', $variables);
+}
+
+function sendCompanyApprovedEmail($con, $email, $companyName, $employerName = '') {
+    $variables = array(
+        'company_name' => $companyName,
+        'approval_date' => date('F j, Y')
+    );
+    
+    // Use 'company_approved' which exists in your database
+    return sendTemplateEmail($con, $email, 'company_approved', $variables);
+}
+
+
+
 
 // ==================== BACKWARD COMPATIBILITY ====================
 // Set global variables for legacy code

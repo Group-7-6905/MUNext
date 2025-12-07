@@ -1,19 +1,13 @@
 <?php
 require 'session.php';
-$msg = '';
-$msg2='';
 
 $path = "../../";
  date_default_timezone_set('America/St_Johns');
 
 // ==================== GET SITE SETTINGS ====================
 require '../settings-manager.php';
-
-// ==================== EMAIL FUNCTIONS ====================
+//////////////////////////////////////////////////////////////////
 require_once $path."include/email-functions.php";
-
-
-
 
 
 
@@ -471,19 +465,8 @@ function cleanOldLoginHistory($con, $days = 90) {
 
 
 
-
-
-
-
-
-
-
-
-
-//////////////////////////Admin Detail///////////////////////////////////
-// fetch user row safely
 $query = mysqli_query($con, "SELECT * FROM tblusers WHERE USERID = '$session_id'") or die(mysqli_error($con));
-$row = mysqli_fetch_assoc($query) ?: []; // returns empty array when no row
+$row = mysqli_fetch_array($query);
 
 $USERID   = $row['USERID']  ?? '';
 $FNAME    = $row['FNAME']   ?? '';
@@ -492,50 +475,98 @@ $EMAIL    = $row['EMAIL']   ?? '';
 $USERNAME = $row['USERNAME'] ?? '';
 $PASS     = $row['PASS']    ?? '';
 $ROLE     = $row['ROLE']    ?? '';
-// $PICLOCATION = $row['PICLOCATION'] ?? '';
-$FULLNAME = trim(($FNAME ?? '') . ' ' . ($ONAME ?? ''));
 
-/////////////////////////Admin Details ends/////////////////////////////////////
-
-///////////////////////Company Details///////////////////////
-// fetch company row safely
-$querycompany = mysqli_query($con, "SELECT * FROM tblcompany WHERE USERID = '$USERID'") or die(mysqli_error($con));
-$rowcompany = mysqli_fetch_assoc($querycompany) ?: []; // returns empty array when no row
-$COMPANYID         = $rowcompany['COMPANYID']         ?? '';
-$COMPANYNAME       = $rowcompany['COMPANYNAME']       ?? '';
-$COMPANYADDRESS    = $rowcompany['COMPANYADDRESS']    ?? '';
-$COMPANYCONTACTNO  = $rowcompany['COMPANYCONTACTNO']  ?? '';
-$COMPANYEMAIL      = $rowcompany['COMPANYEMAIL']      ?? '';
-///////////////////////Company Details Ends///////////////////////
+// $PICLOCATION = $row['PICLOCATION'];
 
 
+// fetch applicant row safely
+$queryuser = "SELECT * from tblapplicants WHERE USERID = '$USERID'";
+$resultuser = mysqli_query($con, $queryuser);
+$rowuser = mysqli_fetch_assoc($resultuser);
+
+$APPLICANTID     = $rowuser['APPLICANTID']     ?? '';
+// prefer applicant FNAME/ONAME if present, otherwise keep user values
+$FNAME           = $rowuser['FNAME']           ?? $FNAME;
+$ONAME           = $rowuser['OTHERNAMES']     ?? $ONAME;
+// $APPLICANTPHOTO  = $rowuser['APPLICANTPHOTO'] ?? '';
+$APPLICANTPHOTO = $rowuser['APPLICANTPHOTO'] ?? 'dashboard/applicant/assets/img/avatar-default.svg';
+$JOBCATEGORYID   = $rowuser['JOBCATEGORYID']  ?? '';
+$JOBTITLE        = $rowuser['JOBTITLE']       ?? '';
+$EXCOMPANYNAME   = $rowuser['EXCOMPANYNAME']  ?? '';
+$EXJOBTITLE      = $rowuser['EXJOBTITLE']     ?? '';
+$ABOUTME         = $rowuser['ABOUTME']        ?? '';
+$ADDRESS         = $rowuser['FULLADDRESS']    ?? '';
+$COUNTRY         = $rowuser['COUNTRY']        ?? '';
+$CITY            = $rowuser['CITY']           ?? '';
+$SEX             = $rowuser['SEX']            ?? '';
+$BIRTHDATE       = $rowuser['BIRTHDATE']      ?? '';
+$CONTACTNO       = $rowuser['CONTACTNO']      ?? '';
+$DEGREE          = $rowuser['DEGREE']         ?? '';
+$SCHOOLNAME      = $rowuser['SCHOOLNAME']     ?? '';
+$SKILLS          = $rowuser['SKILLS']         ?? '';
+$FB_link         = $rowuser['FB_link']        ?? '';
+$LinkedIn_link   = $rowuser['LinkedIn_link']  ?? '';
+$FULLNAME        = trim($FNAME . ' ' . $ONAME);
 
 
 
 
-/////////////////Add Company/////////////////////////////
+// fetch job subcategory safely
+$queryuser = "SELECT * from tbljobsubcategory WHERE ID = '$JOBCATEGORYID'";
+$resultuser = mysqli_query($con, $queryuser);
+$rowuser = mysqli_fetch_assoc($resultuser);
 
-if (isset($_POST['add_company'])) {
-
-   $name = trim($_POST['name']);
-   $email = trim($_POST['email']);
-   $contact = trim($_POST['contact'])?? '';
-   $industry = trim($_POST['industry']);
-   $specialism = trim($_POST['specialism']);
-   $country = trim($_POST['country']);
-   $city = trim($_POST['city']);
-   $address = trim($_POST['address']);
-   $about = trim($_POST['about']);
-   $award = trim($_POST['award'])?? '';
-   $award_year = trim($_POST['award_year'])?? '';
-   $award_disc = trim($_POST['award_disc'])?? '';
-   $websiteURL = trim($_POST['websiteURL']) ?? '';
+$SUBCATEGORY = $rowuser['SUBCATEGORY'] ?? '';
 
 
-   $companyStatus = autoApproveCompanies() ? 'Active' : 'Pending';
 
-    $image_path = $COMPANYLOGO ?? ''; // Keep existing if no new upload
 
+
+
+
+/////////////////////////Complete Profile/////////////////////////
+$msg = '';
+$msg2 = '';
+$msg3 = '';
+
+
+// In phpcode.php - make sure you have this:
+$querycomp = "SELECT * FROM tblapplicants WHERE USERID = ?";
+$stmtcomp = mysqli_prepare($con, $querycomp);
+mysqli_stmt_bind_param($stmtcomp, "i", $session_id);
+mysqli_stmt_execute($stmtcomp);
+$resultcomp = mysqli_stmt_get_result($stmtcomp);
+$rowcomp = mysqli_fetch_array($resultcomp);
+mysqli_stmt_close($stmtcomp);
+
+// Set all variables with null coalescing
+$USERID = $rowcomp['USERID'] ?? '';
+$APPLICANTID = $rowcomp['APPLICANTID'] ?? '';
+$JOBTITLE = $rowcomp['JOBTITLE'] ?? '';
+$JOBCATEGORYID = $rowcomp['JOBCATEGORYID'] ?? '';
+$CONTACTNO = $rowcomp['CONTACTNO'] ?? '';
+$SEX = $rowcomp['SEX'] ?? '';
+$BIRTHDATE = $rowcomp['BIRTHDATE'] ?? '';
+$ABOUTME = $rowcomp['ABOUTME'] ?? '';
+$APPLICANTPHOTO = $rowcomp['APPLICANTPHOTO'] ?? '';
+$COUNTRY = $rowcomp['COUNTRY'] ?? '';
+$CITY = $rowcomp['CITY'] ?? '';
+$ADDRESS = $rowcomp['FULLADDRESS'] ?? '';
+// ... etc
+
+
+// FORM 1: Save Basic Profile Data
+if (isset($_POST['save_data'])) {
+    $job_title = trim($_POST['job_title']);
+    $job_categoryid = trim($_POST['job_categoryid']);
+    $phoneno = trim($_POST['phoneno']);
+    $sex = trim($_POST['sex']);
+    $dob = trim($_POST['dob']);
+    $about_me = trim($_POST['about_me']);
+    
+    // Handle image upload
+    $image_path = $APPLICANTPHOTO; // Keep existing if no new upload
+    
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $image_name = $_FILES['image']['name'];
         $image_tmp = $_FILES['image']['tmp_name'];
@@ -543,15 +574,14 @@ if (isset($_POST['add_company'])) {
         $allowed_ext = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
         
         if (in_array($image_ext, $allowed_ext)) {
-            $new_image_name = 'company_' . $session_id . '_' . time() . '.' . $image_ext;
-            $upload_path = 'company_logo/' . $new_image_name;
-            $target = $path . "company_logo/" . basename($new_image_name);
-            
+            $new_image_name = 'applicant_' . $session_id . '_' . time() . '.' . $image_ext;
+            $upload_path = 'profile/' . $new_image_name;
+            $target = "../../profile/" . basename($new_image_name);
 
             
             // Create directory if it doesn't exist
-            if (!file_exists('../../company_logo')) {
-                mkdir('../../company_logo', 0777, true);
+            if (!file_exists('../../profile')) {
+                mkdir('../../profile', 0777, true);
             }
             
             if (move_uploaded_file($image_tmp, $target)) {
@@ -559,31 +589,108 @@ if (isset($_POST['add_company'])) {
             }
         }
     }
+    
+    // Check if profile exists
+    if (empty($USERID)) {
+        // Check if user already has a profile
+        $queryuser = "SELECT * FROM tblusers WHERE USERID = ?";
+        $stmt = mysqli_prepare($con, $queryuser);
+        mysqli_stmt_bind_param($stmt, "i", $session_id);
+        mysqli_stmt_execute($stmt);
+        $resultuser = mysqli_stmt_get_result($stmt);
+        $rowuser = mysqli_fetch_array($resultuser);
 
-     $stmt = $con->prepare("INSERT INTO tblcompany 
-                (USERID, COMPANYNAME, COMPANYADDRESS, COMPANYWEBSITE, COMPANYCONTACTNO, COMPANYSTATUS, 
-                 COMPANYABOUT, COMPANYEMAIL, COMPANYINDUSTRY, COMPANYSPECIALISM, 
-                 COMPANYCOUNTRY, COMPANYCITY, COMPANYAWARD, COMPANYYEAR, 
-                 COMPANYAWARDDESC, COMPANYLOGO, DATEREGISTERED) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, now())");
-                         
-      $stmt->bind_param("isssssssssssssss", $session_id, $name, $address, $websiteURL, $contact, $companyStatus, $about, $email, $industry, $specialism, $country, $city, $award, $award_year, $award_disc, $image_path);
-                
+        $USERID = $rowuser['USERID'];
+        $FNAME = $rowuser['FNAME'];
+        $ONAME = $rowuser['ONAME'];
+        $EMAIL = $rowuser['EMAIL'];
+        $USERNAME = $rowuser['USERNAME'];
 
-      // $result = mysqli_query($con, $query);
+        // INSERT new profile
+        $stmt = $con->prepare("INSERT INTO tblapplicants (JOBCATEGORYID, JOBTITLE, USERID, FNAME, OTHERNAMES, SEX, BIRTHDATE, ABOUTME, USERNAME, EMAILADDRESS, CONTACTNO, APPLICANTPHOTO) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        // $stmt = mysqli_prepare($con, $sql);
+        $stmt->bind_param( "isisssssssss", $job_categoryid,$job_title, $USERID, $FNAME, $ONAME, $sex, $dob, $about_me, $USERNAME, $EMAIL, $phoneno, $image_path);
 
-      if ($stmt->execute()) {
-         $msg = '<div class="alert alert-success">✅ Profile data saved successfully!</div>';
-         header('location: ./company-detail.php?companyid=' . mysqli_insert_id($con));
-         exit();
-      } else {
-          $msg = '<div class="alert alert-danger">❌ Error: ' . mysqli_error($con) . '</div>';
-      }
+    } else {
+        // UPDATE existing profile
+        $stmt = $con->prepare("UPDATE tblapplicants SET 
+                JOBTITLE = ?, JOBCATEGORYID = ?, CONTACTNO = ?, SEX = ?, BIRTHDATE = ?, ABOUTME = ?, APPLICANTPHOTO = ? 
+                WHERE USERID = ?");
+        // $stmt = mysqli_prepare($con, $sql);
+        $stmt->bind_param("ssissssi", $job_title, $job_categoryid, $phoneno, $sex, $dob, $about_me, $image_path, $session_id);
+    }
+    
+    if ($stmt->execute()) {
+        $msg = '<div class="alert alert-success">✅ Profile data saved successfully!</div>';
+
+        // Reload data
+        // header("Refresh:1");
+        header('location: ./dashboard-add-profile.php#section23');
+    } else {
+        $msg = '<div class="alert alert-danger">❌ Error: ' . mysqli_error($con) . '</div>';
+    }
      $stmt->close();
-
-   
 }
-/////////////////////////Add company ends/////////////////////////
+
+
+
+
+// FORM 2: Save Contact & Social Info
+if (isset($_POST['save_info'])) {
+    $country = trim($_POST['country']);
+    $city = trim($_POST['city']);
+    $address = trim($_POST['address']);
+    $fb = trim($_POST['fb'])?? '';
+    $lin = trim($_POST['lin'])?? '';
+    
+    $stmt = $con->prepare("UPDATE tblapplicants SET 
+            COUNTRY = ?, CITY = ?, FULLADDRESS = ?, FB_LINK = ?, LINKEDIN_LINK = ? 
+            WHERE USERID = ?");
+    // $stmt = mysqli_prepare($con, $sql);
+    $stmt->bind_param("sssssi", $country, $city, $address, $fb, $lin, $session_id);
+    
+    if ($stmt->execute()) {
+        $msg2 = '<div class="alert alert-success">✅ Contact information saved successfully!</div>';
+        // header("Refresh:1");
+        header('location: ./dashboard-add-profile.php#section456');
+    } else {
+        $msg2 = '<div class="alert alert-danger">❌ Error: ' . mysqli_error($con) . '</div>';
+    }
+    $stmt->close();
+
+}
+
+
+
+// FORM 3: Save Education, Experience & Skills
+if (isset($_POST['save_preview'])) {
+    $schl_name = trim($_POST['schl_name']);
+    $qualification = trim($_POST['qualification']);
+    $company_name_select = trim($_POST['company_name_select'] ?? '');
+    $company_name_specify = trim($_POST['company_name_specify'] ?? '');
+    $job_title_ex = trim($_POST['job_title'] ?? '');
+    $skills = trim($_POST['skills']);
+    
+    // Determine company name
+    $company_name = ($company_name_select == 'Others (Please specify)') ? $company_name_specify : $company_name_select;
+    
+    $stmt = $con->prepare("UPDATE tblapplicants SET 
+            SCHOOLNAME = ?, DEGREE = ?, EXCOMPANYNAME = ?, EXJOBTITLE = ?, SKILLS = ? 
+            WHERE USERID = ?");
+    // $stmt = mysqli_prepare($con, $sql);
+    $stmt->bind_param( "sssssi", $schl_name, $qualification, $company_name, $job_title_ex, $skills, $session_id);
+    
+    if ($stmt->execute()) {
+        $msg3 = '<div class="alert alert-success">✅ Profile completed successfully! Redirecting to preview...</div>';
+      //   header("Refresh:1; url=candidate-detail.php");
+        header("Location: candidate-detail.php");
+    } else {
+        $msg3 = '<div class="alert alert-danger">❌ Error: ' . mysqli_error($con) . '</div>';
+    }
+    $stmt->close();
+
+}
+/////////////////////////End Complete Profile ends/////////////////////////
 
 
 
@@ -591,37 +698,26 @@ if (isset($_POST['add_company'])) {
 
 
 
-/////////////////Edit Company/////////////////////////////
-// $msg = '';
 
-if (isset($_POST['edit_company'])) {
+/////////////////////////Edit Profile/////////////////////////
+
+////////////section 1/////////////////////////
+if (isset($_POST['edit_data'])) {
+
+   $job_title = trim($_POST['job_title']);
+   $job_categoryid = trim($_POST['job_categoryid']);
+   $dob = trim($_POST['dob']);
+   $phoneno = trim($_POST['phoneno']);
+   $about_me = trim($_POST['about_me']);
+   $sex = trim($_POST['sex']);
+   $FName = trim($_POST['FName']);
+   $OName = trim($_POST['OName']);
+   $email = trim($_POST['email']);
    
-   $companyidquery = "SELECT * from tblcompany WHERE USERID = '$session_id'";
-   $resultcompanyid = mysqli_query($con, $companyidquery);
-   $rowcompanyid = mysqli_fetch_array($resultcompanyid);
-   $COMPANYLOGO = $rowcompanyid['COMPANYLOGO'] ?? '';
 
-   $name = trim($_POST['name'])?? '';
-   $email = trim($_POST['email'])?? '';
-   $contact = trim($_POST['contact'])?? '';
-   $industry = trim($_POST['industry'])?? '';
-   $specialism = trim($_POST['specialism'])?? '';
-   $country = trim($_POST['country'])?? '';
-   $city = trim($_POST['city'])?? '';
-   $address = trim($_POST['address'])?? '';
-   $about = trim($_POST['about'])?? '';
-   $award = trim($_POST['award'])?? '';
-   $award_year = trim($_POST['award_year'])?? '';
-   $award_disc = trim($_POST['award_disc'])?? '';
-
-   $websiteURL = trim($_POST['websiteURL']) ?? '';
-   $companyid = trim($_POST['companyid'])?? '';
-   
-   
-   $companyStatus = autoApproveCompanies() ? 'Active' : 'Pending';
-   
-    $image_path = $COMPANYLOGO ?? ''; // Keep existing if no new upload
-
+    // Handle image upload
+    $image_path = $APPLICANTPHOTO; // Keep existing if no new upload
+    
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $image_name = $_FILES['image']['name'];
         $image_tmp = $_FILES['image']['tmp_name'];
@@ -629,15 +725,17 @@ if (isset($_POST['edit_company'])) {
         $allowed_ext = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg'];
         
         if (in_array($image_ext, $allowed_ext)) {
-            $new_image_name = 'company_' . $session_id . '_' . time() . '.' . $image_ext;
-            $upload_path = 'company_logo/' . $new_image_name;
-            $target = $path . "company_logo/" . basename($new_image_name);
-            
+            $new_image_name = 'applicant_' . $session_id . '_' . time() . '.' . $image_ext;
+            $upload_path = 'profile/' . $new_image_name;
+            $target = "../../profile/" . basename($new_image_name);
+
+
+
 
             
             // Create directory if it doesn't exist
-            if (!file_exists('../../company_logo')) {
-                mkdir('../../company_logo', 0777, true);
+            if (!file_exists('../../profile')) {
+                mkdir('../../profile', 0777, true);
             }
             
             if (move_uploaded_file($image_tmp, $target)) {
@@ -645,133 +743,96 @@ if (isset($_POST['edit_company'])) {
             }
         }
     }
-
-   $stmt = $con->prepare("UPDATE tblcompany SET 
-         COMPANYNAME = ?, 
-         COMPANYADDRESS = ?, 
-         COMPANYCONTACTNO = ?, 
-         COMPANYABOUT = ?, 
-         COMPANYEMAIL = ?, 
-         COMPANYWEBSITE = ?,
-         COMPANYINDUSTRY = ?, 
-         COMPANYSPECIALISM = ?, 
-         COMPANYCOUNTRY = ?, 
-         COMPANYCITY = ?, 
-         COMPANYAWARD = ?, 
-         COMPANYYEAR = ?,
-         COMPANYAWARDDESC = ?,
-         COMPANYLOGO = ? 
-         WHERE COMPANYID = ? AND USERID = ?");
-
-$stmt->bind_param("ssssssssssssssii", $name, $address, $contact, $about, $email, $websiteURL, $industry, $specialism, $country, $city, $award, $award_year, $award_disc, $image_path, $companyid, $session_id);
+          // UPDATE existing profile
+        $stmt = $con->prepare("UPDATE tblapplicants SET 
+                JOBTITLE = ?, JOBCATEGORYID = ?, FNAME = ?,  OTHERNAMES = ?, EMAILADDRESS = ?, CONTACTNO = ?, SEX = ?, BIRTHDATE = ?, ABOUTME = ?, APPLICANTPHOTO = ? 
+                WHERE USERID = ?");
+        // $stmt = mysqli_prepare($con, $sql);
+        $stmt->bind_param("sissssssssi", $job_title, $job_categoryid, $FName, $OName, $email, $phoneno, $sex, $dob, $about_me, $image_path, $session_id);
          
       if ($stmt->execute()) { 
-         $msg = '<div class="alert alert-success">✅ Profile data saved successfully!</div>';
-         header('location: ./company-detail.php');
-         exit();
-       } else {
+         // Also update tblusers table for FNAME, ONAME, & EMAIL where USERID = '$USERID'
+         $stmt = $con->prepare("UPDATE tblusers SET FNAME = ?, ONAME = ?, EMAIL = ? WHERE USERID = ?");
+         $stmt->bind_param("ssss", $FName, $OName, $email, $USERID);
+         if ($stmt->execute()) {
+            $msg = '<div class="alert alert-success">✅ Profile data saved successfully!</div>';
+            // Reload data
+            header("Refresh:1");
+             }
+         else {
              $msg = '<div class="alert alert-danger">❌ Error: ' . mysqli_error($con) . '</div>';
           }
-     $stmt->close();
-      } 
-/////////////////////////Edit company ends/////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-////////////////////////Save/Bookmark Resume..../////////////////
-
-// Handle save resume (bookmark)
-if (isset($_POST['save_resume'])) {
-    $applicationId = (int)$_POST['jobapplicationid'];
-    $jobIdToSave = (int)$_POST['jobID'];
-    $employer = (int)$_POST['employer'];
-    
-    $insertBookmark = "INSERT INTO tblbookmarkresume (USERID, JOBAPPLICATIONID, JOBRESUMEID, DATETIME) VALUES (?, ?, ?,  now())";
-    $stmtBk = mysqli_prepare($con, $insertBookmark);
-    mysqli_stmt_bind_param($stmtBk, "iii", $employer, $applicationId, $jobIdToSave);
-    
-    if (mysqli_stmt_execute($stmtBk)) {
-        $_SESSION['success_msg'] = "Resume bookmarked successfully!";
-    }
-    
-    header("Location: " . $_SERVER['PHP_SELF'] . ($jobIdToSave > 0 ? "?jobid=$jobIdToSave" : ""));
-    exit();
-}
-////////////////////////Save/Bookmark Resume..../////////////////
-
-
-
-
-////////////////////////Remove /Bookmark Resume..../////////////////
-// Handle delete bookmark
-if (isset($_GET['type']) && $_GET['type'] == 'delete' && isset($_GET['bookmarkid'])) {
-    $bookmarkId = (int)$_GET['bookmarkid'];
-    $jobIdParam = isset($_GET['jobid']) ? (int)$_GET['jobid'] : 0;
-    
-    $deleteQuery = "DELETE FROM tblbookmarkresume WHERE ID = ? AND USERID = ? AND 	JOBRESUMEID = ?";
-    $stmtDel = mysqli_prepare($con, $deleteQuery);
-    mysqli_stmt_bind_param($stmtDel, "iii", $bookmarkId, $session_id, $jobIdParam);
-    
-    if (mysqli_stmt_execute($stmtDel)) {
-        $_SESSION['success_msg'] = "Bookmark removed successfully!";
-    }
-    
-    header("Location: dashboard-manage-applications.php" . ($jobIdParam > 0 ? "?jobid=$jobIdParam" : ""));
-    exit();
-}
-////////////////////////Remove /Bookmark Resume..../////////////////
-
-
-
-
-
-
-
-
-////////////////////Download Resume///////////////////////////
-
-if (isset($_POST['download_resume'])) {
-
-   $resume_url = $_POST['resume_url'];
-
-   $filepath = $path.'resumes_cv/' . $resume_url;
-
-   if (file_exists($filepath)) {
-      header('Content-Description: File Transfer');
-      header('Content-Type: application/octet-stream');
-      header('Content-Disposition: attachment; filename=' . basename($filepath));
-      header('Expires: 0');
-      header('Cache-Control: must-revalidate');
-      header('Pragma: public');
-      header('Content-Length: ' . filesize($path .'resumes_cv/' . $resume_url));
-      readfile($path .'resumes_cv/' . $resume_url);
+      }
+      $stmt->close();
    }
+
+//////////////////Ends Section 1 ///////////////////////////
+
+
+
+
+/////////section 2, 3 ///////////////////
+
+if (isset($_POST['edit_info'])) {
+$country = trim($_POST['country']);
+    $city = trim($_POST['city']);
+    $address = trim($_POST['address']);
+    $fb = trim($_POST['fb'])?? '';
+    $lin = trim($_POST['lin'])?? '';
+    
+    $stmt = $con->prepare("UPDATE tblapplicants SET 
+            COUNTRY = ?, CITY = ?, FULLADDRESS = ?, FB_LINK = ?, LINKEDIN_LINK = ? 
+            WHERE USERID = ?");
+    // $stmt = mysqli_prepare($con, $sql);
+    $stmt->bind_param("sssssi", $country, $city, $address, $fb, $lin, $session_id);
+    
+    if ($stmt->execute()) {
+        $msg2 = '<div class="alert alert-success">✅ Contact information saved successfully!</div>';
+        header("Refresh:1");
+    } else {
+        $msg2 = '<div class="alert alert-danger">❌ Error: ' . mysqli_error($con) . '</div>';
+    }
+    $stmt->close();
 }
-////////////////////End Download Resume///////////////////////////
+//////////////////////Ends section 2, 3 /////////////////////
+
+
+
+
+
+/////////section 4, 5, 6 ///////////////////
+
+if (isset($_POST['edit_preview'])) {
+$schl_name = trim($_POST['schl_name']);
+    $qualification = trim($_POST['qualification']);
+    $company_name_select = trim($_POST['company_name_select'] ?? '');
+    $company_name_specify = trim($_POST['company_name_specify'] ?? '');
+    $job_title_ex = trim($_POST['job_title'] ?? '');
+    $skills = trim($_POST['skills']);
+    
+    // Determine company name
+    $company_name = ($company_name_select == 'Others (Please specify)') ? $company_name_specify : $company_name_select;
+    
+    $stmt = $con->prepare("UPDATE tblapplicants SET 
+            SCHOOLNAME = ?, DEGREE = ?, EXCOMPANYNAME = ?, EXJOBTITLE = ?, SKILLS = ? 
+            WHERE USERID = ?");
+    // $stmt = mysqli_prepare($con, $sql);
+    $stmt->bind_param( "sssssi", $schl_name, $qualification, $company_name, $job_title_ex, $skills, $session_id);
+    
+    if ($stmt->execute()) {
+      $msg3 = '<div class="alert alert-success">✅ Profile completed updated!</div>';
+      header("Refresh:1; url=candidate-detail.php");
+
+    } else {
+        $msg3 = '<div class="alert alert-danger">❌ Error: ' . mysqli_error($con) . '</div>';
+    }
+    $stmt->close();
+}
+//////////////////////Ends section 4, 5, 6  /////////////////////
+
+/////////////////////////End Complete Profile ends/////////////////////////
+
+
 
 
 
@@ -865,109 +926,18 @@ if (isset($_POST['change_password'])) {
 
 
 
-///////////////////Change Application Status///////////////
-// if (isset($_POST['applicationstatus'])) {
-   
-//    $applicationstatus = $_POST['applicationstatus'];
-//    $jobID = $_POST['jobID'];
-
-//    $query = "SELECT * from tbljob where JOBID ='$jobID' order by JOBID desc";
-//    $result = mysqli_query($con, $query);
-//    $row = mysqli_fetch_array($result);
-//    $JOBTITLE = $row['JOBTITLE']  ?? '';
-
-//    $userID = $_POST['userID'];
-//    $jobapplicationid = $_POST['jobapplicationid'];
-//    $TYPE = "Job Application";
-//    $STATUS = "Unread";
-//    $NOTE = "Job Application for (". $JOBTITLE. ") status has changed to ". $applicationstatus;
-
-//    $query = "UPDATE tbljobapplication SET APPLICATIONSTATUS = '$applicationstatus' WHERE ID = '$jobapplicationid' and JOBID = '$jobID'";
-//    $result = mysqli_query($con, $query);
-
-//    $query = "INSERT INTO tblnotification (USERID, TYPE, TYPEID, STATUS, DATETIME, NOTE) VALUES ('$userID', '$TYPE', '$jobapplicationid', '$STATUS', now(), '$NOTE')" or die(mysqli_error($con));
-
-//    $result = mysqli_query($con, $query);
-
-//    if (($result)) {
-
-//       echo "<script>alert('Application $applicationstatus!')</script>";
-
-//    } else {
-//       $msg = "<div style='color:red'>Error occured...!</div>";
-//       echo mysqli_error($con);
-//    }
-// }
-
-
-
-
-
-
-
-
-//////////////////Job Status////////////////////////
-
-if (isset($_POST['applicationapprove'])) {
-
-   $applicationstatus = 'Approved';
-   $jobID = $_POST['jobID'];
-
-   $query = "SELECT * from tbljob where JOBID ='$jobID' order by JOBID desc";
-   $result = mysqli_query($con, $query);
-   $row = mysqli_fetch_array($result);
-   $JOBTITLE = $row['JOBTITLE']  ?? '';
-
-   $userID = $_POST['userID'];
-   $jobapplicationid = $_POST['jobapplicationid'];
-   $TYPE = "Job Application";
-   $STATUS = "Unread";
-   $NOTE = "Job Application for (" . $JOBTITLE . ") status has changed to " . $applicationstatus;
-
-   $query = "UPDATE tbljobapplication SET APPLICATIONSTATUS = '$applicationstatus' WHERE ID = '$jobapplicationid' and JOBID = '$jobID'";
-   $result = mysqli_query($con, $query);
-
-   $query = "INSERT INTO tblnotification (USERID, TYPE, TYPEID, STATUS, DATETIME, NOTE) VALUES ('$userID', '$TYPE', '$jobapplicationid', '$STATUS', now(), '$NOTE')" or die(mysqli_error($con));
-
-   $result = mysqli_query($con, $query);
-
-   if (($result)) {
-
-      echo "<script>alert('Application $applicationstatus!')</script>";
-   } else {
-      $msg = "<div style='color:red'>Error occured...!</div>";
-      echo mysqli_error($con);
-   }
-}
-///////////////////End Change Application Status///////////////
-
-
-
-
-
-
-
-
 /////////////////// Send Message  ///////////////
-if (isset($_POST['send_message']) && isset($_POST['recipient_id']) && isset($_POST['message'])) {
-   $recipientId = (int)$_POST['recipient_id'];
-   $message = trim($_POST['message']);
-   $senderId = (int)$session_id; // from session.php
 
-   // basic validation
-   if ($recipientId <= 0 || $senderId <= 0 || $message === '') {
-      $_SESSION['error_msg'] = "Invalid message data.";
-   } else {
-      // limit message length to a reasonable size
-      $message = mb_substr($message, 0, 2000);
-
-      // use transaction so both inserts succeed or fail together (requires InnoDB)
-      mysqli_begin_transaction($con);
-      
-      // prepare and execute message insert
-      $insertMsg = "INSERT INTO tblmessages (SENDER_ID, RECIPIENT_ID, MESSAGE, DATEPOSTED, IS_READ) 
+// Handle send message
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['send_message'])) {
+    $recipientId = (int)$_POST['recipient_id'];
+    $message = trim($_POST['message']);
+    $senderId = (int)$session_id; // from session.php
+    
+    if (!empty($message) && $recipientId > 0) {
+        $insertMsg = "INSERT INTO tblmessages (SENDER_ID, RECIPIENT_ID, MESSAGE, DATEPOSTED, IS_READ) 
                       VALUES (?, ?, ?, NOW(), 0)";
-      $okMsg = false;
+        $okMsg = false;
       if ($stmtMsg = mysqli_prepare($con, $insertMsg)) {
          mysqli_stmt_bind_param($stmtMsg, "iis", $senderId, $recipientId, $message);
          $okMsg = mysqli_stmt_execute($stmtMsg);
@@ -980,16 +950,16 @@ if (isset($_POST['send_message']) && isset($_POST['recipient_id']) && isset($_PO
          // get the ID of the inserted message reliably
          $messageId = mysqli_insert_id($con);
 
-         $querycompany = "SELECT * from tblcompany where USERID = '$senderId'";
-         $resultcompany = mysqli_query($con, $querycompany);
-         $rowcompany = mysqli_fetch_array($resultcompany);
-         $COMPANYNAME = $rowcompany['COMPANYNAME'];
+         $queryapplicant = "SELECT * from tblapplicants where USERID = '$senderId'";
+         $resultapplicant = mysqli_query($con, $queryapplicant);
+         $rowapplicant = mysqli_fetch_array($resultapplicant);
+         $FULLNAME = $rowapplicant['FNAME'].' '.$rowapplicant['OTHERNAMES'];
 
 
          // prepare notification
          $type = "Message";
          $status = "Unread";
-         $note = "New message from $COMPANYNAME (message id: {$messageId})";
+         $note = "New message from $FULLNAME (message id: {$messageId})";
 
          $insertNot = "INSERT INTO tblnotification (USERID, TYPE, TYPEID, STATUS, DATETIME, NOTE) VALUES (?, ?, ?, ?, NOW(), ?)";
          $okNot = false;
@@ -1023,7 +993,6 @@ if (isset($_POST['send_message']) && isset($_POST['recipient_id']) && isset($_PO
    // header('Location: ' . $_SERVER['PHP_SELF']);
    // exit();
 }
-
 ///////////////////End Send Message///////////////
 
 
@@ -1034,63 +1003,70 @@ if (isset($_POST['send_message']) && isset($_POST['recipient_id']) && isset($_PO
 
 
 
-/////////////////// Send Note  ///////////////
-if (isset($_POST['send_note'])) {
-
-   $userID = $_POST['userID'];
-   $notice = $_POST['notice'];
-   $jobID = $_POST['jobID'];
-
-   $query = "SELECT * from tbljob where JOBID ='$jobID' order by JOBID desc";
-   $result = mysqli_query($con, $query);
-   $row = mysqli_fetch_array($result);
-   $JOBTITLE = $row['JOBTITLE']  ?? '';
-
-   $TYPE = "Job Application";
-   $STATUS = "Unread";
-   $NOTE = "Job Application Notice for (" . $JOBTITLE . ") says: ". $notice;
-
-   $query = "INSERT INTO tblnotification (USERID, TYPE, TYPEID, STATUS, DATETIME, NOTE) VALUES ('$userID', '$TYPE', '$jobID', '$STATUS', now(), '$NOTE')" or die(mysqli_error($con));
-
-   $result = mysqli_query($con, $query);
-
-   if (($result)) {
-
-      echo "<script>alert('Note Sent!')</script>";
-   } else {
-      $msg = "<div style='color:red'>Error occured...!</div>";
-      echo mysqli_error($con);
-   }
-}
-
-///////////////////End Send Note///////////////
 
 
 
 
 
 
+// Fetch applicant profile with prepared statement (PROFILE COMPLETION)
+$profileQuery = "SELECT 
+    a.*,
+    jsc.SUBCATEGORY,
+    jsc.CATEGORYID
+FROM tblapplicants a
+LEFT JOIN tbljobsubcategory jsc ON a.JOBCATEGORYID = jsc.ID
+WHERE a.USERID = ?";
 
+$stmt = mysqli_prepare($con, $profileQuery);
+mysqli_stmt_bind_param($stmt, "i", $session_id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
-
-
-// // Custom 404 handler
-// function handle_404() {
-//     header("HTTP/1.0 404 Not Found");
-    
-//     // Check if user is in dashboard
-//     if (isset($_SESSION['USERID']) || isset($_SESSION['COMPANYID'])) {
-//         header("Location: dashboard-404.php");
-//     } else {
-//         header("Location: 404.php");
-//     }
+// if (mysqli_num_rows($result) == 0) {
+//     header("Location: index.php");
 //     exit();
 // }
 
-// // Check if page exists
-// if (!file_exists($_SERVER['SCRIPT_FILENAME'])) {
-//     handle_404();
-// }
+$profile = mysqli_fetch_assoc($result);
+
+// Extract profile data with fallbacks
+
+// $FULLNAME = $profile['FNAME'].', '.$profile['OTHERNAMES'] ?? 'N/A';
+
+// $EMAIL = $profile['EMAILADDRESS'] ?? '';
+// $USERNAME = $profile['USERNAME'] ?? '';
+// $CONTACTNO = $profile['CONTACTNO'] ?? '';
+// $ADDRESS = $profile['ADDRESS'] ?? '';
+// $CITY = $profile['CITY'] ?? '';
+// $COUNTRY = $profile['COUNTRY'] ?? '';
+// $SEX = $profile['SEX'] ?? '';
+// $BIRTHDATE = $profile['BIRTHDATE'] ?? '';
+// $APPLICANTPHOTO = $profile['APPLICANTPHOTO'] ?? 'assets/img/avatar-default.svg';
+// $ABOUTME = $profile['ABOUTME'] ?? 'No information provided.';
+// $JOBTITLE = $profile['JOBTITLE'] ?? '';
+// $EXJOBTITLE = $profile['EXJOBTITLE'] ?? '';
+// $SKILLS = $profile['SKILLS'] ?? '';
+// $DEGREE = $profile['DEGREE'] ?? '';
+// $SCHOOLNAME = $profile['SCHOOLNAME'] ?? '';
+// $EXCOMPANYNAME = $profile['EXCOMPANYNAME'] ?? '';
+// $SUBCATEGORY = $profile['SUBCATEGORY'] ?? '';
+// $CATEGORY = $profile['CATEGORY'] ?? '';
+// $FB_link = $profile['FB_link'] ?? '';
+// $LinkedIn_link = $profile['LinkedIn_link'] ?? '';
+
+// Calculate profile completion
+$requiredFields = [
+    'FNAME', 'OTHERNAMES', 'EMAILADDRESS', 'CONTACTNO', 'FULLADDRESS', 'CITY', 'COUNTRY', 'SEX', 
+    'BIRTHDATE', 'ABOUTME', 'JOBTITLE', 'SKILLS', 'DEGREE', 'SCHOOLNAME'
+];
+$completedFields = 0;
+foreach ($requiredFields as $field) {
+    if (!empty($profile[$field])) {
+        $completedFields++;
+    }
+}
+$profileCompletion = round(($completedFields / count($requiredFields)) * 100);
 
 
-unset($result); // Clear any temporary results
+?>
