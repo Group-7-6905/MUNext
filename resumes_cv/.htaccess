@@ -1,0 +1,11 @@
+# Prevent direct access to resumes
+<Files *>
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Allow only PDF and DOC files
+<FilesMatch "\.(pdf|doc|docx|txt|rtf)$">
+    Order Allow,Deny
+    Allow from all
+</FilesMatch>
