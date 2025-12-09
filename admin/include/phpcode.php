@@ -924,19 +924,19 @@ if (isset($_POST['change_password'])) {
         $msgType = 'error';
     } else {
         // Verify old password
-        $query = "SELECT PASSWORD FROM tbluser WHERE USERID = ?";
+        $query = "SELECT PASS FROM tblusers WHERE USERID = ?";
         $stmt = mysqli_prepare($con, $query);
         mysqli_stmt_bind_param($stmt, "i", $session_id);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $user = mysqli_fetch_assoc($result);
         
-        if ($user && password_verify($oldPassword, $user['PASSWORD'])) {
+        if ($user && password_verify($oldPassword, $user['PASS'])) {
             // Hash new password
             $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
             
             // Update password
-            $updateQuery = "UPDATE tbluser SET PASSWORD = ?, DATEUPDATED = NOW() WHERE USERID = ?";
+            $updateQuery = "UPDATE tblusers SET PASS = ?, DATEUPDATED = NOW() WHERE USERID = ?";
             $updateStmt = mysqli_prepare($con, $updateQuery);
             mysqli_stmt_bind_param($updateStmt, "si", $hashedPassword, $session_id);
             

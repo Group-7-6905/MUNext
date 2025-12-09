@@ -143,10 +143,10 @@ require 'include/phpcode.php';
                                                 <i class="lni lni-close-circle"></i>
                                                 <span>Contains at least one number</span>
                                             </div>
-                                            <div class="requirement-item" id="req-special">
+                                            <!-- <div class="requirement-item" id="req-special">
                                                 <i class="lni lni-close-circle"></i>
                                                 <span>Contains at least one special character (!@#$%^&*)</span>
-                                            </div>
+                                            </div> -->
                                         </div>
 
                                         <!-- Form Actions -->
@@ -266,8 +266,7 @@ require 'include/phpcode.php';
             length: password.length >= 8,
             uppercase: /[A-Z]/.test(password),
             lowercase: /[a-z]/.test(password),
-            number: /[0-9]/.test(password),
-            special: /[!@#$%^&*(),.?":{}|<>]/.test(password)
+            number: /[0-9]/.test(password)
         };
 
         // Update requirement indicators
@@ -275,7 +274,7 @@ require 'include/phpcode.php';
         updateRequirement('req-uppercase', requirements.uppercase);
         updateRequirement('req-lowercase', requirements.lowercase);
         updateRequirement('req-number', requirements.number);
-        updateRequirement('req-special', requirements.special);
+        // updateRequirement('req-special', requirements.special);
 
         // Calculate strength
         Object.values(requirements).forEach(met => {
@@ -340,44 +339,44 @@ require 'include/phpcode.php';
     });
 
     // ==================== FORM VALIDATION ====================
-    document.getElementById('passwordChangeForm').addEventListener('submit', function(e) {
-        const oldPassword = document.getElementById('oldPassword').value;
-        const newPassword = document.getElementById('newPassword').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
+    // document.getElementById('passwordChangeForm').addEventListener('submit', function(e) {
+    //     const oldPassword = document.getElementById('oldPassword').value;
+    //     const newPassword = document.getElementById('newPassword').value;
+    //     const confirmPassword = document.getElementById('confirmPassword').value;
 
-        // Check if all fields are filled
-        if (!oldPassword || !newPassword || !confirmPassword) {
-            e.preventDefault();
-            alert('Please fill in all fields.');
-            return false;
-        }
+    //     // Check if all fields are filled
+    //     if (!oldPassword || !newPassword || !confirmPassword) {
+    //         e.preventDefault();
+    //         alert('Please fill in all fields.');
+    //         return false;
+    //     }
 
-        // Check password length
-        if (newPassword.length < 8) {
-            e.preventDefault();
-            alert('New password must be at least 8 characters long.');
-            return false;
-        }
+    //     // Check password length
+    //     if (newPassword.length < 8) {
+    //         e.preventDefault();
+    //         alert('New password must be at least 8 characters long.');
+    //         return false;
+    //     }
 
-        // Check if passwords match
-        if (newPassword !== confirmPassword) {
-            e.preventDefault();
-            alert('New passwords do not match.');
-            return false;
-        }
+    //     // Check if passwords match
+    //     if (newPassword !== confirmPassword) {
+    //         e.preventDefault();
+    //         alert('New passwords do not match.');
+    //         return false;
+    //     }
 
-        // Check if new password is different from old
-        if (oldPassword === newPassword) {
-            e.preventDefault();
-            alert('New password must be different from current password.');
-            return false;
-        }
+    //     // Check if new password is different from old
+    //     if (oldPassword === newPassword) {
+    //         e.preventDefault();
+    //         alert('New password must be different from current password.');
+    //         return false;
+    //     }
 
-        // Show loading state
-        const submitBtn = this.querySelector('button[type="submit"]');
-        submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="lni lni-spinner-arrow rotating"></i> Updating...';
-    });
+    //     // Show loading state
+    //     const submitBtn = this.querySelector('button[type="submit"]');
+    //     submitBtn.disabled = true;
+    //     submitBtn.innerHTML = '<i class="lni lni-spinner-arrow rotating"></i> Updating...';
+    // });
 
     // ==================== AUTO-HIDE SUCCESS MESSAGE ====================
     <?php if ($msgType === 'success'): ?>
