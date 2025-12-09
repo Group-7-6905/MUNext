@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2025 at 09:57 AM
+-- Generation Time: Dec 09, 2025 at 04:38 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,15 +18,14 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `erisdb`
+-- Database: `erisdb_test`
 --
 
 DELIMITER $$
 --
 -- Procedures
 --
-CREATE PROCEDURE `cleanup_expired_tokens` ()   
-BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cleanup_expired_tokens` ()   BEGIN
     DELETE FROM tblpasswordreset WHERE EXPIRY < NOW();
 END$$
 
@@ -79,7 +78,7 @@ INSERT INTO `tblapplicants` (`APPLICANTID`, `JOBCATEGORYID`, `JOBTITLE`, `EXCOMP
 (108, 13, 'Civil Engineer', 'BuildRight Construction', 'Junior Engineer', 5008, 'Mason', 'White', '123 Old Placentia Road', 'St. Johns', 'Canada', 'Male', '1997-04-28', 'Civil engineering graduate with experience in structural design, project management, and AutoCAD.', 'mwhite', 'mason.white@email.com', '7095552008', 'Bachelor Degree', 'Memorial University', 'AutoCAD, Civil 3D, Structural Analysis, Project Management, Construction Management', '', 'https://fb.com/mwhite', 'https://linkedin.com/in/masonwhite'),
 (109, 16, 'Customer Service Representative', 'ServicePro', 'Customer Support', 5009, 'Isabella', 'Harris', '456 Logy Bay Road', 'St. Johns', 'Canada', 'Female', '1999-06-14', 'Customer-focused professional with excellent communication skills and 1 year of experience in customer service.', 'iharris', 'isabella.harris@email.com', '7095552009', 'Associate Degree', 'College of North Atlantic', 'Customer Service, Communication, Problem Solving, CRM Software, Conflict Resolution', '', 'https://fb.com/iharris', 'https://linkedin.com/in/isabellaharris'),
 (110, 17, 'Administrative Assistant', 'Office Solutions', 'Office Clerk', 5010, 'Lucas', 'Martin', '789 Columbus Drive', 'St. Johns', 'Canada', 'Male', '1998-08-30', 'Organized administrative professional with strong organizational and multitasking skills. Proficient in Microsoft Office Suite.', 'lmartin', 'lucas.martin@email.com', '7095552010', 'Associate Degree', 'College of North Atlantic', 'Microsoft Office, Data Entry, Scheduling, Office Management, Communication', '', 'https://fb.com/lmartin', 'https://linkedin.com/in/lucasmartin'),
-(118, 3, 'Associate', 'MacDonald', 'Web Developer', 321, 'Dominic', 'Carl', '549 Newfoundland Drive', 'St. John\'s', 'Canada', 'Male', '2004-12-04', 'About me\'sdgh', 'emeldo', 'emehchiemerie9@gmail.com', '1234567890', 'P.H.D.', 'Memorial University', 'PHP, Software Development, Web Developer, MSQL, HTML, WordPress, TailWind', 'profile/applicant_321_1764823564.png', '', '');
+(118, 3, 'Associate', 'MacDonald', 'Web Developer', 321, 'Dominic', 'Carl', '549 Newfoundland Drive', 'St. John\'s', 'Canada', 'Male', '2004-12-04', 'About me\'sdgh', 'emeldo', 'emehchiemerie9@gmail.com', '1234567890', 'P.H.D.', 'Memorial University', 'PHP, Software Development, Web Developer, MSQL, HTML, WordPress, TailWind', 'profile/applicant_321_1765250885.jpg', '', '');
 
 -- --------------------------------------------------------
 
@@ -642,9 +641,9 @@ CREATE TABLE `tblusers` (
 --
 
 INSERT INTO `tblusers` (`USERID`, `FNAME`, `ONAME`, `EMAIL`, `PHONE`, `USERNAME`, `PASS`, `ROLE`, `USERSTATUS`, `DATEUPDATED`, `DATECREATED`) VALUES
-(228, 'Admin', 'Manager', 'admin@gmail.com', '0779787777', 'admin', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Admin', 'Active', '2025-11-29 18:18:15', NULL),
-(321, 'Dominic', 'Carl', 'emehchiemerie9@gmail.com', '', 'emeldo', '$2y$10$6u.ZUBDOBuQZ4K2GzFjD3.Z8e.StDKKCpeuoodzOFeyXX74A.NJ92', 'Applicant', 'Active', '2025-11-17 01:02:57', NULL),
-(2749, 'James', 'Cletus', 'emelcarl2023@gmail.com', '', 'emelcarl2023', '$2y$10$4r2eYwzVBwTSnGM4B8MJ5u/.Wrjxqk2oYpCn30cmWIMM/r5cRpUnC', 'Employer', 'Active', NULL, NULL),
+(228, 'Admin', 'Manager', 'admin@gmail.com', '0779787777', 'admin', '$2y$10$Oj..0k7SXHbmnfpvi/mxXe3FYk.gaixCaXmhwXF1I0C1nh7uH6B86', 'Admin', 'Active', '2025-12-09 00:07:07', NULL),
+(321, 'User', 'Demo', 'emehchiemerie9@gmail.com', '', 'UserDemo', '$2y$10$kMjiY4jl0rJFS.HrtkhVguLa0uruLRI1.q/PQWML57skP5zX7FriK', 'Applicant', 'Active', '2025-11-17 01:02:57', NULL),
+(2749, 'Ms. Brooke', 'Demo', 'emelcarl2023@gmail.com', '7091234567', 'EmployerDemo', '$2y$10$FQDFm9GmU3jHi4weYBmgquWFR9eWp5WH9rkuSe0p45vkcJpUxI5rm', 'Employer', 'Active', NULL, NULL),
 (4001, 'Sarah', 'Mitchell', 'sarah.mitchell@techcorp.ca', '7095551001', 'smitchell', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Active', NULL, '2025-01-15 10:00:00'),
 (4002, 'James', 'Patterson', 'james.p@innovatesoft.ca', '7095551002', 'jpatterson', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Active', NULL, '2025-01-18 11:30:00'),
 (4003, 'Emily', 'Rodriguez', 'emily.r@datadynamics.ca', '7095551003', 'erodriguez', '$2y$10$vGI.NTvWVDS5bmI/smya7OJI9FIVyT/rwxusgkOIwOY874fpOltwu', 'Employer', 'Active', NULL, '2025-01-20 14:15:00'),
@@ -706,7 +705,33 @@ INSERT INTO `tbl_activity_log` (`ACTIVITY_ID`, `USERID`, `ACTION`, `DESCRIPTION`
 (16, 321, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 05:44:30'),
 (17, 2749, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 05:51:17'),
 (18, 5014, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 07:45:10'),
-(19, 228, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 07:57:47');
+(19, 228, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-04 07:57:47'),
+(20, 321, 'password_change', 'User changed their password', '::1', NULL, '2025-12-09 03:27:21'),
+(21, 321, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-09 03:32:56'),
+(22, 321, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-09 03:33:24'),
+(23, 2749, 'password_change', 'User changed their password', '::1', NULL, '2025-12-09 03:34:12'),
+(24, 2749, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-09 03:35:21'),
+(25, 2749, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-09 03:35:37'),
+(26, 2749, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-09 03:35:57'),
+(27, 228, 'PASSWORD_CHANGE', 'Admin changed password', NULL, NULL, '2025-12-09 03:37:07'),
+(28, 228, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-09 03:37:14'),
+(29, 228, 'LOGOUT', 'User logged out', '::1', NULL, '2025-12-09 03:37:35');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_email_log`
+--
+
+CREATE TABLE `tbl_email_log` (
+  `id` int(11) NOT NULL,
+  `recipient` varchar(255) NOT NULL,
+  `template_name` varchar(100) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `status` enum('sent','failed','pending') DEFAULT 'pending',
+  `sent_at` datetime DEFAULT NULL,
+  `error_message` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -786,7 +811,16 @@ INSERT INTO `tbl_login_history` (`LOGIN_ID`, `USERID`, `USERNAME`, `EMAIL`, `USE
 (19, 321, 'emeldo', 'emehchiemerie9@gmail.com', 'Applicant', '2025-12-04 02:11:58', '2025-12-04 02:14:30', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'r2vm5gk133vpit9m187fd3pngo', NULL, NULL, 0, '2025-12-04 05:41:58'),
 (20, 2749, 'emelcarl2023', 'emelcarl2023@gmail.com', 'Employer', '2025-12-04 02:15:49', '2025-12-04 02:21:17', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'tvkad50fmu59i17hioe8br4ulo', NULL, NULL, 0, '2025-12-04 05:45:49'),
 (21, 5014, 'dim', 'dim@gmail.com', 'Employer', '2025-12-04 02:22:42', '2025-12-04 04:15:10', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'ts94pvp63j3h9bbld4jp2s3hvp', NULL, NULL, 0, '2025-12-04 05:52:42'),
-(22, 228, 'admin', 'admin@gmail.com', 'Admin', '2025-12-04 04:21:24', '2025-12-04 04:27:47', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, '6gsoj8t1hpdoem2sh75m29ratj', NULL, NULL, 0, '2025-12-04 07:51:24');
+(22, 228, 'admin', 'admin@gmail.com', 'Admin', '2025-12-04 04:21:24', '2025-12-04 04:27:47', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, '6gsoj8t1hpdoem2sh75m29ratj', NULL, NULL, 0, '2025-12-04 07:51:24'),
+(23, NULL, 'EmployerDemo', 'Unknown', '', '2025-12-08 23:54:55', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Failed', 'User not found', '7bbo2pn4jbr7a5h2tnc2fvk3of', NULL, NULL, 1, '2025-12-09 03:24:55'),
+(24, 321, 'emeldo', 'emehchiemerie9@gmail.com', 'Applicant', '2025-12-08 23:55:00', '2025-12-09 00:02:56', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'ga3nsqvmenm3t0u8il1jbl75ch', NULL, NULL, 0, '2025-12-09 03:25:00'),
+(25, 321, 'UserDemo', 'emehchiemerie9@gmail.com', 'Applicant', '2025-12-09 00:03:19', '2025-12-09 00:03:24', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'htkl3l5olb55eu4nqsr53qjm4g', NULL, NULL, 0, '2025-12-09 03:33:19'),
+(26, 2749, 'emelcarl2023', 'emelcarl2023@gmail.com', 'Employer', '2025-12-09 00:03:49', '2025-12-09 00:05:21', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'qnelpoumqmd6bu3mqjdfekac50', NULL, NULL, 0, '2025-12-09 03:33:49'),
+(27, 2749, 'EmployerDemo', 'emelcarl2023@gmail.com', 'Employer', '2025-12-09 00:05:30', '2025-12-09 00:05:37', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'bn0udscgvc5bgq7hmq6nh79osl', NULL, NULL, 0, '2025-12-09 03:35:30'),
+(28, 2749, 'EmployerDemo', 'emelcarl2023@gmail.com', 'Employer', '2025-12-09 00:05:51', '2025-12-09 00:05:57', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'abvejm2qm8jt3qsggf4h05ic44', NULL, NULL, 0, '2025-12-09 03:35:51'),
+(29, 228, 'admin', 'admin@gmail.com', 'Admin', '2025-12-09 00:06:29', '2025-12-09 00:07:14', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, 'rk87qgu3v2jtp0ki457oj27mk4', NULL, NULL, 0, '2025-12-09 03:36:29'),
+(30, 228, 'admin', 'admin@gmail.com', 'Admin', '2025-12-09 00:07:21', NULL, '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Failed', 'Incorrect password', 'rk87qgu3v2jtp0ki457oj27mk4', NULL, NULL, 1, '2025-12-09 03:37:21'),
+(31, 228, 'admin', 'admin@gmail.com', 'Admin', '2025-12-09 00:07:28', '2025-12-09 00:07:35', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'Safari', 'Desktop', 'Windows 10', 'Success', NULL, '7v96agr6k98ehqdvuhe3lojdmf', NULL, NULL, 0, '2025-12-09 03:37:28');
 
 -- --------------------------------------------------------
 
@@ -947,6 +981,15 @@ ALTER TABLE `tbl_activity_log`
   ADD PRIMARY KEY (`ACTIVITY_ID`);
 
 --
+-- Indexes for table `tbl_email_log`
+--
+ALTER TABLE `tbl_email_log`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `recipient` (`recipient`),
+  ADD KEY `status` (`status`),
+  ADD KEY `sent_at` (`sent_at`);
+
+--
 -- Indexes for table `tbl_email_templates`
 --
 ALTER TABLE `tbl_email_templates`
@@ -1062,7 +1105,13 @@ ALTER TABLE `tblusers`
 -- AUTO_INCREMENT for table `tbl_activity_log`
 --
 ALTER TABLE `tbl_activity_log`
-  MODIFY `ACTIVITY_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `ACTIVITY_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `tbl_email_log`
+--
+ALTER TABLE `tbl_email_log`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_email_templates`
@@ -1074,7 +1123,7 @@ ALTER TABLE `tbl_email_templates`
 -- AUTO_INCREMENT for table `tbl_login_history`
 --
 ALTER TABLE `tbl_login_history`
-  MODIFY `LOGIN_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `LOGIN_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `tbl_settings`
@@ -1086,21 +1135,3 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
-
-
-
-CREATE TABLE `tbl_email_log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `recipient` varchar(255) NOT NULL,
-  `template_name` varchar(100) DEFAULT NULL,
-  `subject` varchar(255) DEFAULT NULL,
-  `status` enum('sent','failed','pending') DEFAULT 'pending',
-  `sent_at` datetime DEFAULT NULL,
-  `error_message` text DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `recipient` (`recipient`),
-  KEY `status` (`status`),
-  KEY `sent_at` (`sent_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

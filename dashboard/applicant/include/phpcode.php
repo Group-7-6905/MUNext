@@ -875,14 +875,14 @@ if (isset($_POST['change_password'])) {
     // If no validation errors, proceed with password change
     if (empty($errors)) {
         // Verify current password
-        $verifyQuery = "SELECT PASSWORD FROM tblusers WHERE USERID = ?";
+        $verifyQuery = "SELECT PASS FROM tblusers WHERE USERID = ?";
         $stmtVerify = mysqli_prepare($con, $verifyQuery);
         mysqli_stmt_bind_param($stmtVerify, "i", $userId);
         mysqli_stmt_execute($stmtVerify);
         $verifyResult = mysqli_stmt_get_result($stmtVerify);
         
         if ($userRow = mysqli_fetch_assoc($verifyResult)) {
-            $currentHashedPassword = $userRow['PASSWORD'];
+            $currentHashedPassword = $userRow['PASS'];
             
             // Check if old password matches
             if (password_verify($oldPassword, $currentHashedPassword) || md5($oldPassword) === $currentHashedPassword) {
@@ -890,7 +890,7 @@ if (isset($_POST['change_password'])) {
                 $newHashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
                 
                 // Update password
-                $updateQuery = "UPDATE tblusers SET PASSWORD = ? WHERE USERID = ?";
+                $updateQuery = "UPDATE tblusers SET PASS = ? WHERE USERID = ?";
                 $stmtUpdate = mysqli_prepare($con, $updateQuery);
                 mysqli_stmt_bind_param($stmtUpdate, "si", $newHashedPassword, $userId);
                 
@@ -899,7 +899,7 @@ if (isset($_POST['change_password'])) {
                     $_SESSION['success_msg'] = "Password changed successfully!";
                     
                     // Optional: Log the password change
-                    $logQuery = "INSERT INTO tbl_activity_log (USER_ID, ACTION, DESCRIPTION, IP_ADDRESS, CREATED_AT) 
+                    $logQuery = "INSERT INTO tbl_activity_log (USERID, ACTION, DESCRIPTION, IP_ADDRESS, CREATED_AT) 
                                  VALUES (?, 'password_change', 'User changed their password', ?, NOW())";
                     $stmtLog = mysqli_prepare($con, $logQuery);
                     $ipAddress = $_SERVER['REMOTE_ADDR'];

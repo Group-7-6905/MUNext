@@ -305,13 +305,18 @@ https://munext.ca/
 ### Demo Accounts
 
 #### Applicant Account
-- **Username**: `demo`
+- **Username**: `UserDemo`
 - **Password**: `demo123`
-- **Use for**: Testing job search, applications, profile management
+- **Use for**: Testing job search, applications, profile management, messaging employers
+
+#### Employer Account
+- **Username**: `EmployerDemo`
+- **Password**: `demo1234`
+- **Use for**: Testing job posting, manage applicants, messaging applicants
 
 #### Admin Account
 - **Username**: `admin`
-- **Password**: `1111`
+- **Password**: `Demo1234`
 - **Use for**: Testing admin dashboard, user management, analytics
 
 ### Quick User Guide
@@ -323,7 +328,7 @@ https://munext.ca/
 3. **Upload Resume**: Attach your CV for applications
 4. **Search Jobs**: Use filters to find relevant opportunities
 5. **Apply**: Submit applications with cover letters
-6. **Track**: Monitor your application status
+6. **Track**: Monitor your application status, message/communicate with employer
 
 #### For Employers:
 
@@ -624,10 +629,54 @@ Users (1) ─── (Many) Notifications
 
 ### Test Credentials
 
+Access the live application at **[https://munext.ca/login.php](https://munext.ca/login.php)** using these credentials:
+
 | Role | Username | Password | Purpose |
 |------|----------|----------|---------|
-| **Applicant** | demo | demo123 | Test job seeker features |
-| **Admin** | admin | 1111 | Test admin features |
+| **Applicant** | `UserDemo` | `Demo1234` | Test job seeker features (browse jobs, apply, track applications) |
+| **Employer** | `EmployerDemo` | `Demo1234` | Test employer features (post jobs, manage applicants) |
+| **Admin** | `admin` | `Demo1234` | Test admin features (user management, analytics, job moderation) |
+
+### Using Demo Accounts
+
+**As an Applicant (UserDemo):**
+- 🔍 Browse and search for jobs with advanced filters
+- 📝 Submit job applications with resume upload
+- 📊 Track application status in real-time
+- 💾 Save jobs for later review
+- 📧 Receive email notifications for application updates
+- 👤 Manage your profile and uploaded documents
+- 📈 View application history and statistics
+
+**As an Employer (EmployerDemo):**
+- 📢 Post new job listings with detailed descriptions
+- ✏️ Manage existing job postings (edit, pause, close)
+- 👥 Review applicant resumes and applications
+- 🔍 Filter and sort applications by status
+- ⭐ Rate and categorize candidates
+- 📊 View application analytics and metrics
+- 💬 Communicate with applicants
+- 🏢 Manage company profile and branding
+
+**As an Admin (admin):**
+- 📊 View system-wide statistics dashboard
+- 👥 Manage user accounts (students, alumni, employers)
+- 📋 Moderate and approve job postings
+- 📈 View application metrics across platform
+- ⚙️ Configure system settings
+- 📝 Monitor platform activity logs
+- 🔍 Generate platform reports
+- 🛡️ Ensure content quality and compliance
+
+### Demo Account Features
+
+All demo accounts are pre-populated with sample data to showcase the full functionality:
+
+- **Applicant account** has sample applications, saved jobs, and a complete profile
+- **Employer account** has posted jobs, received applications, and company profile
+- **Admin account** has full access to all platform management features
+
+> **Note:** Feel free to create your own test account during evaluation! The registration process is fully functional on the live site.
 
 ---
 
